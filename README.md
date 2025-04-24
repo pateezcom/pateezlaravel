@@ -63,6 +63,8 @@ Proje üç katmanlı bir mimariye sahiptir:
 - Tüm modüller için API'lar yazılacak (Flutter uygulaması için de kullanılacak)
 - Admin panelde kesinlikle HTML + Laravel yapısı korunacak
 
+> **ÖNEMLİ NOT**: Rota tanımlamalarını yaparken sadece `web.php` dosyasındaki `/* ========== PATEEZ NEWS ROTALAR BAŞLANGIÇ ========== */` ve `/* ========== PATEEZ NEWS ROTALAR BİTİŞ ========== */` blokları arasına ekleme yapılacaktır. Var olan diğer rotalara dokunulmayacaktır.
+
 ## Kod Standartları
 
 Proje geliştirme sürecinde aşağıdaki standartlara uyulacaktır:
@@ -99,7 +101,14 @@ public function getAllNews($perPage = 10)
 
 ## Modül Güncellemeleri
 
-### Son Güncelleme: 2025-04-24 15:35
+### Son Güncelleme: 2025-04-24 18:10
+
+- Dil paketi modülü arayüzü tasarlandı
+- Settings menü kategorisi ve Languages alt menüsü eklendi
+- Dil ayarları için görünüm (view) ve denetleyici (controller) dosyaları oluşturuldu
+- web.php için özel Pateez News rotaları bölümü oluşturuldu
+
+### Güncelleme: 2025-04-24 15:35
 
 - Proje temel yapısı kuruldu
 - Admin ve frontend rotaları ayarlandı

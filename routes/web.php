@@ -5,6 +5,14 @@ use App\Http\Controllers\laravel_example\UserManagement;
 use App\Http\Controllers\dashboard\Analytics;
 use App\Http\Controllers\dashboard\Crm;
 use App\Http\Controllers\language\LanguageController;
+
+// Admin Settings Controllers
+use App\Http\Controllers\Admin\Settings\LanguageController as AdminLanguageController;
+
+/* ========== PATEEZ NEWS ROTALAR BAŞLANGIÇ ========== */
+// Admin Settings Routes
+Route::get('/admin/settings/languages', [AdminLanguageController::class, 'index'])->name('admin.settings.languages');
+/* ========== PATEEZ NEWS ROTALAR BİTİŞ ========== */
 use App\Http\Controllers\layouts\CollapsedMenu;
 use App\Http\Controllers\layouts\ContentNavbar;
 use App\Http\Controllers\layouts\ContentNavSidebar;
