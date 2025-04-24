@@ -1,9 +1,3 @@
-## Notlar
-
-- Her modül önce admin panelde geliştirildikten sonra frontend Vue.js ile entegre edilecek
-- Tüm modüller için API'lar yazılacak (Flutter uygulaması için de kullanılacak)
-- Admin panelde kesinlikle HTML + Laravel yapısı korunacak
-
 # Pateez Haber Projesi
 
 Bu proje, Vuexy teması kullanarak Laravel backend ve Vue.js frontend ile geliştirilen modern bir haber ve buzz scripti uygulamasıdır.
@@ -62,6 +56,12 @@ Proje üç katmanlı bir mimariye sahiptir:
 - `resources/js/frontend/router/` → Vue Router yapılandırması
 - `resources/views/content/` → Laravel Blade şablonları (Admin Panel)
 - `app/Http/Controllers/` → Laravel kontrolcüleri
+
+## Notlar
+
+- Her modül önce admin panelde geliştirildikten sonra frontend Vue.js ile entegre edilecek
+- Tüm modüller için API'lar yazılacak (Flutter uygulaması için de kullanılacak)
+- Admin panelde kesinlikle HTML + Laravel yapısı korunacak
 
 ## Kod Standartları
 
