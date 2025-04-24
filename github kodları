@@ -1,17 +1,21 @@
-# İlk önce mevcut dizinde Git repository'si başlatın
-git init
+1. Değişiklikleri Git'e ekle
 
-# Remote repository'yi ekleyin
-git remote add origin https://github.com/pateezcom/pateezlaravel.git
-
-# Tüm dosyaları staging'e ekleyin
 git add .
 
-# İlk commit'i oluşturun
-git commit -m "İlk commit: Proje temel yapısı kuruldu"
+2. Değişiklikleri commit et
 
-# Main branch'i pushlayın
+git commit -m "Değişiklik açıklaması"
+
+3. Commit'leri GitHub'a push et
+
 git push -u origin main
 
-# Eğer branch adı "main" yerine "master" ise:
-# git push -u origin master
+
+
+1. Depoyu klonla (eğer proje evdeki bilgisayarda yoksa)
+
+git clone https://github.com/pateezcom/pateezlaravel.git cd pateezlaravel
+
+2. Güncellemeleri GitHub'dan çek (eğer proje zaten klonlanmışsa)
+
+git pull origin main
