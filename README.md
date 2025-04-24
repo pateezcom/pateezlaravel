@@ -1,40 +1,87 @@
-<<<<<<< HEAD
-# vue
+# Pateez Haber Projesi
 
-This template should help get you started developing with Vue 3 in Vite.
+Bu proje, Vuexy teması kullanarak Laravel backend ve Vue.js frontend ile geliştirilen modern bir haber ve buzz scripti uygulamasıdır.
 
-## Recommended IDE Setup
+## Proje Yapısı ve Mimari
 
-[VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) (and disable Vetur).
+Proje üç katmanlı bir mimariye sahiptir:
 
-## Type Support for `.vue` Imports in TS
+1. **Admin Panel**: Laravel + HTML - Admin işlemleri için kullanılır
+2. **Frontend Website**: Vue.js - Kullanıcıların göreceği ön yüz
+3. **Mobil Uygulama**: Flutter - iOS ve Android için native uygulama (Henüz başlanmadı)
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates.
+> **ÖNEMLİ NOT**: Vue.js **SADECE** ön yüzde kullanılacaktır. Admin panelinde Vue.js kullanılmayacak, Laravel + HTML yapısı korunacaktır.
 
-However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can run `Volar: Switch TS Plugin on/off` from VS Code command palette.
+## Şimdiye Kadar Yapılanlar
 
-## Customize configuration
+### 1. Temel Kurulum ve Yapılandırma
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+- Vuexy temasının Laravel + HTML full versiyonu kurulumu
+- Vue.js entegrasyonu ve frontend için yapılandırma
+- Vite konfigürasyonu ve gerekli paketlerin kurulumu
+- Bootstrap ve Tabler Icons CDN entegrasyonu
 
-## Project Setup
+### 2. URL ve Yönlendirme Yapısı
 
-```sh
-npm install
-```
+- `/` → Ana sayfa (Vue.js ön yüz)
+- `/home` → Ana sayfa alternatif link
+- `/about` → Hakkımızda sayfası
+- `/admin` → Admin panel login sayfasına yönlendirme
+- `/admin/login` → Login sayfası (Cover tasarım)
+- `/admin/dashboard` → Admin panel ana sayfa
 
-### Compile and Hot-Reload for Development
+### 3. Ön Yüz Yapısı
 
-```sh
-npm run dev
-```
+- Ana sayfa ve Hakkımızda sayfaları Vue.js ile hazırlandı
+- Router yapılandırması tamamlandı
+- Responsive tasarım CSS ayarları yapıldı
 
-### Type-Check, Compile and Minify for Production
+### 4. Admin Panel
 
-```sh
-npm run build
-```
-=======
-# pateezcom-laravel
-bismillah
->>>>>>> 105ea1476c6b0c92c34d3b3f7605c5d433431f45
+- Login sayfası Türkçeleştirildi ve düzenlendi
+- Dashboard sayfası başlığı düzenlendi
+- URL yapısı daha profesyonel hale getirildi
+
+## Kullanılan Teknolojiler
+
+- **Backend**: PHP 8.x, Laravel Framework
+- **Frontend**: Vue.js 3.x, Vue Router, Bootstrap 5
+- **Admin Panel**: Laravel Blade, HTML, CSS, JavaScript
+- **Build Tool**: Vite
+
+## Klasör Yapısı
+
+- `resources/js/frontend/` → Vue.js frontend uygulaması
+- `resources/js/frontend/views/` → Vue.js sayfa bileşenleri
+- `resources/js/frontend/router/` → Vue Router yapılandırması
+- `resources/views/content/` → Laravel Blade şablonları (Admin Panel)
+- `app/Http/Controllers/` → Laravel kontrolcüleri
+
+## Notlar
+
+- Her modül önce admin panelde geliştirildikten sonra frontend Vue.js ile entegre edilecek
+- Tüm modüller için API'lar yazılacak (Flutter uygulaması için de kullanılacak)
+- Admin panelde kesinlikle HTML + Laravel yapısı korunacak
+
+## Geliştirme Süreci ve Talimatlar
+
+1. Admin panel modülü geliştirme ("admini yap" talimatı ile)
+2. Frontend Vue.js entegrasyonu ("ön paneli yap" talimatı ile)
+3. Mobil uygulama entegrasyonu ("flutter'ı yap" talimatı ile)
+
+**ÖNEMLİ NOT**: Her aşamada bir sonraki adıma geçmek için açık talimat beklenecektir. Örneğin admin paneli tamamlandıktan sonra, frontend geliştirmesine başlamak için "ön paneli yap" talimatı beklenecektir. Açık bir talimat olmadan bir sonraki aşamaya geçilmeyecektir.
+
+**Modül Güncellemeleri**: Bir modülü bitirdiğimizde "readme yi güncelle" talimatı verilecek ve o gün eklenen özelliklerle birlikte tarih/saat bilgisi README'ye eklenecektir.
+
+## Modül Güncellemeleri
+
+### Son Güncelleme: 2025-04-24 15:35
+
+- Proje temel yapısı kuruldu
+- Admin ve frontend rotaları ayarlandı
+- Vue.js ön yüz entegrasyonu tamamlandı
+- Admin giriş sayfası düzenlendi
+
+## Yeni Sohbet Başlatma
+
+Yeni bir sohbet başlatıldığında, bu README.md dosyasını ve GitHub repo linkini paylaşmanız yeterli olacaktır. Herhangi bir ek açıklamaya gerek kalmadan çalışmaya devam edebiliriz. Önceki bağlamı tamamen anlayarak "Konuları anladım, hazırım." mesajıyla devam edilecektir.
