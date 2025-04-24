@@ -12,6 +12,13 @@ use App\Http\Controllers\Admin\Settings\LanguageController as AdminLanguageContr
 /* ========== PATEEZ NEWS ROTALAR BAŞLANGIÇ ========== */
 // Admin Settings Routes
 Route::get('/admin/settings/languages', [AdminLanguageController::class, 'index'])->name('admin.settings.languages');
+Route::post('/admin/settings/languages', [AdminLanguageController::class, 'store'])->name('admin.settings.languages.store');
+Route::get('/admin/settings/languages/{id}/edit', [AdminLanguageController::class, 'edit'])->name('admin.settings.languages.edit');
+Route::put('/admin/settings/languages/{id}', [AdminLanguageController::class, 'update'])->name('admin.settings.languages.update');
+Route::delete('/admin/settings/languages/{id}', [AdminLanguageController::class, 'destroy'])->name('admin.settings.languages.destroy');
+Route::post('/admin/settings/languages/{id}/set-default', [AdminLanguageController::class, 'setDefault'])->name('admin.settings.languages.set-default');
+Route::post('/admin/settings/languages/import', [AdminLanguageController::class, 'import'])->name('admin.settings.languages.import');
+Route::get('/admin/settings/languages/{id}/export', [AdminLanguageController::class, 'export'])->name('admin.settings.languages.export');
 /* ========== PATEEZ NEWS ROTALAR BİTİŞ ========== */
 use App\Http\Controllers\layouts\CollapsedMenu;
 use App\Http\Controllers\layouts\ContentNavbar;

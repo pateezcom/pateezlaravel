@@ -29,6 +29,7 @@ Proje üç katmanlı bir mimariye sahiptir:
 - `/admin` → Admin panel login sayfasına yönlendirme
 - `/admin/login` → Login sayfası (Cover tasarım)
 - `/admin/dashboard` → Admin panel ana sayfa
+- `/admin/settings/languages` → Dil ayarları sayfası
 
 ### 3. Ön Yüz Yapısı
 
@@ -41,6 +42,8 @@ Proje üç katmanlı bir mimariye sahiptir:
 - Login sayfası Türkçeleştirildi ve düzenlendi
 - Dashboard sayfası başlığı düzenlendi
 - URL yapısı daha profesyonel hale getirildi
+- Settings menü kategorisi ve Languages alt menüsü eklendi
+- Dil Yönetimi için tablo, ekleme, düzenleme ve içe aktarma modülleri oluşturuldu
 
 ## Kullanılan Teknolojiler
 
@@ -55,7 +58,10 @@ Proje üç katmanlı bir mimariye sahiptir:
 - `resources/js/frontend/views/` → Vue.js sayfa bileşenleri
 - `resources/js/frontend/router/` → Vue Router yapılandırması
 - `resources/views/content/` → Laravel Blade şablonları (Admin Panel)
+- `resources/views/content/admin/settings/` → Admin panel ayarlar modülü şablonları
+- `resources/views/content/admin/_partials/_modals/` → Admin panel modal şablonları
 - `app/Http/Controllers/` → Laravel kontrolcüleri
+- `app/Http/Controllers/Admin/Settings/` → Admin panel ayarlar kontrolcüleri
 
 ## Notlar
 
@@ -101,7 +107,37 @@ public function getAllNews($perPage = 10)
 
 ## Modül Güncellemeleri
 
-### Son Güncelleme: 2025-04-24 18:10
+### Son Güncelleme: 2025-04-24 21:45
+
+- Dil yönetimi modülü, Vuexy tema standardına uygun olarak yeniden düzenlendi:
+  - `/resources/views/content/admin/settings/languages.blade.php` - DataTable yapısıyla güncellendi
+  - `/resources/js/admin/settings/languages.js` - Vuexy DataTable standardına uygun JavaScript kodu yazıldı
+  - `/app/Http/Controllers/Admin/Settings/LanguageController.php` - AJAX isteklerini destekleyecek şekilde güncellemeler yapıldı
+  - `/routes/web.php` - Tüm CRUD işlemleri için gereken rotalar eklendi
+
+- Dil yönetimi özelliklerine eklenenler:
+  - DataTable entegrasyonu (arama, sayfalama, sıralama)
+  - Excel, PDF, CSV ve yazdırma dışa aktarımları
+  - Dil ekle/sil/düzenle fonksiyonlarının AJAX ile çalışması
+  - SweetAlert2 ile bildirim ve onay modalları
+  - Responsive tasarım ile mobil uyumluluğu
+
+### Güncelleme: 2025-04-24 19:30
+
+- Dil yönetimi için modallar oluşturuldu:
+  - `/resources/views/content/admin/_partials/_modals/modal-language-add.blade.php` - Dil ekleme modal penceresi
+  - `/resources/views/content/admin/_partials/_modals/modal-language-edit.blade.php` - Dil düzenleme modal penceresi
+  - `/resources/views/content/admin/_partials/_modals/modal-language-import.blade.php` - Dil içe aktarma modal penceresi
+- Admin navbar ve menü yapılandırmasında Settings bölümü eklendi:
+  - `/resources/menu/verticalMenu.json` - Settings menü kategorisi ve Languages alt menüsü
+- Language Controller oluşturuldu ve dil listesi için temel yapı hazırlandı:
+  - `/app/Http/Controllers/Admin/Settings/LanguageController.php` - Dil yönetimi kontrolcüsü
+- Web rotası tanımlandı:
+  - `/routes/web.php` - `/admin/settings/languages` rotası eklendi
+- Admin panelinde dil ayarları görünümü oluşturuldu:
+  - `/resources/views/content/admin/settings/languages.blade.php` - Dil listesi ve yönetim tablosu
+
+### Güncelleme: 2025-04-24 18:10
 
 - Dil paketi modülü arayüzü tasarlandı
 - Settings menü kategorisi ve Languages alt menüsü eklendi
@@ -114,6 +150,44 @@ public function getAllNews($perPage = 10)
 - Admin ve frontend rotaları ayarlandı
 - Vue.js ön yüz entegrasyonu tamamlandı
 - Admin giriş sayfası düzenlendi
+
+## Vuexy Tabloları Kullanım Notları
+
+Vuexy temasında DataTable kullanırken aşağıdaki standartlara uyulmalıdır:
+
+1. **DataTable Sınıflandırması**:
+   - Tablolarda `.datatables-xxx` sınıfı kullanılmalıdır (örn. `.datatables-languages`)
+   - Tablo `.table` ve `.border-top` sınıflarıyla stillendirilmelidir
+   - Tüm tablolar responsive olması için `.table-responsive` ile sarmalanmalıdır
+
+2. **DOM Yapısı**:
+   ```javascript
+   dom: '<"row g-2"<"col-md-3"l><"col-md-6 d-flex align-items-center justify-content-center"B><"col-md-3"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>'
+   ```
+   - Arama kutusu, gösterim sayısı ve butonlar üstte
+   - Sayfalama ve bilgi satırı altta
+
+3. **Butonlar ve Dışa Aktarımlar**:
+   - Tüm tablolarda Excel, PDF, CSV, yazdırma ve kopyalama düğmeleri standart olarak eklenmelidir
+   - CRUD işlemleri için modal veya offcanvas kullanılmalıdır
+
+4. **Controller AJAX Desteği**:
+   - Tüm controller'lar hem normal sayfa yüklenişini hem de AJAX isteklerini desteklemelidir:
+   ```php
+   if ($request->ajax()) {
+       // AJAX isteği için veri hazırla
+       return response()->json(['data' => $data]);
+   }
+   ```
+
+## README Güncelleme Notları
+
+README.md dosyası güncellenirken:
+- Yeni eklenen dosyaların tam yolu belirtilmelidir
+- Yapılan değişiklikler tarih ve saat bilgisiyle birlikte eklenmelidir
+- Güncellemeler en üstte olacak şekilde sıralanmalıdır
+- Klasör yapısı güncellenmelidir
+- Kullanım notları (örn. Vuexy Tabloları Kullanım Notları) eklenmelidir
 
 ## Yeni Sohbet Başlatma
 

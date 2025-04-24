@@ -31,89 +31,29 @@
 @endsection
 
 @section('content')
-<h4 class="fw-bold py-3 mb-2">
-  <span class="text-muted fw-light">Ayarlar /</span> Dil Ayarları
-</h4>
-
-<div class="row">
-  <!-- Dil Listesi Tablosu -->
-  <div class="col-12">
-    <div class="card">
-      <div class="card-header border-bottom">
-        <h5 class="card-title mb-3">Diller</h5>
-      </div>
-      <div class="card-datatable table-responsive">
-        <table class="datatables-basic table border-top dataTable" id="DataTables_Table_0">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Id</th>
-              <th>Dil adı</th>
-              <th>Varsayılan dil</th>
-              <th>Çeviri/Dışa aktar</th>
-              <th>Seçenekler</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($languages as $language)
-            <tr>
-              <td></td>
-              <td>{{ $language['id'] }}</td>
-              <td>
-                <div class="d-flex justify-content-start align-items-center">
-                  <div class="d-flex flex-column">
-                    <span class="fw-medium">{{ $language['name'] }}</span>
-                    <small class="text-muted">{{ $language['code'] }}</small>
-                  </div>
-                </div>
-              </td>
-              <td>
-                @if($language['is_default'])
-                  <span class="badge bg-label-primary">Varsayılan</span>
-                @else
-                  <button class="btn btn-sm btn-outline-primary">Varsayılan Yap</button>
-                @endif
-              </td>
-              <td>
-                <div class="d-inline-block">
-                  <button class="btn btn-sm btn-outline-info me-1">
-                    <i class="ti ti-edit ti-xs me-1"></i>Çeviriler
-                  </button>
-                  <button class="btn btn-sm btn-outline-secondary">
-                    <i class="ti ti-download ti-xs me-1"></i>Dışa Aktar
-                  </button>
-                </div>
-              </td>
-              <td>
-                <div class="dropdown">
-                  <button type="button" class="btn btn-sm dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown">
-                    <i class="ti ti-dots-vertical text-muted"></i>
-                  </button>
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="javascript:void(0);">
-                      <i class="ti ti-pencil me-1"></i>Düzenle
-                    </a>
-                    <a class="dropdown-item text-danger" href="javascript:void(0);">
-                      <i class="ti ti-trash me-1"></i>Sil
-                    </a>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            @endforeach
-          </tbody>
-        </table>
-      </div>
-    </div>
+<div class="card">
+  <div class="card-header border-bottom">
+    <h5 class="card-title mb-0">Dil Yönetimi</h5>
   </div>
-</div>
-
-<!-- Sonu -->
+  <div class="card-datatable table-responsive">
+    <table class="datatables-languages table border-top">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Id</th>
+          <th>Dil adı</th>
+          <th>Varsayılan dil</th>
+          <th>Çeviri/Dışa aktar</th>
+          <th>Seçenekler</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
 
 <!-- Modallar -->
-@include('_partials._modals.modal-language-add')
-@include('_partials._modals.modal-language-edit')
-@include('_partials._modals.modal-language-import')
+@include('content.admin._partials._modals.modal-language-add')
+@include('content.admin._partials._modals.modal-language-edit')
+@include('content.admin._partials._modals.modal-language-import')
 <!-- /Modallar -->
 @endsection
 
