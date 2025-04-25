@@ -8,6 +8,7 @@ use App\Http\Controllers\language\LanguageController;
 
 // Admin Settings Controllers
 use App\Http\Controllers\Admin\Settings\LanguageController as AdminLanguageController;
+use App\Http\Controllers\Admin\Settings\TranslationController;
 
 /* ========== PATEEZ NEWS ROTALAR BAŞLANGIÇ ========== */
 // Admin Settings Routes
@@ -20,6 +21,11 @@ Route::delete('/admin/settings/languages/{id}', [AdminLanguageController::class,
 Route::post('/admin/settings/languages/{id}/set-default', [AdminLanguageController::class, 'setDefault'])->name('admin.settings.languages.set-default');
 Route::post('/admin/settings/languages/import', [AdminLanguageController::class, 'import'])->name('admin.settings.languages.import');
 Route::get('/admin/settings/languages/{id}/export', [AdminLanguageController::class, 'export'])->name('admin.settings.languages.export');
+
+// Translation Routes
+Route::get('/admin/settings/translations/{id}', [TranslationController::class, 'edit'])->name('admin.settings.translations.edit');
+Route::put('/admin/settings/translations/{id}', [TranslationController::class, 'update'])->name('admin.settings.translations.update');
+Route::get('/admin/settings/translations/{id}/search', [TranslationController::class, 'search'])->name('admin.settings.translations.search');
 /* ========== PATEEZ NEWS ROTALAR BİTİŞ ========== */
 use App\Http\Controllers\layouts\CollapsedMenu;
 use App\Http\Controllers\layouts\ContentNavbar;

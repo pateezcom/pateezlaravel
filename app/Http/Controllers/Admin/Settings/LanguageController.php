@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class LanguageController extends Controller
@@ -321,15 +322,29 @@ class LanguageController extends Controller
    */
   public function import(Request $request)
   {
+    // Log ekleyin
+    Log::info('Import metodu çağrıldı');
+    
+    // Sadece AJAX isteği mi kontrol et
+    if (!$request->ajax()) {
+      Log::warning('AJAX olmayan bir istek geldi');
+      return response()->json(['error' => 'Sadece AJAX istekleri kabul edilir'], 400);
+    }
+    
+    Log::info('Request bilgileri: ' . json_encode($request->all()));
+    
     // Dosya yükleme kontrolü
     if (!$request->hasFile('languageFile')) {
+      Log::error('Dosya bulunamadı');
       return response()->json(['error' => 'Dosya bulunamadı'], 400);
     }
 
     $file = $request->file('languageFile');
+    Log::info('Dosya alındı: ' . $file->getClientOriginalName());
 
     // JSON dosyası mı kontrol et
     if ($file->getClientOriginalExtension() !== 'json') {
+      Log::error('Dosya JSON formatında değil: ' . $file->getClientOriginalExtension());
       return response()->json(['error' => 'Dosya JSON formatında olmalıdır'], 400);
     }
 
@@ -347,52 +362,76 @@ class LanguageController extends Controller
         return response()->json(['error' => 'Geçersiz dil dosyası formatı'], 400);
       }
 
+      // Dil bilgilerini kontrol et
+      $language = $languageData['language'];
+      
+      // Gerekli alanların varlığını kontrol et
+      if (!isset($language['name']) || !isset($language['short_form'])) {
+        return response()->json(['error' => 'Dosyada dil adı veya kısa formu eksik'], 400);
+      }
+
+      // Çevirilerin formatını kontrol et
+      $translations = $languageData['translations'];
+      if (!is_array($translations) || empty($translations)) {
+        return response()->json(['error' => 'Çeviri listesi boş veya geçersiz'], 400);
+      }
+      
+      // Çeviri formatını kontrol et
+      foreach ($translations as $translation) {
+        if (!isset($translation['label']) || !isset($translation['translation'])) {
+          return response()->json(['error' => 'Bazı çevirilerde label veya translation alanı eksik'], 400);
+        }
+      }
+
       DB::beginTransaction();
       try {
-        // Dil kaydı ekle
-        $language = $languageData['language'];
+        // Dil bilgilerini al
+        $languageName = $language['name'];
         $shortForm = $language['short_form'];
+        $languageCode = $language['language_code'] ?? $shortForm;
+        $textDirection = $language['text_direction'] ?? 'ltr';
+        $textEditorLang = $language['text_editor_lang'] ?? $shortForm;
 
-        // Dil zaten var mı kontrol et
-        $existingLanguage = DB::table('languages')
+        // 1. Adım: Dil adını kontrol et
+        $existingLanguageByName = DB::table('languages')
+          ->where('name', $languageName)
+          ->first();
+
+        if ($existingLanguageByName) {
+          return response()->json([
+            'success' => false,
+            'message' => 'Bu dil adı (' . $languageName . ') zaten mevcut'
+          ], 400);
+        }
+        
+        // 2. Adım: Kısa form (code) kontrol et
+        $existingLanguageByCode = DB::table('languages')
           ->where('code', $shortForm)
           ->first();
 
-        if ($existingLanguage) {
-          // Dil zaten varsa güncelle
-          $languageId = $existingLanguage->id;
-
-          DB::table('languages')
-            ->where('id', $languageId)
-            ->update([
-              'name' => $language['name'],
-              'is_rtl' => $language['text_direction'] === 'rtl' ? 1 : 0,
-              'updated_at' => now()
-            ]);
-
-          // Eski çevirileri sil
-          DB::table('translations')
-            ->where('language_id', $languageId)
-            ->delete();
-        } else {
-          // Yeni dil ekle
-          $languageId = DB::table('languages')->insertGetId([
-            'name' => $language['name'],
-            'code' => $shortForm,
-            'icon' => 'flag-icon-' . strtolower($shortForm),
-            'text_editor_lang' => $language['text_editor_lang'] ?? $shortForm,
-            'is_rtl' => $language['text_direction'] === 'rtl' ? 1 : 0,
-            'is_default' => 0,
-            'is_active' => 1,
-            'created_at' => now(),
-            'updated_at' => now()
-          ]);
+        if ($existingLanguageByCode) {
+          return response()->json([
+            'success' => false,
+            'message' => 'Bu dil kodu (' . $shortForm . ') zaten mevcut'
+          ], 400);
         }
+        
+        // 3. Adım: Yeni dil ekle
+        $languageId = DB::table('languages')->insertGetId([
+          'name' => $languageName,
+          'code' => $shortForm,
+          'icon' => 'flag-icon-' . strtolower($shortForm),
+          'text_editor_lang' => $textEditorLang,
+          'is_rtl' => $textDirection === 'rtl' ? 1 : 0,
+          'is_default' => 0,
+          'is_active' => 1,
+          'created_at' => now(),
+          'updated_at' => now()
+        ]);
 
-        // Çevirileri ekle
-        $translations = $languageData['translations'];
+        // 4. Adım: Çevirileri ekle
         $translationData = [];
-
+        $processedCount = 0;
         foreach ($translations as $translation) {
           $translationData[] = [
             'language_id' => $languageId,
@@ -402,16 +441,16 @@ class LanguageController extends Controller
             'created_at' => now(),
             'updated_at' => now()
           ];
+          $processedCount++;
         }
 
         // Çevirileri toplu ekle
         DB::table('translations')->insert($translationData);
 
         DB::commit();
-
         return response()->json([
           'success' => true,
-          'message' => 'Dil başarıyla içe aktarıldı'
+          'message' => $languageName . ' dili ve ' . $processedCount . ' çeviri başarıyla içe aktarıldı'
         ]);
       } catch (\Exception $e) {
         DB::rollBack();

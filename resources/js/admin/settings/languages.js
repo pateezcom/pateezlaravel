@@ -118,11 +118,13 @@ $(function () {
           render: function (data, type, full, meta) {
             return (
               '<div class="d-inline-block">' +
-              '<button class="btn btn-sm btn-outline-info me-1 edit-translations" data-id="' +
+              '<a href="' +
+              baseUrl +
+              'admin/settings/translations/' +
               full.id +
-              '">' +
+              '" class="btn btn-sm btn-outline-info me-1">' +
               '<i class="ti ti-edit ti-xs me-1"></i>Çeviriler' +
-              '</button>' +
+              '</a>' +
               '<a href="' +
               baseUrl +
               'admin/settings/languages/' +
@@ -316,6 +318,13 @@ $(function () {
           $('#editShortForm').val(language.code);
           $('#editLanguageCode').val(language.code);
 
+          // Text Editör dili
+          if (language.text_editor_lang) {
+            $('#editTextEditorLanguage').val(language.text_editor_lang);
+          } else {
+            $('#editTextEditorLanguage').val(language.code);
+          }
+
           // Yazı yönü
           if (language.is_rtl) {
             $('#editTextDirectionRTL').prop('checked', true);
@@ -387,13 +396,45 @@ $(function () {
   });
 
   // Dil İçe Aktar
-  $('#importLanguageForm').on('submit', function (e) {
-    // Eğer language-form-validation.js tarafından zaten işleniyorsa bu olayı ele alma
-    if (e.isDefaultPrevented()) return;
-
+  $(document).on('submit', '#importLanguageForm', function (e) {
     e.preventDefault();
+    console.log('Form submit edildi');
+    
+    // Önce hata mesajlarını temizle
+    $('.invalid-feedback').text('');
+    $('.is-invalid').removeClass('is-invalid');
+    
+    // Dosya kontrolü
+    const fileInput = $('#languageFile')[0];
+    if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+      $('#languageFile').addClass('is-invalid');
+      $('#languageFile').next('.invalid-feedback').text('Lütfen bir dosya seçin');
+      return false;
+    }
+    
+    // Dosya uzantısı kontrolü
+    const file = fileInput.files[0];
+    const fileExt = file.name.split('.').pop().toLowerCase();
+    if (fileExt !== 'json') {
+      $('#languageFile').addClass('is-invalid');
+      $('#languageFile').next('.invalid-feedback').text('Sadece JSON dosyaları kabul edilir');
+      return false;
+    }
+
+    // Submit butonunu devre dışı bırak
+    const submitButton = $(this).find('button[type="submit"]');
+    const originalButtonText = submitButton.html();
+    submitButton.prop('disabled', true);
+    submitButton.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> İşleniyor...');
 
     var formData = new FormData(this);
+    
+    // CSRF token'ı formData'ya ekle (eğer form içinde yoksa)
+    if (!formData.has('_token')) {
+      formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+    }
+    
+    console.log('FormData oluşturuldu, dosya seçildi:', fileInput.files[0].name);
 
     // AJAX isteği
     $.ajax({
@@ -403,21 +444,74 @@ $(function () {
       processData: false,
       contentType: false,
       success: function (response) {
+        console.log('Başarılı yanıt:', response);
         if (response.success) {
           // Modal kapat ve tabloyu yenile
           $('#importLanguageModal').modal('hide');
           window.refreshLanguageTable();
+          
+          // Başarı mesajı göster
+          Swal.fire({
+            icon: 'success',
+            title: 'Başarılı!',
+            text: response.message || 'Dil ve çeviriler başarıyla içe aktarıldı.',
+            customClass: {
+              confirmButton: 'btn btn-success'
+            }
+          });
         } else {
-          // Hata durumunda modalı kapat ve tabloyu yenile
-          $('#importLanguageModal').modal('hide');
-          window.refreshLanguageTable();
+          // Hata mesajını göster
+          submitButton.prop('disabled', false);
+          submitButton.html(originalButtonText);
+          
+          if (response.error) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Hata!',
+              text: response.error,
+              customClass: {
+                confirmButton: 'btn btn-danger'
+              }
+            });
+          } else if (response.message) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Uyarı!',
+              text: response.message,
+              customClass: {
+                confirmButton: 'btn btn-warning'
+              }
+            });
+          }
         }
       },
-      error: function (xhr) {
-        // Hata durumunda modalı kapat ve tabloyu yenile
-        $('#importLanguageModal').modal('hide');
-        window.refreshLanguageTable();
+      error: function (xhr, status, error) {
+        console.error('AJAX Hatası:', status, error);
+        console.log('Yanıt:', xhr.responseText);
+        
+        // Submit butonunu sıfırla
+        submitButton.prop('disabled', false);
+        submitButton.html(originalButtonText);
+        
+        let errorMessage = 'İşlem sırasında bir hata oluştu.';
+        
+        if (xhr.responseJSON && xhr.responseJSON.error) {
+          errorMessage = xhr.responseJSON.error;
+        } else if (xhr.responseJSON && xhr.responseJSON.message) {
+          errorMessage = xhr.responseJSON.message;
+        }
+        
+        Swal.fire({
+          icon: 'error',
+          title: 'Hata!',
+          text: errorMessage,
+          customClass: {
+            confirmButton: 'btn btn-danger'
+          }
+        });
       }
     });
+    
+    return false;
   });
 });
