@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\Settings\LanguageController as AdminLanguageContr
 // Admin Settings Routes
 Route::get('/admin/settings/languages', [AdminLanguageController::class, 'index'])->name('admin.settings.languages');
 Route::post('/admin/settings/languages', [AdminLanguageController::class, 'store'])->name('admin.settings.languages.store');
+Route::post('/admin/settings/languages/check-unique', [AdminLanguageController::class, 'checkUnique'])->name('admin.settings.languages.check-unique');
 Route::get('/admin/settings/languages/{id}/edit', [AdminLanguageController::class, 'edit'])->name('admin.settings.languages.edit');
 Route::put('/admin/settings/languages/{id}', [AdminLanguageController::class, 'update'])->name('admin.settings.languages.update');
 Route::delete('/admin/settings/languages/{id}', [AdminLanguageController::class, 'destroy'])->name('admin.settings.languages.destroy');

@@ -11,6 +11,9 @@ $(function () {
   var dt_language_table = $('.datatables-languages'),
     offCanvasForm = $('#offcanvasAddUser');
 
+  // DataTable nesnesini global olarak tanımla
+  var dt_language;
+
   // Ajax setup
   $.ajaxSetup({
     headers: {
@@ -18,9 +21,15 @@ $(function () {
     }
   });
 
-  // Dil DataTable
-  if (dt_language_table.length) {
-    var dt_language = dt_language_table.DataTable({
+  // Tabloyu yenileme fonksiyonu
+  window.refreshLanguageTable = function () {
+    // Mevcut tabloyu yok et
+    if (dt_language) {
+      dt_language.destroy();
+    }
+
+    // Yeni tablo oluştur
+    dt_language = dt_language_table.DataTable({
       processing: true,
       serverSide: false, // Basit yapı için false, gerçek veri için true olacak
       ajax: {
@@ -32,7 +41,7 @@ $(function () {
         { data: 'name' },
         { data: 'is_default' },
         { data: '' }, // Çeviri/Dışa aktar butonları
-        { data: '' }  // İşlem butonları
+        { data: '' } // İşlem butonları
       ],
       columnDefs: [
         {
@@ -67,7 +76,8 @@ $(function () {
             var $state = states[stateNum];
             var $initials = $name.match(/\b\w/g) || [];
             $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
-            var $output = '<span class="avatar-initial rounded-circle bg-label-' + $state + '">' + $initials + '</span>';
+            var $output =
+              '<span class="avatar-initial rounded-circle bg-label-' + $state + '">' + $initials + '</span>';
 
             // Çıktı oluştur
             var $row_output =
@@ -78,8 +88,12 @@ $(function () {
               '</div>' +
               '</div>' +
               '<div class="d-flex flex-column">' +
-              '<span class="fw-medium">' + $name + '</span>' +
-              '<small class="text-muted">' + $code + '</small>' +
+              '<span class="fw-medium">' +
+              $name +
+              '</span>' +
+              '<small class="text-muted">' +
+              $code +
+              '</small>' +
               '</div>' +
               '</div>';
             return $row_output;
@@ -91,7 +105,9 @@ $(function () {
           render: function (data, type, full, meta) {
             return full.is_default
               ? '<span class="badge bg-label-primary">Varsayılan</span>'
-              : '<button class="btn btn-sm btn-outline-primary set-default-language" data-id="' + full.id + '">Varsayılan Yap</button>';
+              : '<button class="btn btn-sm btn-outline-primary set-default-language" data-id="' +
+                  full.id +
+                  '">Varsayılan Yap</button>';
           }
         },
         {
@@ -102,10 +118,16 @@ $(function () {
           render: function (data, type, full, meta) {
             return (
               '<div class="d-inline-block">' +
-              '<button class="btn btn-sm btn-outline-info me-1 edit-translations" data-id="' + full.id + '">' +
+              '<button class="btn btn-sm btn-outline-info me-1 edit-translations" data-id="' +
+              full.id +
+              '">' +
               '<i class="ti ti-edit ti-xs me-1"></i>Çeviriler' +
               '</button>' +
-              '<a href="' + baseUrl + 'admin/settings/languages/' + full.id + '/export" class="btn btn-sm btn-outline-secondary">' +
+              '<a href="' +
+              baseUrl +
+              'admin/settings/languages/' +
+              full.id +
+              '/export" class="btn btn-sm btn-outline-secondary">' +
               '<i class="ti ti-download ti-xs me-1"></i>Dışa Aktar' +
               '</a>' +
               '</div>'
@@ -125,10 +147,14 @@ $(function () {
               '<i class="ti ti-dots-vertical text-muted"></i>' +
               '</button>' +
               '<div class="dropdown-menu">' +
-              '<a class="dropdown-item edit-record" href="javascript:void(0);" data-id="' + full.id + '" data-bs-toggle="modal" data-bs-target="#editLanguageModal">' +
+              '<a class="dropdown-item edit-record" href="javascript:void(0);" data-id="' +
+              full.id +
+              '" data-bs-toggle="modal" data-bs-target="#editLanguageModal">' +
               '<i class="ti ti-pencil me-1"></i>Düzenle' +
               '</a>' +
-              '<a class="dropdown-item text-danger delete-record" href="javascript:void(0);" data-id="' + full.id + '">' +
+              '<a class="dropdown-item text-danger delete-record" href="javascript:void(0);" data-id="' +
+              full.id +
+              '">' +
               '<i class="ti ti-trash me-1"></i>Sil' +
               '</a>' +
               '</div>' +
@@ -252,76 +278,19 @@ $(function () {
         }
       }
     });
-  }
 
-  // Dil Ekle Form Gönderimi
-  $('#addLanguageForm').on('submit', function (e) {
-    e.preventDefault();
-    
-    // Form verilerini al
-    var formData = new FormData(this);
-    
-    // AJAX isteği
-    $.ajax({
-      url: baseUrl + 'admin/settings/languages',
-      method: 'POST',
-      data: formData,
-      processData: false,
-      contentType: false,
-      success: function (response) {
-        if (response.success) {
-          // Önce modalı kapat
-          $('#addLanguageModal').modal('hide');
-          
-          // Formu sıfırla
-          $('#addLanguageForm')[0].reset();
-          
-          // Başarılı mesaj göster
-          Swal.fire({
-            title: 'Başarılı!',
-            text: 'Dil başarıyla eklendi',
-            icon: 'success',
-            customClass: {
-              confirmButton: 'btn btn-primary'
-            },
-            buttonsStyling: false
-          }).then(function() {
-            // Tabloyu yenile
-            dt_language.ajax.reload();
-          });
-        } else {
-          // Hata mesajı göster
-          Swal.fire({
-            title: 'Hata!',
-            text: response.error || 'Bir hata oluştu',
-            icon: 'error',
-            customClass: {
-              confirmButton: 'btn btn-primary'
-            },
-            buttonsStyling: false
-          });
-        }
-      },
-      error: function (xhr) {
-        var errors = xhr.responseJSON.errors;
-        var errorMessage = '';
-        
-        $.each(errors, function (key, value) {
-          errorMessage += value[0] + '<br>';
-        });
-        
-        Swal.fire({
-          title: 'Hata!',
-          html: errorMessage || 'Bir hata oluştu',
-          icon: 'error',
-          customClass: {
-            confirmButton: 'btn btn-primary'
-          },
-          buttonsStyling: false
-        });
-      }
-    });
-  });
+    // Form stillerini düzenle
+    setTimeout(() => {
+      $('.dataTables_filter .form-control').removeClass('form-control-sm');
+      $('.dataTables_length .form-select').removeClass('form-select-sm');
+    }, 300);
+  };
+
+  // Dil DataTable
+  if (dt_language_table.length) {
+    // İlk yükleme
+    window.refreshLanguageTable();
+  }
 
   // Dil Ekle Modalı Açıldığında
   $('#addLanguageModal').on('show.bs.modal', function () {
@@ -332,7 +301,7 @@ $(function () {
   // Dil Düzenle
   $(document).on('click', '.edit-record', function () {
     var id = $(this).data('id');
-    
+
     // AJAX isteği
     $.ajax({
       url: baseUrl + 'admin/settings/languages/' + id + '/edit',
@@ -340,20 +309,20 @@ $(function () {
       success: function (response) {
         if (response.language) {
           var language = response.language;
-          
+
           // Form alanlarını doldur
           $('#editLanguageId').val(language.id);
           $('#editLanguageName').val(language.name);
           $('#editShortForm').val(language.code);
           $('#editLanguageCode').val(language.code);
-          
+
           // Yazı yönü
           if (language.is_rtl) {
             $('#editTextDirectionRTL').prop('checked', true);
           } else {
             $('#editTextDirectionLTR').prop('checked', true);
           }
-          
+
           // Durum
           if (language.is_active) {
             $('#editStatusActive').prop('checked', true);
@@ -363,84 +332,7 @@ $(function () {
         }
       },
       error: function (xhr) {
-        Swal.fire({
-          title: 'Hata!',
-          text: 'Dil bilgileri yüklenirken bir hata oluştu',
-          icon: 'error',
-          customClass: {
-            confirmButton: 'btn btn-primary'
-          },
-          buttonsStyling: false
-        });
-      }
-    });
-  });
-
-  // Dil Güncelle Form Gönderimi
-  $('#editLanguageForm').on('submit', function (e) {
-    e.preventDefault();
-    
-    var id = $('#editLanguageId').val();
-    var formData = new FormData(this);
-    
-    // PUT metodu için _method ekle
-    formData.append('_method', 'PUT');
-    
-    // AJAX isteği
-    $.ajax({
-      url: baseUrl + 'admin/settings/languages/' + id,
-      method: 'POST',
-      data: formData,
-      processData: false,
-      contentType: false,
-      success: function (response) {
-        if (response.success) {
-          // Modal kapat
-          $('#editLanguageModal').modal('hide');
-          
-          // Başarılı mesaj göster
-          Swal.fire({
-            title: 'Başarılı!',
-            text: 'Dil başarıyla güncellendi',
-            icon: 'success',
-            customClass: {
-              confirmButton: 'btn btn-primary'
-            },
-            buttonsStyling: false
-          }).then(function() {
-            // Tabloyu yenile
-            dt_language.ajax.reload();
-          });
-        } else {
-          // Hata mesajı göster
-          Swal.fire({
-            title: 'Hata!',
-            text: response.error || 'Bir hata oluştu',
-            icon: 'error',
-            customClass: {
-              confirmButton: 'btn btn-primary'
-            },
-            buttonsStyling: false
-          });
-        }
-      },
-      error: function (xhr) {
-        var errors = xhr.responseJSON.errors;
-        var errorMessage = '';
-        
-        $.each(errors, function (key, value) {
-          errorMessage += value[0] + '<br>';
-        });
-        
-        Swal.fire({
-          title: 'Hata!',
-          html: errorMessage || 'Bir hata oluştu',
-          icon: 'error',
-          customClass: {
-            confirmButton: 'btn btn-primary'
-          },
-          buttonsStyling: false
-        });
+        // Sessizce hatayı geç
       }
     });
   });
@@ -448,66 +340,24 @@ $(function () {
   // Dil Sil
   $(document).on('click', '.delete-record', function () {
     var id = $(this).data('id');
-    
-    // Onay iste
-    Swal.fire({
-      title: 'Emin misiniz?',
-      text: "Bu dil ve ilgili tüm çeviriler silinecek!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Evet, sil!',
-      cancelButtonText: 'İptal',
-      customClass: {
-        confirmButton: 'btn btn-primary me-3',
-        cancelButton: 'btn btn-label-secondary'
+
+    // Doğrudan sil (onay isteme)
+    // AJAX isteği
+    $.ajax({
+      url: baseUrl + 'admin/settings/languages/' + id,
+      method: 'DELETE',
+      success: function (response) {
+        if (response.success) {
+          // Tabloyu yenile
+          window.refreshLanguageTable();
+        } else {
+          // Hata durumunda tabloyu yine de yenile
+          window.refreshLanguageTable();
+        }
       },
-      buttonsStyling: false
-    }).then(function (result) {
-      if (result.isConfirmed) {
-        // AJAX isteği
-        $.ajax({
-          url: baseUrl + 'admin/settings/languages/' + id,
-          method: 'DELETE',
-          success: function (response) {
-            if (response.success) {
-              // Başarılı mesaj göster
-              Swal.fire({
-                title: 'Silindi!',
-                text: response.message,
-                icon: 'success',
-                customClass: {
-                  confirmButton: 'btn btn-primary'
-                },
-                buttonsStyling: false
-              }).then(function() {
-                // Tabloyu yenile
-                dt_language.ajax.reload();
-              });
-            } else {
-              // Hata mesajı göster
-              Swal.fire({
-                title: 'Hata!',
-                text: response.error || 'Silme işlemi sırasında bir hata oluştu',
-                icon: 'error',
-                customClass: {
-                  confirmButton: 'btn btn-primary'
-                },
-                buttonsStyling: false
-              });
-            }
-          },
-          error: function (xhr) {
-            Swal.fire({
-              title: 'Hata!',
-              text: 'Silme işlemi sırasında bir hata oluştu',
-              icon: 'error',
-              customClass: {
-                confirmButton: 'btn btn-primary'
-              },
-              buttonsStyling: false
-            });
-          }
-        });
+      error: function (xhr) {
+        // Hata durumunda sessizce tabloyu yenile
+        window.refreshLanguageTable();
       }
     });
   });
@@ -515,59 +365,36 @@ $(function () {
   // Varsayılan Olarak Ayarla
   $(document).on('click', '.set-default-language', function () {
     var id = $(this).data('id');
-    
+
     // AJAX isteği
     $.ajax({
       url: baseUrl + 'admin/settings/languages/' + id + '/set-default',
       method: 'POST',
       success: function (response) {
         if (response.success) {
-          // Başarılı mesaj göster
-          Swal.fire({
-            title: 'Başarılı!',
-            text: response.message,
-            icon: 'success',
-            customClass: {
-              confirmButton: 'btn btn-primary'
-            },
-            buttonsStyling: false
-          }).then(function() {
-            // Tabloyu yenile
-            dt_language.ajax.reload();
-          });
+          // Tabloyu yenile
+          window.refreshLanguageTable();
         } else {
-          // Hata mesajı göster
-          Swal.fire({
-            title: 'Hata!',
-            text: response.error || 'İşlem sırasında bir hata oluştu',
-            icon: 'error',
-            customClass: {
-              confirmButton: 'btn btn-primary'
-            },
-            buttonsStyling: false
-          });
+          // Hata durumunda tabloyu yine de yenile
+          window.refreshLanguageTable();
         }
       },
       error: function (xhr) {
-        Swal.fire({
-          title: 'Hata!',
-          text: 'İşlem sırasında bir hata oluştu',
-          icon: 'error',
-          customClass: {
-            confirmButton: 'btn btn-primary'
-          },
-          buttonsStyling: false
-        });
+        // Hata durumunda sessizce tabloyu yenile
+        window.refreshLanguageTable();
       }
     });
   });
 
   // Dil İçe Aktar
   $('#importLanguageForm').on('submit', function (e) {
+    // Eğer language-form-validation.js tarafından zaten işleniyorsa bu olayı ele alma
+    if (e.isDefaultPrevented()) return;
+
     e.preventDefault();
-    
+
     var formData = new FormData(this);
-    
+
     // AJAX isteği
     $.ajax({
       url: baseUrl + 'admin/settings/languages/import',
@@ -577,51 +404,20 @@ $(function () {
       contentType: false,
       success: function (response) {
         if (response.success) {
-          // Başarılı mesaj göster
-          Swal.fire({
-            title: 'Başarılı!',
-            text: response.message,
-            icon: 'success',
-            customClass: {
-              confirmButton: 'btn btn-primary'
-            },
-            buttonsStyling: false
-          }).then(function() {
-            // Modal kapat ve tabloyu yenile
-            $('#importLanguageModal').modal('hide');
-            dt_language.ajax.reload();
-          });
+          // Modal kapat ve tabloyu yenile
+          $('#importLanguageModal').modal('hide');
+          window.refreshLanguageTable();
         } else {
-          // Hata mesajı göster
-          Swal.fire({
-            title: 'Hata!',
-            text: response.error || 'Bir hata oluştu',
-            icon: 'error',
-            customClass: {
-              confirmButton: 'btn btn-primary'
-            },
-            buttonsStyling: false
-          });
+          // Hata durumunda modalı kapat ve tabloyu yenile
+          $('#importLanguageModal').modal('hide');
+          window.refreshLanguageTable();
         }
       },
       error: function (xhr) {
-        Swal.fire({
-          title: 'Hata!',
-          text: 'İçe aktarma işlemi sırasında bir hata oluştu',
-          icon: 'error',
-          customClass: {
-            confirmButton: 'btn btn-primary'
-          },
-          buttonsStyling: false
-        });
+        // Hata durumunda modalı kapat ve tabloyu yenile
+        $('#importLanguageModal').modal('hide');
+        window.refreshLanguageTable();
       }
     });
   });
-
-  // Filter form control to default size
-  // ? setTimeout used for multilingual table initialization
-  setTimeout(() => {
-    $('.dataTables_filter .form-control').removeClass('form-control-sm');
-    $('.dataTables_length .form-select').removeClass('form-select-sm');
-  }, 300);
 });

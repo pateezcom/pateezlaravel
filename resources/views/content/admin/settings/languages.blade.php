@@ -58,5 +58,8 @@
 @endsection
 
 @section('page-script')
-@vite(['resources/js/admin/settings/languages.js'])
+@vite([
+  'resources/js/admin/settings/languages.js',
+  'resources/js/admin/settings/language-form-validation.js'
+])
 @endsection

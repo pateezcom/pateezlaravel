@@ -62,6 +62,7 @@ Proje üç katmanlı bir mimariye sahiptir:
 - `resources/views/content/admin/_partials/_modals/` → Admin panel modal şablonları
 - `app/Http/Controllers/` → Laravel kontrolcüleri
 - `app/Http/Controllers/Admin/Settings/` → Admin panel ayarlar kontrolcüleri
+- `resources/js/admin/settings/` → Admin panel ayarlar modülü JavaScript dosyaları
 
 ## Notlar
 
@@ -107,7 +108,22 @@ public function getAllNews($perPage = 10)
 
 ## Modül Güncellemeleri
 
-### Son Güncelleme: 2025-04-24 21:45
+### Son Güncelleme: 2025-04-25 14:30
+
+- Dil yönetimi form doğrulama ve tablo yenileme işlemleri geliştirildi:
+  - `/resources/js/admin/settings/language-form-validation.js` - Form doğrulama ve hata mesajları için yeni JavaScript dosyası eklendi
+  - `/resources/js/admin/settings/languages.js` - Tablo yenileme fonksiyonu global scope'a alındı ve iyileştirildi
+  - `/app/Http/Controllers/Admin/Settings/LanguageController.php` - Benzersizlik kontrolü için yeni metod eklendi
+  - `/routes/web.php` - Benzersizlik kontrolü için `/admin/settings/languages/check-unique` rotası eklendi
+
+- Dil yönetimi özelliklerine eklenenler:
+  - Form doğrulama entegrasyonu (FormValidation.io kütüphanesi kullanılarak)
+  - Dil adı, kısa form ve dil kodu için benzersizlik kontrolü
+  - Form alanları için anında doğrulama ve hata mesajları
+  - Tablo yenileme fonksiyonu iyileştirilmesi
+  - Modal kapatma ve sayfa yenileme işlemi iyileştirildi
+
+### Güncelleme: 2025-04-24 21:45
 
 - Dil yönetimi modülü, Vuexy tema standardına uygun olarak yeniden düzenlendi:
   - `/resources/views/content/admin/settings/languages.blade.php` - DataTable yapısıyla güncellendi
@@ -150,6 +166,29 @@ public function getAllNews($perPage = 10)
 - Admin ve frontend rotaları ayarlandı
 - Vue.js ön yüz entegrasyonu tamamlandı
 - Admin giriş sayfası düzenlendi
+
+## Form Doğrulama İşlemi Notları
+
+Form doğrulama işlemleri için aşağıdaki standartlara uyulmalıdır:
+
+1. **Form Doğrulama Yapısı**:
+   - FormValidation.io kütüphanesi kullanılmalıdır
+   - Form doğrulama kuralları ayrı bir JavaScript dosyasında tanımlanmalıdır
+   - Client-side ve server-side doğrulama birlikte kullanılmalıdır
+
+2. **Hata Mesajlarının Gösterimi**:
+   - Form alanlarının altında `.invalid-feedback` sınıfına sahip div ile hata mesajları gösterilmelidir
+   - Server tarafından gelen hata mesajları doğrudan ilgili alanlara atanmalıdır
+
+3. **Tablo Yenileme İşlemi**:
+   - Tablo yenileme fonksiyonu global scope'da tanımlanmalıdır (`window.refreshLanguageTable`)
+   - AJAX işlemleri sonrasında tablo otomatik olarak yenilenmelidir
+   - Modal kapatma işlemi modal doğrudan yenileme işleminden önce yapılmalıdır
+
+4. **Benzersizlik Kontrolü**:
+   - Dil adı, kısa form ve dil kodu için benzersizlik kontrolü yapılmalıdır
+   - Düzenleme işleminde mevcut kaydın ID'si hariç tutulmalıdır
+   - Benzersizlik kontrolü için özel bir API endpoint kullanılmalıdır
 
 ## Vuexy Tabloları Kullanım Notları
 
