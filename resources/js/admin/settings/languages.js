@@ -398,7 +398,7 @@ $(function () {
   // Dil İçe Aktar
   $(document).on('submit', '#importLanguageForm', function (e) {
     e.preventDefault();
-    console.log('Form submit edildi');
+    // Form submit edildi
     
     // Önce hata mesajlarını temizle
     $('.invalid-feedback').text('');
@@ -434,7 +434,7 @@ $(function () {
       formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
     }
     
-    console.log('FormData oluşturuldu, dosya seçildi:', fileInput.files[0].name);
+    // FormData oluşturuldu, dosya seçildi
 
     // AJAX isteği
     $.ajax({
@@ -444,7 +444,7 @@ $(function () {
       processData: false,
       contentType: false,
       success: function (response) {
-        console.log('Başarılı yanıt:', response);
+        // Başarılı yanıt
         if (response.success) {
           // Modal kapat ve tabloyu yenile
           $('#importLanguageModal').modal('hide');
@@ -486,8 +486,8 @@ $(function () {
         }
       },
       error: function (xhr, status, error) {
-        console.error('AJAX Hatası:', status, error);
-        console.log('Yanıt:', xhr.responseText);
+        // AJAX Hatası
+        // Yanıt
         
         // Submit butonunu sıfırla
         submitButton.prop('disabled', false);

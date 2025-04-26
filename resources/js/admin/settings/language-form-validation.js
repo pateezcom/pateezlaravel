@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
       try {
         formValidation.resetForm(true);
       } catch (error) {
-        console.error('Form validation reset hatası:', error);
+        // Form validation reset hatası
       }
     }
 
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
       try {
         $(form).find('select').val('').trigger('change.select2');
       } catch (error) {
-        console.error('Select2 reset hatası:', error);
+        // Select2 reset hatası
       }
     }
 
@@ -302,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       });
     } catch (error) {
-      console.error('Form validation yükleme hatası:', error);
+      // Form validation yükleme hatası
     }
 
     // Form gönderme işlemi
@@ -577,7 +577,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       });
     } catch (error) {
-      console.error('Edit form validation yükleme hatası:', error);
+      // Edit form validation yükleme hatası
     }
 
     // Form gönderme işlemi
@@ -683,11 +683,11 @@ document.addEventListener('DOMContentLoaded', function () {
   // Modal olayları
   $(document).ready(function () {
     // Modal olaylarını kontrol et
-    console.log('Modal olayları yükleniyor...');
+    // Modal olayları
 
     // Yeni Dil Ekle modalı
     $('#addLanguageModal').on('show.bs.modal', function () {
-      console.log('Ekleme modalı açılıyor...');
+      // Ekleme modalı açılıyor
       if (addLanguageForm) {
         addLanguageForm.reset();
         clearFieldErrors(addLanguageForm);
@@ -702,7 +702,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     $('#addLanguageModal').on('hidden.bs.modal', function () {
-      console.log('Ekleme modalı kapandı...');
+      // Ekleme modalı kapandı
       if (addLanguageForm) {
         addLanguageForm.reset();
         clearFieldErrors(addLanguageForm);
@@ -718,7 +718,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Düzenleme modalı
     $('#editLanguageModal').on('show.bs.modal', function () {
-      console.log('Düzenleme modalı açılıyor...');
+      // Düzenleme modalı açılıyor
       if (editLanguageForm) {
         clearFieldErrors(editLanguageForm);
 
@@ -732,7 +732,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     $('#editLanguageModal').on('hidden.bs.modal', function () {
-      console.log('Düzenleme modalı kapandı...');
+      // Düzenleme modalı kapandı
       if (editLanguageForm) {
         editLanguageForm.reset();
         clearFieldErrors(editLanguageForm);
