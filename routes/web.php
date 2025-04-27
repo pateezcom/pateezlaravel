@@ -11,6 +11,10 @@ use App\Http\Controllers\Admin\Settings\LanguageController as AdminLanguageContr
 use App\Http\Controllers\Admin\Settings\TranslationController;
 
 /* ========== PATEEZ NEWS ROTALAR BAŞLANGIÇ ========== */
+// Translation System Routes
+Route::get('/locale/{locale}', [\App\Http\Controllers\TranslationController::class, 'setLocale'])->name('locale.set');
+Route::get('/translations/refresh-cache', [\App\Http\Controllers\TranslationController::class, 'refreshCache'])->name('translations.refresh-cache');
+
 // Admin Settings Routes
 Route::get('/admin/settings/languages', [AdminLanguageController::class, 'index'])->name('admin.settings.languages');
 Route::post('/admin/settings/languages', [AdminLanguageController::class, 'store'])->name('admin.settings.languages.store');

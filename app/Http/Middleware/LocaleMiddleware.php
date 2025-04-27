@@ -4,22 +4,45 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class LocaleMiddleware
 {
-  /**
-   * Handle an incoming request.
-   *
-   * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-   */
-  public function handle(Request $request, Closure $next): Response
-  {
-    // Locale is enabled and allowed to be change
-    if (session()->has('locale') && in_array(session()->get('locale'), ['en', 'fr', 'ar', 'de'])) {
-      app()->setLocale(session()->get('locale'));
-    }
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function handle(Request $request, Closure $next)
+    {
+        // Kullanıcı dil seçtiyse, oturumdan al
+        if (Session::has('locale')) {
+            $locale = Session::get('locale');
+        }
+        // Cookie'den dil ayarını kontrol et
+        elseif ($request->cookie('locale')) {
+            $locale = $request->cookie('locale');
+            Session::put('locale', $locale);
+        }
+        // Varsayılan dili al
+        else {
+            // Veritabanından varsayılan dili al
+            $language = DB::table('languages')
+                ->where('is_default', 1)
+                ->where('is_active', 1)
+                ->first();
+                
+            $locale = $language ? $language->code : config('app.locale');
+            Session::put('locale', $locale);
+        }
 
-    return $next($request);
-  }
+        // Dili ayarla
+        App::setLocale($locale);
+        
+        return $next($request);
+    }
 }

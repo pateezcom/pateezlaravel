@@ -1,16 +1,16 @@
 {
   "menu": [
     {
-      "menuHeader": "Settings"
+      "menuHeader": "settings"
     },
     {
-      "name": "Settings",
+      "name": "settings",
       "icon": "menu-icon tf-icons ti ti-settings",
       "slug": "admin.settings",
       "submenu": [
         {
           "url": "admin/settings/languages",
-          "name": "Languages Settings",
+          "name": "language_settings",
           "slug": "admin.settings.languages"
         }
       ]

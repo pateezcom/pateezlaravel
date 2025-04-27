@@ -78,6 +78,9 @@ class TranslationController extends Controller
 
             // İşlemi tamamla
             DB::commit();
+            
+            // Çeviri önbelleğini temizle
+            app('translator')->resetCache($language->code);
 
             // Başarılı yanıt döndür - AJAX isteği için
             if ($request->ajax()) {
