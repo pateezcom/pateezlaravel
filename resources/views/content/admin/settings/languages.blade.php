@@ -31,18 +31,18 @@
 @section('content')
 <div class="card">
   <div class="card-header border-bottom">
-    <h5 class="card-title mb-0">Dil Yönetimi</h5>
+    <h5 class="card-title mb-0">{{ __('languages') }}</h5>
   </div>
   <div class="card-datatable table-responsive">
-    <table class="datatables-languages table border-top" style="text-transform: capitalize !important;">
+    <table class="datatables-languages table border-top" >
       <thead>
-        <tr>
+        <tr >
           <th></th>
-          <th>Id</th>
-          <th>Dil adı</th>
-          <th>Varsayılan dil</th>
-          <th>Çeviri/Dışa aktar</th>
-          <th>Seçenekler</th>
+          <th>{{ __('id') }}</th>
+          <th>{{ __('language_name') }}</th>
+          <th>{{ __('default_language') }}</th>
+          <th>{{ __('translation') }}/{{ __('export') }}</th>
+          <th>{{ __('options') }}</th>
         </tr>
       </thead>
     </table>

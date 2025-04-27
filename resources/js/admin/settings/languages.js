@@ -139,7 +139,6 @@ $(function () {
         {
           // İşlemler
           targets: -1,
-          title: 'İşlemler',
           searchable: false,
           orderable: false,
           render: function (data, type, full, meta) {
@@ -399,11 +398,11 @@ $(function () {
   $(document).on('submit', '#importLanguageForm', function (e) {
     e.preventDefault();
     // Form submit edildi
-    
+
     // Önce hata mesajlarını temizle
     $('.invalid-feedback').text('');
     $('.is-invalid').removeClass('is-invalid');
-    
+
     // Dosya kontrolü
     const fileInput = $('#languageFile')[0];
     if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
@@ -411,7 +410,7 @@ $(function () {
       $('#languageFile').next('.invalid-feedback').text('Lütfen bir dosya seçin');
       return false;
     }
-    
+
     // Dosya uzantısı kontrolü
     const file = fileInput.files[0];
     const fileExt = file.name.split('.').pop().toLowerCase();
@@ -425,15 +424,17 @@ $(function () {
     const submitButton = $(this).find('button[type="submit"]');
     const originalButtonText = submitButton.html();
     submitButton.prop('disabled', true);
-    submitButton.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> İşleniyor...');
+    submitButton.html(
+      '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> İşleniyor...'
+    );
 
     var formData = new FormData(this);
-    
+
     // CSRF token'ı formData'ya ekle (eğer form içinde yoksa)
     if (!formData.has('_token')) {
       formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
     }
-    
+
     // FormData oluşturuldu, dosya seçildi
 
     // AJAX isteği
@@ -449,7 +450,7 @@ $(function () {
           // Modal kapat ve tabloyu yenile
           $('#importLanguageModal').modal('hide');
           window.refreshLanguageTable();
-          
+
           // Başarı mesajı göster
           Swal.fire({
             icon: 'success',
@@ -463,7 +464,7 @@ $(function () {
           // Hata mesajını göster
           submitButton.prop('disabled', false);
           submitButton.html(originalButtonText);
-          
+
           if (response.error) {
             Swal.fire({
               icon: 'error',
@@ -488,19 +489,19 @@ $(function () {
       error: function (xhr, status, error) {
         // AJAX Hatası
         // Yanıt
-        
+
         // Submit butonunu sıfırla
         submitButton.prop('disabled', false);
         submitButton.html(originalButtonText);
-        
+
         let errorMessage = 'İşlem sırasında bir hata oluştu.';
-        
+
         if (xhr.responseJSON && xhr.responseJSON.error) {
           errorMessage = xhr.responseJSON.error;
         } else if (xhr.responseJSON && xhr.responseJSON.message) {
           errorMessage = xhr.responseJSON.message;
         }
-        
+
         Swal.fire({
           icon: 'error',
           title: 'Hata!',
@@ -511,7 +512,7 @@ $(function () {
         });
       }
     });
-    
+
     return false;
   });
 });

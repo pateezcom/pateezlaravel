@@ -70,26 +70,27 @@ $navbarDetached = ($navbarDetached ?? '');
               <i class='ti ti-language rounded-circle ti-md'></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li>
-                <a class="dropdown-item {{ app()->getLocale() === 'tr' ? 'active' : '' }}" href="{{url('lang/en')}}" data-language="en" data-text-direction="ltr">
-                  <span>English</span>
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item {{ app()->getLocale() === 'fr' ? 'active' : '' }}" href="{{url('lang/fr')}}" data-language="fr" data-text-direction="ltr">
-                  <span>French</span>
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item {{ app()->getLocale() === 'ar' ? 'active' : '' }}" href="{{url('lang/ar')}}" data-language="ar" data-text-direction="rtl">
-                  <span>Arabic</span>
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item {{ app()->getLocale() === 'de' ? 'active' : '' }}" href="{{url('lang/de')}}" data-language="de" data-text-direction="ltr">
-                  <span>German</span>
-                </a>
-              </li>
+              @if(isset($activeLanguages) && count($activeLanguages) > 0)
+                @foreach($activeLanguages as $language)
+                  <li>
+                    <a class="dropdown-item {{ app()->getLocale() === $language->code ? 'active' : '' }}" 
+                       href="{{url('lang/' . $language->code)}}" 
+                       data-language="{{ $language->code }}" 
+                       data-text-direction="{{ $language->is_rtl ? 'rtl' : 'ltr' }}">
+                      @if($language->icon)
+                        <i class="{{ $language->icon }} me-2"></i>
+                      @endif
+                      <span>{{ $language->name }}</span>
+                    </a>
+                  </li>
+                @endforeach
+              @else
+                <li>
+                  <a class="dropdown-item {{ app()->getLocale() === 'en' ? 'active' : '' }}" href="{{url('lang/en')}}" data-language="en" data-text-direction="ltr">
+                    <span>English</span>
+                  </a>
+                </li>
+              @endif
             </ul>
           </li>
           <!--/ Language -->

@@ -12,7 +12,7 @@ use App\Http\Controllers\Admin\Settings\TranslationController;
 
 /* ========== PATEEZ NEWS ROTALAR BAŞLANGIÇ ========== */
 // Translation System Routes
-Route::get('/locale/{locale}', [\App\Http\Controllers\TranslationController::class, 'setLocale'])->name('locale.set');
+Route::get('/lang/{locale}', [\App\Http\Controllers\Admin\Settings\LanguageSwitchController::class, 'switchLang'])->name('lang.switch');
 Route::get('/translations/refresh-cache', [\App\Http\Controllers\TranslationController::class, 'refreshCache'])->name('translations.refresh-cache');
 
 // Admin Settings Routes
@@ -203,7 +203,7 @@ Route::get('/admin/dashboard', [Analytics::class, 'index'])->name('admin.dashboa
 Route::get('/dashboard/analytics', [Analytics::class, 'index'])->name('dashboard-analytics');
 Route::get('/dashboard/crm', [Crm::class, 'index'])->name('dashboard-crm');
 // locale
-Route::get('/lang/{locale}', [LanguageController::class, 'swap']);
+// Route::get('/lang/{locale}', [LanguageController::class, 'swap']);
 
 // layout
 Route::get('/layouts/collapsed-menu', [CollapsedMenu::class, 'index'])->name('layouts-collapsed-menu');
