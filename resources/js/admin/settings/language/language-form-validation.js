@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
       $(importLanguageForm).find('.is-invalid').removeClass('is-invalid');
     }
   });
-  
+
   $('#importLanguageModal').on('hidden.bs.modal', function () {
     const importLanguageForm = document.getElementById('importLanguageForm');
     if (importLanguageForm) {
@@ -139,61 +139,61 @@ document.addEventListener('DOMContentLoaded', function () {
           languageName: {
             validators: {
               notEmpty: {
-                message: 'Dil adı boş bırakılamaz'
+                message: __('msg_language_name_required')
               },
               stringLength: {
                 min: 2,
                 max: 50,
-                message: 'Dil adı 2 - 50 karakter arasında olmalıdır'
+                message: __('msg_language_name_length')
               }
             }
           },
           shortForm: {
             validators: {
               notEmpty: {
-                message: 'Kısa form boş bırakılamaz'
+                message: __('msg_short_form_required')
               },
               stringLength: {
                 min: 2,
                 max: 5,
-                message: 'Kısa form 2 - 5 karakter arasında olmalıdır'
+                message: __('msg_short_form_length')
               },
               regexp: {
                 regexp: /^[a-zA-Z]+$/,
-                message: 'Kısa form sadece harflerden oluşabilir'
+                message: __('msg_short_form_invalid')
               }
             }
           },
           languageCode: {
             validators: {
               notEmpty: {
-                message: 'Dil kodu boş bırakılamaz'
+                message: __('msg_language_code_required')
               },
               stringLength: {
                 min: 2,
                 max: 10,
-                message: 'Dil kodu 2 - 10 karakter arasında olmalıdır'
+                message: __('msg_language_code_length')
               },
               regexp: {
                 regexp: /^[a-zA-Z_]+$/,
-                message: 'Dil kodu sadece harfler ve alt çizgi içerebilir'
+                message: __('msg_language_code_invalid')
               }
             }
           },
           orderInput: {
             validators: {
               notEmpty: {
-                message: 'Sıra numarası boş bırakılamaz'
+                message: __('msg_order_required')
               },
               numeric: {
-                message: 'Sıra numarası sadece rakamlardan oluşabilir'
+                message: __('msg_order_invalid')
               }
             }
           },
           textEditorLanguage: {
             validators: {
               notEmpty: {
-                message: 'Text editör dili seçilmelidir'
+                message: __('msg_text_editor_language_required')
               }
             }
           }
@@ -251,15 +251,18 @@ document.addEventListener('DOMContentLoaded', function () {
               const feedbackElement = element.nextElementSibling;
               if (feedbackElement && feedbackElement.classList.contains('invalid-feedback')) {
                 let fieldName = '';
-                if (check.field === 'languageName') fieldName = 'Dil Adı';
-                else if (check.field === 'shortForm') fieldName = 'Kısa Form';
-                else if (check.field === 'languageCode') fieldName = 'Dil Kodu';
+                if (check.field === 'languageName') fieldName = __('language_name');
+                else if (check.field === 'shortForm') fieldName = __('short_form');
+                else if (check.field === 'languageCode') fieldName = __('language_code');
 
-                feedbackElement.textContent = `${fieldName} zaten kayıtlı`;
+                feedbackElement.textContent = `${fieldName} ${__('msg_already_exists')}`;
               }
 
               if (fvAddLanguage) {
-                fvAddLanguage.updateFieldStatus(check.field, 'Invalid', 'callback');
+                // Mesaj özelliği sağlayarak updateFieldStatus çağırın
+                fvAddLanguage.updateFieldStatus(check.field, 'Invalid', 'callback', {
+                  message: `${fieldName} ${__('msg_already_exists')}`
+                });
               }
             }
           }
@@ -311,7 +314,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (submitButton) {
         submitButton.disabled = true;
         submitButton.innerHTML =
-          '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> İşleniyor...';
+        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> ' + __('txt_processing');
       }
 
       const formData = new FormData(addLanguageForm);
@@ -336,8 +339,8 @@ document.addEventListener('DOMContentLoaded', function () {
             // Başarı mesajı göster
             Swal.fire({
               icon: 'success',
-              title: 'Başarılı!',
-              text: 'Dil başarıyla eklendi.',
+              title: __('success'),
+              text: __('msg_language_added'),
               customClass: {
                 confirmButton: 'btn btn-success'
               }
@@ -359,7 +362,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const submitButton = addLanguageForm.querySelector('button[type="submit"]');
             if (submitButton) {
               submitButton.disabled = false;
-              submitButton.innerHTML = 'Kaydet';
+              submitButton.innerHTML = __('save');
             }
           }
         },
@@ -368,10 +371,10 @@ document.addEventListener('DOMContentLoaded', function () {
           const submitButton = addLanguageForm.querySelector('button[type="submit"]');
           if (submitButton) {
             submitButton.disabled = false;
-            submitButton.innerHTML = 'Kaydet';
+            submitButton.innerHTML = __('save');
           }
 
-          let errorMessage = 'İşlem sırasında bir hata oluştu.';
+          let errorMessage = __('msg_error');
 
           if (xhr.status === 422 && xhr.responseJSON && xhr.responseJSON.errors) {
             // Doğrulama hataları
@@ -391,7 +394,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Genel hata
             Swal.fire({
               icon: 'error',
-              title: 'Hata!',
+              title: __('error'),
               text: errorMessage,
               customClass: {
                 confirmButton: 'btn btn-danger'
@@ -413,61 +416,61 @@ document.addEventListener('DOMContentLoaded', function () {
           editLanguageName: {
             validators: {
               notEmpty: {
-                message: 'Dil adı boş bırakılamaz'
+                message: __('msg_language_name_required')
               },
               stringLength: {
                 min: 2,
                 max: 50,
-                message: 'Dil adı 2 - 50 karakter arasında olmalıdır'
+                message: __('msg_language_name_length')
               }
             }
           },
           editShortForm: {
             validators: {
               notEmpty: {
-                message: 'Kısa form boş bırakılamaz'
+                message: __('msg_short_form_required')
               },
               stringLength: {
                 min: 2,
                 max: 5,
-                message: 'Kısa form 2 - 5 karakter arasında olmalıdır'
+                message: __('msg_short_form_length')
               },
               regexp: {
                 regexp: /^[a-zA-Z]+$/,
-                message: 'Kısa form sadece harflerden oluşabilir'
+                message: __('msg_short_form_invalid')
               }
             }
           },
           editLanguageCode: {
             validators: {
               notEmpty: {
-                message: 'Dil kodu boş bırakılamaz'
+                message: __('msg_language_code_required')
               },
               stringLength: {
                 min: 2,
                 max: 10,
-                message: 'Dil kodu 2 - 10 karakter arasında olmalıdır'
+                message: __('msg_language_code_length')
               },
               regexp: {
                 regexp: /^[a-zA-Z_]+$/,
-                message: 'Dil kodu sadece harfler ve alt çizgi içerebilir'
+                message: __('msg_language_code_invalid')
               }
             }
           },
           editOrderInput: {
             validators: {
               notEmpty: {
-                message: 'Sıra numarası boş bırakılamaz'
+                message: __('msg_order_required')
               },
               numeric: {
-                message: 'Sıra numarası sadece rakamlardan oluşabilir'
+                message: __('msg_order_invalid')
               }
             }
           },
           editTextEditorLanguage: {
             validators: {
               notEmpty: {
-                message: 'Text editör dili seçilmelidir'
+                message: __('msg_text_editor_language_required')
               }
             }
           }
@@ -526,15 +529,18 @@ document.addEventListener('DOMContentLoaded', function () {
               const feedbackElement = element.nextElementSibling;
               if (feedbackElement && feedbackElement.classList.contains('invalid-feedback')) {
                 let fieldName = '';
-                if (check.field === 'editLanguageName') fieldName = 'Dil Adı';
-                else if (check.field === 'editShortForm') fieldName = 'Kısa Form';
-                else if (check.field === 'editLanguageCode') fieldName = 'Dil Kodu';
+                if (check.field === 'editLanguageName') fieldName = __('language_name');
+                else if (check.field === 'editShortForm') fieldName = __('short_form');
+                else if (check.field === 'editLanguageCode') fieldName = __('language_code');
 
-                feedbackElement.textContent = `${fieldName} zaten kayıtlı`;
+                feedbackElement.textContent = `${fieldName} ${__('msg_already_exists')}`;
               }
 
               if (fvEditLanguage) {
-                fvEditLanguage.updateFieldStatus(check.field, 'Invalid', 'callback');
+                // Mesaj özelliği sağlayarak updateFieldStatus çağırın
+                fvEditLanguage.updateFieldStatus(check.field, 'Invalid', 'callback', {
+                  message: `${fieldName} ${__('msg_already_exists')}`
+                });
               }
             }
           }
@@ -586,7 +592,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (submitButton) {
         submitButton.disabled = true;
         submitButton.innerHTML =
-          '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> İşleniyor...';
+          '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> ' + __('txt_processing');
       }
 
       const id = editLanguageForm.querySelector('[name="editLanguageId"]').value;
@@ -613,8 +619,8 @@ document.addEventListener('DOMContentLoaded', function () {
             // Başarı mesajı göster
             Swal.fire({
               icon: 'success',
-              title: 'Başarılı!',
-              text: 'Dil başarıyla güncellendi.',
+              title: __('success'),
+              text: __('msg_language_updated'),
               customClass: {
                 confirmButton: 'btn btn-success'
               }
@@ -636,7 +642,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const submitButton = editLanguageForm.querySelector('button[type="submit"]');
             if (submitButton) {
               submitButton.disabled = false;
-              submitButton.innerHTML = 'Güncelle';
+              submitButton.innerHTML = __('update');
             }
           }
         },
@@ -645,10 +651,10 @@ document.addEventListener('DOMContentLoaded', function () {
           const submitButton = editLanguageForm.querySelector('button[type="submit"]');
           if (submitButton) {
             submitButton.disabled = false;
-            submitButton.innerHTML = 'Güncelle';
+            submitButton.innerHTML = __('update');
           }
 
-          let errorMessage = 'İşlem sırasında bir hata oluştu.';
+          let errorMessage = __('msg_error');
 
           if (xhr.status === 422 && xhr.responseJSON && xhr.responseJSON.errors) {
             // Doğrulama hataları
@@ -668,7 +674,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Genel hata
             Swal.fire({
               icon: 'error',
-              title: 'Hata!',
+              title: __('error'),
               text: errorMessage,
               customClass: {
                 confirmButton: 'btn btn-danger'
@@ -695,7 +701,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const submitButton = addLanguageForm.querySelector('button[type="submit"]');
         if (submitButton) {
           submitButton.disabled = false;
-          submitButton.innerHTML = 'Kaydet';
+          submitButton.innerHTML = __('save');
         }
       }
     });
@@ -725,7 +731,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const submitButton = editLanguageForm.querySelector('button[type="submit"]');
         if (submitButton) {
           submitButton.disabled = false;
-          submitButton.innerHTML = 'Güncelle';
+          submitButton.innerHTML = __('update');
         }
       }
     });

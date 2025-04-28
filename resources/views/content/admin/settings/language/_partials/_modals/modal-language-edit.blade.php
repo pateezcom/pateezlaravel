@@ -1,48 +1,45 @@
 <!-- Edit Language Modal -->
-<div class="modal fade" id="editLanguageModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="editLanguageModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
   <div class="modal-dialog modal-lg modal-simple modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-body p-0">
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         <div class="text-center py-4 px-5 pb-3">
-          <h4 class="mb-1">Dil Düzenle</h4>
-          <p class="mb-3">Dil bilgilerini güncelleyin</p>
+          <h4 class="mb-1">{{ __('edit_language') }}</h4>
+          <p class="mb-3">{{ __('edit_language_description') }}</p>
         </div>
-        
+
         <form id="editLanguageForm" class="row g-3 px-5 pb-4">
           <input type="hidden" id="editLanguageId" name="editLanguageId">
-          
+
           <div class="col-md-12 mb-2">
-            <label class="form-label" for="editLanguageName">Dil Adı</label>
-            <input type="text" id="editLanguageName" name="editLanguageName" class="form-control" placeholder="Örn: Türkçe">
+            <label class="form-label" for="editLanguageName">{{ __('language_name') }}</label>
+            <input type="text" id="editLanguageName" name="editLanguageName" class="form-control" placeholder="{{ __('example_english') }}">
             <div class="invalid-feedback"></div>
-            <small class="text-muted">Örn: English</small>
           </div>
-          
+
           <div class="col-md-6 mb-2">
-            <label class="form-label" for="editShortForm">Kısa Form</label>
-            <input type="text" id="editShortForm" name="editShortForm" class="form-control" placeholder="Örn: tr">
+            <label class="form-label" for="editShortForm">{{ __('short_form') }}</label>
+            <input type="text" id="editShortForm" name="editShortForm" class="form-control" placeholder="{{ __('example_english') }}">
             <div class="invalid-feedback"></div>
-            <small class="text-muted">Örn: en</small>
           </div>
-          
+
           <div class="col-md-6 mb-2">
-            <label class="form-label" for="editLanguageCode">Dil Kodu</label>
-            <input type="text" id="editLanguageCode" name="editLanguageCode" class="form-control" placeholder="Örn: tr_TR">
+            <label class="form-label" for="editLanguageCode">{{ __('language_code') }}</label>
+            <input type="text" id="editLanguageCode" name="editLanguageCode" class="form-control" placeholder="{{ __('example_english') }}">
             <div class="invalid-feedback"></div>
-            <small class="text-muted">Örn: en_us</small>
           </div>
-          
+
           <div class="col-md-6 mb-2">
-            <label class="form-label" for="editOrderInput">Sıra</label>
+            <label class="form-label" for="editOrderInput">{{ __('order_number') }}</label>
             <input type="number" id="editOrderInput" name="editOrderInput" class="form-control" value="1">
             <div class="invalid-feedback"></div>
           </div>
-          
+
           <div class="col-md-6 mb-2">
-            <label class="form-label" for="editTextEditorLanguage">Text Editör Dili</label>
+            <label class="form-label" for="editTextEditorLanguage">{{ __('text_editor_language') }}</label>
             <select id="editTextEditorLanguage" name="editTextEditorLanguage" class="form-select">
-              <option value="">Seçiniz</option>
+              <option value="">{{ __('select') }}</option>
               <option value="ar">Arabic</option>
               <option value="hy">Armenian</option>
               <option value="az">Azerbaijani</option>
@@ -112,40 +109,40 @@
             </select>
             <div class="invalid-feedback"></div>
           </div>
-          
+
           <div class="col-md-6 mb-2">
-            <label class="form-label d-block">Yazı Yönü</label>
+            <label class="form-label d-block">{{ __('text_direction') }}</label>
             <div class="d-flex gap-3">
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="editTextDirection" id="editTextDirectionLTR" value="ltr" checked>
-                <label class="form-check-label" for="editTextDirectionLTR">Soldan Sağa</label>
+                <label class="form-check-label" for="editTextDirectionLTR">{{ __('left_to_right') }}</label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="editTextDirection" id="editTextDirectionRTL" value="rtl">
-                <label class="form-check-label" for="editTextDirectionRTL">Sağdan Sola</label>
+                <label class="form-check-label" for="editTextDirectionRTL">{{ __('right_to_left') }}</label>
               </div>
             </div>
             <div class="invalid-feedback"></div>
           </div>
-          
+
           <div class="col-md-6 mb-2">
-            <label class="form-label d-block">Durum</label>
+            <label class="form-label d-block">{{ __('status') }}</label>
             <div class="d-flex gap-3">
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="editStatus" id="editStatusActive" value="active" checked>
-                <label class="form-check-label" for="editStatusActive">Aktif</label>
+                <label class="form-check-label" for="editStatusActive">{{ __('active') }}</label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" type="radio" name="editStatus" id="editStatusInactive" value="inactive">
-                <label class="form-check-label" for="editStatusInactive">Pasif</label>
+                <label class="form-check-label" for="editStatusInactive">{{ __('inactive') }}</label>
               </div>
             </div>
             <div class="invalid-feedback"></div>
           </div>
-          
+
           <div class="col-12 text-center mt-4">
-            <button type="submit" class="btn btn-primary me-sm-3 me-1">Güncelle</button>
-            <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">İptal</button>
+            <button type="submit" class="btn btn-primary me-sm-3 me-1">{{ __('update') }}</button>
+            <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">{{ __('cancel') }}</button>
           </div>
         </form>
       </div>

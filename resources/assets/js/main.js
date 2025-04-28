@@ -187,12 +187,25 @@ if (document.getElementById('layout-menu')) {
     let dropdownItems = languageDropdown[0].querySelectorAll('.dropdown-item');
     const dropdownActiveItem = languageDropdown[0].querySelector('.dropdown-item.active');
 
-    directionChange(dropdownActiveItem.dataset.textDirection);
+    // Eğer aktif dil varsa yönü ayarla
+    if (dropdownActiveItem && dropdownActiveItem.dataset.textDirection) {
+      directionChange(dropdownActiveItem.dataset.textDirection);
+    }
 
     for (let i = 0; i < dropdownItems.length; i++) {
       dropdownItems[i].addEventListener('click', function () {
         let textDirection = this.getAttribute('data-text-direction');
-        window.templateCustomizer.setLang(this.getAttribute('data-language'));
+        
+        // Hata yönetimi ile dil değiştirme
+        if (window.templateCustomizer) {
+          try {
+            window.templateCustomizer.setLang(this.getAttribute('data-language'));
+          } catch (e) {
+            console.log('Dil değiştirme işlemi sırasında hata: ', e);
+            // Hata olsa bile işleme devam et, UI etkilenmesin
+          }
+        }
+        
         directionChange(textDirection);
       });
     }

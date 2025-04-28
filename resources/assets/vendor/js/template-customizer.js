@@ -1381,6 +1381,19 @@ TemplateCustomizer.LANGUAGES = {
     content_label: 'Inhalt',
     layout_navbar_label: 'Art der Navigationsleiste',
     direction_label: 'Richtung'
+  },
+  tr: {
+    panel_header: 'Şablon Özelleştirici',
+    panel_sub_header: 'Gerçek zamanlı olarak özelleştirin ve önizleyin',
+    theming_header: 'Temalar',
+    style_label: 'Stil (Mod)',
+    theme_label: 'Temalar',
+    layout_header: 'Düzen',
+    layout_label: 'Menü (Navigasyon)',
+    layout_header_label: 'Başlık Tipleri',
+    content_label: 'İçerik',
+    layout_navbar_label: 'Navbar Tipi',
+    direction_label: 'Yön'
   }
 }
 

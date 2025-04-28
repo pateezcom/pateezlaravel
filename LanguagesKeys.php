@@ -6,18 +6,21 @@ accept_cookies: "{{ __('accept_cookies') }}", // Accept Cookies
 activate: "{{ __('activate') }}", // Activate
 activated: "{{ __('activated') }}", // Activated
 active: "{{ __('active') }}", // Active
-active_payment_request_error: "{{ __('active_payment_request_error') }}", // You already have an active payment request! Once this is complete, you can make a new request.
+active_payment_request_error: "{{ __('active_payment_request_error') }}", // You already have an active payment request!
+Once this is complete, you can make a new request.
 ad_size: "{{ __('ad_size') }}", // Ad Size
 ad_space: "{{ __('ad_space') }}", // Ad Space
 ad_space_header: "{{ __('ad_space_header') }}", // Header
 ad_space_in_article: "{{ __('ad_space_in_article') }}", // In-Article
 ad_space_index_bottom: "{{ __('ad_space_index_bottom') }}", // Index (Bottom)
 ad_space_index_top: "{{ __('ad_space_index_top') }}", // Index (Top)
-ad_space_paragraph_exp: "{{ __('ad_space_paragraph_exp') }}", // The ad will be displayed after the paragraph number you selected
+ad_space_paragraph_exp: "{{ __('ad_space_paragraph_exp') }}", // The ad will be displayed after the paragraph number you
+selected
 ad_space_post_bottom: "{{ __('ad_space_post_bottom') }}", // Post Details (Bottom)
 ad_space_post_top: "{{ __('ad_space_post_top') }}", // Post Details (Top)
 ad_space_posts_bottom: "{{ __('ad_space_posts_bottom') }}", // Posts (Bottom)
-ad_space_posts_exp: "{{ __('ad_space_posts_exp') }}", // This ad will be displayed on Posts, Category, Profile, Tag, Search and Profile pages
+ad_space_posts_exp: "{{ __('ad_space_posts_exp') }}", // This ad will be displayed on Posts, Category, Profile, Tag,
+Search and Profile pages
 ad_space_posts_top: "{{ __('ad_space_posts_top') }}", // Posts (Top)
 ad_spaces: "{{ __('ad_spaces') }}", // Ad Spaces
 add_album: "{{ __('add_album') }}", // Add Album
@@ -212,7 +215,8 @@ correct: "{{ __('correct') }}", // Correct
 correct_answer: "{{ __('correct_answer') }}", // Correct Answer
 country: "{{ __('country') }}", // Country
 create_account: "{{ __('create_account') }}", // Create an Account
-create_ad_exp: "{{ __('create_ad_exp') }}", // If you don't have an ad code, you can create an ad code by selecting an image and adding an URL
+create_ad_exp: "{{ __('create_ad_exp') }}", // If you don't have an ad code, you can create an ad code by selecting an
+image and adding an URL
 currency: "{{ __('currency') }}", // Currency
 currency_format: "{{ __('currency_format') }}", // Currency Format
 currency_name: "{{ __('currency_name') }}", // Currency Name
@@ -238,7 +242,8 @@ default: "{{ __('default') }}", // Default
 default_language: "{{ __('default_language') }}", // Default Language
 delete: "{{ __('delete') }}", // Delete
 delete_account: "{{ __('delete_account') }}", // Delete Account
-delete_account_confirm: "{{ __('delete_account_confirm') }}", // Deleting your account is permanent and will remove all content including comments, avatars and profile settings. Are you sure you want to delete your account?
+delete_account_confirm: "{{ __('delete_account_confirm') }}", // Deleting your account is permanent and will remove all
+content including comments, avatars and profile settings. Are you sure you want to delete your account?
 delete_all_posts: "{{ __('delete_all_posts') }}", // Delete All Posts
 delete_images_with_post: "{{ __('delete_images_with_post') }}", // Delete Images Along with Post
 delete_only_rss_posts: "{{ __('delete_only_rss_posts') }}", // Delete only RSS Posts
@@ -320,11 +325,14 @@ footer_follow: "{{ __('footer_follow') }}", // Social Media
 forgot_password: "{{ __('forgot_password') }}", // Forgot Password
 form_validation_is_unique: "{{ __('form_validation_is_unique') }}", // The {field} field must contain a unique value.
 form_validation_matches: "{{ __('form_validation_matches') }}", // The {field} field does not match the {param} field.
-form_validation_max_length: "{{ __('form_validation_max_length') }}", // The {field} field cannot exceed {param} characters in length.
-form_validation_min_length: "{{ __('form_validation_min_length') }}", // The {field} field must be at least {param} characters in length.
+form_validation_max_length: "{{ __('form_validation_max_length') }}", // The {field} field cannot exceed {param}
+characters in length.
+form_validation_min_length: "{{ __('form_validation_min_length') }}", // The {field} field must be at least {param}
+characters in length.
 form_validation_required: "{{ __('form_validation_required') }}", // The {field} field is required.
 frequency: "{{ __('frequency') }}", // Frequency
-frequency_exp: "{{ __('frequency_exp') }}", // This value indicates how frequently the content at a particular URL is likely to change
+frequency_exp: "{{ __('frequency_exp') }}", // This value indicates how frequently the content at a particular URL is
+likely to change
 full_name: "{{ __('full_name') }}", // Full Name
 funny: "{{ __('funny') }}", // Funny
 gallery: "{{ __('gallery') }}", // Gallery
@@ -350,8 +358,10 @@ google_analytics: "{{ __('google_analytics') }}", // Google Analytics
 google_analytics_code: "{{ __('google_analytics_code') }}", // Google Analytics Code
 google_indexing_api: "{{ __('google_indexing_api') }}", // Google Indexing API
 google_news: "{{ __('google_news') }}", // Google News
-google_news_cache_exp: "{{ __('google_news_cache_exp') }}", // This system uses cache system. So the records in your XML file will be automatically updated every 15 minutes.
-google_news_exp: "{{ __('google_news_exp') }}", // According to Google News rules, there can be a maximum of 1000 publications in an XML file. Therefore, it is not recommended to increase this limit.
+google_news_cache_exp: "{{ __('google_news_cache_exp') }}", // This system uses cache system. So the records in your XML
+file will be automatically updated every 15 minutes.
+google_news_exp: "{{ __('google_news_exp') }}", // According to Google News rules, there can be a maximum of 1000
+publications in an XML file. Therefore, it is not recommended to increase this limit.
 google_recaptcha: "{{ __('google_recaptcha') }}", // Google reCAPTCHA
 height: "{{ __('height') }}", // Height
 help_documents: "{{ __('help_documents') }}", // Help Documents
@@ -366,7 +376,8 @@ hour: "{{ __('hour') }}", // hour
 hourly: "{{ __('hourly') }}", // Hourly
 hours: "{{ __('hours') }}", // hours
 human_verification: "{{ __('human_verification') }}", // Human Verification
-human_verification_exp: "{{ __('human_verification_exp') }}", // Validate user activity through mouse movements, scrolling, and time spent on the page to ensure genuine interaction and prevent bots.
+human_verification_exp: "{{ __('human_verification_exp') }}", // Validate user activity through mouse movements,
+scrolling, and time spent on the page to ensure genuine interaction and prevent bots.
 iban: "{{ __('iban') }}", // IBAN
 iban_long: "{{ __('iban_long') }}", // International Bank Account Number
 id: "{{ __('id') }}", // Id
@@ -445,7 +456,8 @@ long: "{{ __('long') }}", // Long
 love: "{{ __('love') }}", // Love
 mail: "{{ __('mail') }}", // Mail
 mail_host: "{{ __('mail_host') }}", // Mail Host
-mail_is_being_sent: "{{ __('mail_is_being_sent') }}", // Mail is being sent. Please do not close this page until the process is finished!
+mail_is_being_sent: "{{ __('mail_is_being_sent') }}", // Mail is being sent. Please do not close this page until the
+process is finished!
 mail_password: "{{ __('mail_password') }}", // Mail Password
 mail_port: "{{ __('mail_port') }}", // Mail Port
 mail_protocol: "{{ __('mail_protocol') }}", // Mail Protocol
@@ -469,8 +481,10 @@ member_since: "{{ __('member_since') }}", // Member since
 menu_limit: "{{ __('menu_limit') }}", // Menu Limit
 message: "{{ __('message') }}", // Message
 message_ban_error: "{{ __('message_ban_error') }}", // Your account has been banned!
-message_change_password_error: "{{ __('message_change_password_error') }}", // There was a problem changing your password!
-message_change_password_success: "{{ __('message_change_password_success') }}", // Your password has been successfully changed!
+message_change_password_error: "{{ __('message_change_password_error') }}", // There was a problem changing your
+password!
+message_change_password_success: "{{ __('message_change_password_success') }}", // Your password has been successfully
+changed!
 message_contact_error: "{{ __('message_contact_error') }}", // There was a problem sending your message!
 message_contact_success: "{{ __('message_contact_success') }}", // Your message has been successfully sent!
 message_email_unique_error: "{{ __('message_email_unique_error') }}", // The email has already been taken.
@@ -480,7 +494,8 @@ message_newsletter_success: "{{ __('message_newsletter_success') }}", // Your em
 message_page_auth: "{{ __('message_page_auth') }}", // You must be logged in to view this page!
 message_post_auth: "{{ __('message_post_auth') }}", // You must be logged in to view this post!
 message_profile_success: "{{ __('message_profile_success') }}", // Your profile has been successfully updated!
-message_register_error: "{{ __('message_register_error') }}", // There was a problem during registration. Please try again!
+message_register_error: "{{ __('message_register_error') }}", // There was a problem during registration. Please try
+again!
 meta_tag: "{{ __('meta_tag') }}", // Meta Tag
 min: "{{ __('min') }}", // Min
 min_mouse_movements: "{{ __('min_mouse_movements') }}", // Minimum Mouse Movements
@@ -502,8 +517,10 @@ most_viewed_posts: "{{ __('most_viewed_posts') }}", // Most Viewed Posts
 msg_added: "{{ __('msg_added') }}", // Item successfully added!
 msg_beforeunload: "{{ __('msg_beforeunload') }}", // You have unsaved changes! Are you sure you want to leave this page?
 msg_comment_approved: "{{ __('msg_comment_approved') }}", // Comment successfully approved!
-msg_comment_sent_successfully: "{{ __('msg_comment_sent_successfully') }}", // Your comment has been sent. It will be published after being reviewed by the site management.
-msg_confirmation_email: "{{ __('msg_confirmation_email') }}", // Please confirm your email address by clicking the button below.
+msg_comment_sent_successfully: "{{ __('msg_comment_sent_successfully') }}", // Your comment has been sent. It will be
+published after being reviewed by the site management.
+msg_confirmation_email: "{{ __('msg_confirmation_email') }}", // Please confirm your email address by clicking the
+button below.
 msg_confirmed: "{{ __('msg_confirmed') }}", // Your email address has been successfully confirmed!
 msg_confirmed_required: "{{ __('msg_confirmed_required') }}", // Please verify your email address!
 msg_cron_feed: "{{ __('msg_cron_feed') }}", // With this URL you can automatically update your feeds.
@@ -511,7 +528,8 @@ msg_cron_sitemap: "{{ __('msg_cron_sitemap') }}", // With this URL you can autom
 msg_delete_album: "{{ __('msg_delete_album') }}", // Please delete categories belonging to this album first!
 msg_delete_images: "{{ __('msg_delete_images') }}", // Please delete images belonging to this category first!
 msg_delete_posts: "{{ __('msg_delete_posts') }}", // Please delete posts belonging to this category first!
-msg_delete_subcategories: "{{ __('msg_delete_subcategories') }}", // Please delete subcategories belonging to this category first!
+msg_delete_subcategories: "{{ __('msg_delete_subcategories') }}", // Please delete subcategories belonging to this
+category first!
 msg_delete_subpages: "{{ __('msg_delete_subpages') }}", // Please delete subpages/sublinks first!
 msg_deleted: "{{ __('msg_deleted') }}", // Item successfully deleted!
 msg_email_sent: "{{ __('msg_email_sent') }}", // Email successfully sent!
@@ -523,8 +541,11 @@ msg_payout_added: "{{ __('msg_payout_added') }}", // Payout has been successfull
 msg_recaptcha: "{{ __('msg_recaptcha') }}", // Please confirm that you are not a robot!
 msg_request_sent: "{{ __('msg_request_sent') }}", // The request has been sent successfully!
 msg_reset_cache: "{{ __('msg_reset_cache') }}", // All cache files have been deleted!
-msg_rss_warning: "{{ __('msg_rss_warning') }}", // If you chose to download the images to your server, adding posts will take more time and will use more resources. If you see any problems, increase 'max_execution_time' and 'memory_limit' values from your server settings.
-msg_send_confirmation_email: "{{ __('msg_send_confirmation_email') }}", // A confirmation email has been sent to your email address for activation. Please confirm your account.
+msg_rss_warning: "{{ __('msg_rss_warning') }}", // If you chose to download the images to your server, adding posts will
+take more time and will use more resources. If you see any problems, increase 'max_execution_time' and 'memory_limit'
+values from your server settings.
+msg_send_confirmation_email: "{{ __('msg_send_confirmation_email') }}", // A confirmation email has been sent to your
+email address for activation. Please confirm your account.
 msg_slug_used: "{{ __('msg_slug_used') }}", // The slug you entered is being used by another user!
 msg_tag_exists: "{{ __('msg_tag_exists') }}", // This tag already exists!
 msg_topic_empty: "{{ __('msg_topic_empty') }}", // Topic cannot be empty!
@@ -538,17 +559,21 @@ multilingual_system: "{{ __('multilingual_system') }}", // Multilingual System
 musician: "{{ __('musician') }}", // Musician
 my_earnings: "{{ __('my_earnings') }}", // My Earnings
 name: "{{ __('name') }}", // Name
-nav_drag_warning: "{{ __('nav_drag_warning') }}", // You cannot drag a category below a page or a page below a category link!
+nav_drag_warning: "{{ __('nav_drag_warning') }}", // You cannot drag a category below a page or a page below a category
+link!
 navigation: "{{ __('navigation') }}", // Navigation
 navigation_exp: "{{ __('navigation_exp') }}", // You can manage the navigation by dragging and dropping menu items.
 never: "{{ __('never') }}", // Never
 new_password: "{{ __('new_password') }}", // New Password
 new_payout_request: "{{ __('new_payout_request') }}", // New Payout Request
 newsletter: "{{ __('newsletter') }}", // Newsletter
-newsletter_desc: "{{ __('newsletter_desc') }}", // Join our subscribers list to get the latest news, updates and special offers directly in your inbox
+newsletter_desc: "{{ __('newsletter_desc') }}", // Join our subscribers list to get the latest news, updates and special
+offers directly in your inbox
 newsletter_email_error: "{{ __('newsletter_email_error') }}", // Select email addresses that you want to send mail!
 newsletter_popup: "{{ __('newsletter_popup') }}", // Newsletter Popup
-newsletter_send_many_exp: "{{ __('newsletter_send_many_exp') }}", // Some servers do not allow mass mailing. Therefore, instead of sending your mails to all subscribers at once, you can send them part by part (Example: 50 subscribers at once). If your mail server stops sending mail, the sending process will also stop.
+newsletter_send_many_exp: "{{ __('newsletter_send_many_exp') }}", // Some servers do not allow mass mailing. Therefore,
+instead of sending your mails to all subscribers at once, you can send them part by part (Example: 50 subscribers at
+once). If your mail server stops sending mail, the sending process will also stop.
 next: "{{ __('next') }}", // Next
 next_article: "{{ __('next_article') }}", // Next Article
 next_video: "{{ __('next_video') }}", // Next Video
@@ -558,9 +583,11 @@ none: "{{ __('none') }}", // None
 November: "{{ __('November') }}", // Nov
 number: "{{ __('number') }}", // Number
 number_of_correct_answers: "{{ __('number_of_correct_answers') }}", // Number of Correct Answers
-number_of_correct_answers_range: "{{ __('number_of_correct_answers_range') }}", // The range of correct answers to show this result
+number_of_correct_answers_range: "{{ __('number_of_correct_answers_range') }}", // The range of correct answers to show
+this result
 number_of_days: "{{ __('number_of_days') }}", // Number of Days
-number_of_days_exp: "{{ __('number_of_days_exp') }}", // If you add 30 here, the system will delete posts older than 30 days
+number_of_days_exp: "{{ __('number_of_days_exp') }}", // If you add 30 here, the system will delete posts older than 30
+days
 number_of_links_in_menu: "{{ __('number_of_links_in_menu') }}", // The number of links that appear in the menu
 number_of_posts_import: "{{ __('number_of_posts_import') }}", // Number of Posts to Import
 number_short_billion: "{{ __('number_short_billion') }}", // b
@@ -666,7 +693,8 @@ read_more_button_text: "{{ __('read_more_button_text') }}", // Read More Button 
 reading_list: "{{ __('reading_list') }}", // Reading List
 recently_added_comments: "{{ __('recently_added_comments') }}", // Recently added comments
 recently_added_contact_messages: "{{ __('recently_added_contact_messages') }}", // Recently added contact messages
-recently_added_unapproved_comments: "{{ __('recently_added_unapproved_comments') }}", // Recently added unapproved comments
+recently_added_unapproved_comments: "{{ __('recently_added_unapproved_comments') }}", // Recently added unapproved
+comments
 recently_registered_users: "{{ __('recently_registered_users') }}", // Recently registered users
 recipe: "{{ __('recipe') }}", // Recipe
 recipe_exp: "{{ __('recipe_exp') }}", // A list of ingredients and directions for cooking
@@ -675,7 +703,8 @@ recommended: "{{ __('recommended') }}", // Recommended
 recommended_posts: "{{ __('recommended_posts') }}", // Recommended Posts
 redirect_rss_posts_to_original: "{{ __('redirect_rss_posts_to_original') }}", // Redirect RSS Posts to the Original Site
 refresh: "{{ __('refresh') }}", // Refresh
-refresh_cache_database_changes: "{{ __('refresh_cache_database_changes') }}", // Refresh Cache Files When Database Changes
+refresh_cache_database_changes: "{{ __('refresh_cache_database_changes') }}", // Refresh Cache Files When Database
+Changes
 regenerate: "{{ __('regenerate') }}", // Regenerate
 region_code: "{{ __('region_code') }}", // Region Code
 register: "{{ __('register') }}", // Register
@@ -696,7 +725,8 @@ reset: "{{ __('reset') }}", // Reset
 reset_cache: "{{ __('reset_cache') }}", // Reset Cache
 reset_password: "{{ __('reset_password') }}", // Reset Password
 reset_password_error: "{{ __('reset_password_error') }}", // We can't find a user with that e-mail address!
-reset_password_success: "{{ __('reset_password_success') }}", // We've sent an email for resetting your password to your email address. Please check your email for next steps.
+reset_password_success: "{{ __('reset_password_success') }}", // We've sent an email for resetting your password to your
+email address. Please check your email for next steps.
 result: "{{ __('result') }}", // Result
 results: "{{ __('results') }}", // Results
 reward_amount: "{{ __('reward_amount') }}", // Reward Amount for 1000 Pageviews
@@ -708,7 +738,9 @@ role_name: "{{ __('role_name') }}", // Role Name
 roles: "{{ __('roles') }}", // Roles
 roles_permissions: "{{ __('roles_permissions') }}", // Roles & Permissions
 route_settings: "{{ __('route_settings') }}", // Route Settings
-route_settings_warning: "{{ __('route_settings_warning') }}", // You cannot use special characters in routes. If your language contains special characters, please be careful when editing routes. If you enter an invalid route, you will not be able to access the related page.
+route_settings_warning: "{{ __('route_settings_warning') }}", // You cannot use special characters in routes. If your
+language contains special characters, please be careful when editing routes. If you enter an invalid route, you will not
+be able to access the related page.
 rss: "{{ __('rss') }}", // RSS
 rss_content: "{{ __('rss_content') }}", // RSS Content
 rss_feeds: "{{ __('rss_feeds') }}", // RSS Feeds
@@ -741,7 +773,8 @@ send_email_registered: "{{ __('send_email_registered') }}", // Send Email to Reg
 send_email_subscriber: "{{ __('send_email_subscriber') }}", // Send Email to Subscriber
 send_email_subscribers: "{{ __('send_email_subscribers') }}", // Send Email to Subscribers
 send_test_email: "{{ __('send_test_email') }}", // Send Test Email
-send_test_email_exp: "{{ __('send_test_email_exp') }}", // You can send a test mail to check if your mail server is working.
+send_test_email_exp: "{{ __('send_test_email_exp') }}", // You can send a test mail to check if your mail server is
+working.
 seo_options: "{{ __('seo_options') }}", // Seo options
 seo_tools: "{{ __('seo_tools') }}", // SEO Tools
 September: "{{ __('September') }}", // Sep
@@ -786,7 +819,8 @@ site_font: "{{ __('site_font') }}", // Site Font
 site_key: "{{ __('site_key') }}", // Site Key
 site_title: "{{ __('site_title') }}", // Site Title
 sitemap: "{{ __('sitemap') }}", // Sitemap
-sitemap_generate_exp: "{{ __('sitemap_generate_exp') }}", // If your site has more than 49,000 links, the sitemap.xml file will be created in parts.
+sitemap_generate_exp: "{{ __('sitemap_generate_exp') }}", // If your site has more than 49,000 links, the sitemap.xml
+file will be created in parts.
 slider: "{{ __('slider') }}", // Slider
 slider_order: "{{ __('slider_order') }}", // Slider Order
 slider_posts: "{{ __('slider_posts') }}", // Slider Posts
@@ -931,7 +965,8 @@ vote_permission: "{{ __('vote_permission') }}", // Vote Permission
 voted_message: "{{ __('voted_message') }}", // You already voted this poll before.
 warning: "{{ __('warning') }}", // Warning
 warning_documentation: "{{ __('warning_documentation') }}", // Read the documentation before enabling this option
-warning_edit_profile_image: "{{ __('warning_edit_profile_image') }}", // Click on the save changes button after selecting your image
+warning_edit_profile_image: "{{ __('warning_edit_profile_image') }}", // Click on the save changes button after
+selecting your image
 weekly: "{{ __('weekly') }}", // Weekly
 whats_your_reaction: "{{ __('whats_your_reaction') }}", // What's Your Reaction?
 whatsapp: "{{ __('whatsapp') }}", // WhatsApp
@@ -954,3 +989,53 @@ youtube: "{{ __('youtube') }}" // YouTube
 
 
 // Yeni Ekleneler Aşağıda Olacak
+
+
+placeholder_search_language: "{{ __('placeholder_search_language') }}", // Dil Ara
+table_info: "{{ __('table_info') }}", // Toplam _TOTAL_ kayıttan _START_ - _END_ arası gösteriliyor
+language_details: "{{ __('language_details') }}", // Dil Detayları
+msg_language_delete_warning: "{{ __('msg_language_delete_warning') }}", // Bu dil ve ilgili tüm çeviriler silinecek!
+msg_default_language_updated: "{{ __('msg_default_language_updated') }}", // Varsayılan dil başarıyla güncellendi.
+msg_select_file: "{{ __('msg_select_file') }}", // Lütfen bir dosya seçin
+msg_invalid_json_file: "{{ __('msg_invalid_json_file') }}", // Sadece JSON dosyaları kabul edilir
+msg_import_language_success: "{{ __('msg_import_language_success') }}", // Dil ve çeviriler başarıyla içe aktarıldı.
+
+msg_language_name_required: "{{ __('msg_language_name_required') }}", // Language name cannot be empty
+msg_language_name_length: "{{ __('msg_language_name_length') }}", // Language name must be between 2 and 50 characters
+msg_short_form_required: "{{ __('msg_short_form_required') }}", // Short form cannot be empty
+msg_short_form_length: "{{ __('msg_short_form_length') }}", // Short form must be between 2 and 5 characters
+msg_short_form_invalid: "{{ __('msg_short_form_invalid') }}", // Short form can only contain letters
+msg_language_code_required: "{{ __('msg_language_code_required') }}", // Language code cannot be empty
+msg_language_code_length: "{{ __('msg_language_code_length') }}", // Language code must be between 2 and 10 characters
+msg_language_code_invalid: "{{ __('msg_language_code_invalid') }}", // Language code can only contain letters and
+underscores
+msg_order_required: "{{ __('msg_order_required') }}", // Order number cannot be empty
+msg_order_invalid: "{{ __('msg_order_invalid') }}", // Order number can only contain digits
+msg_text_editor_language_required: "{{ __('msg_text_editor_language_required') }}", // Text editor language must be
+selected
+language_name: "{{ __('language_name') }}", // Language Name
+short_form: "{{ __('short_form') }}", // Short Form
+language_code: "{{ __('language_code') }}", // Language Code
+msg_already_exists: "{{ __('msg_already_exists') }}", // is already registered
+msg_language_added: "{{ __('msg_language_added') }}", // Language successfully added.
+msg_language_updated: "{{ __('msg_language_updated') }}", // Language successfully updated.
+
+add_new_translation: "{{ __('add_new_translation') }}", // Add New Translation
+translation_key: "{{ __('translation_key') }}", // Translation Key
+translation_value: "{{ __('translation_value') }}", // Translation Value
+translation_group: "{{ __('translation_group') }}", // Translation Group
+delete_translation: "{{ __('delete_translation') }}", // Delete Translation
+confirm_delete_translation: "{{ __('confirm_delete_translation') }}", // Are you sure you want to delete this
+translation?
+table_pagination_info: "{{ __('table_pagination_info') }}", // Showing _START_ to _END_ of _TOTAL_ entries
+group_default_note: "{{ __('group_default_note') }}", // If left blank, it will be saved as 'default'.
+
+add_new_language: "{{ __('add_new_language') }}", // Add New Language
+add_language_description: "{{ __('add_language_description') }}", // Add a new language to the system
+example_english: "{{ __('example_english') }}", // Example: English
+order_number: "{{ __('order_number') }}", // Order Number
+
+edit_language: "{{ __('edit_language') }}", // Edit Language
+edit_language_description: "{{ __('edit_language_description') }}", // Update language information
+upload_json_language_file: "{{ __('upload_json_language_file') }}", // Upload JSON Language File
+import: "{{ __('import') }}", // Import
