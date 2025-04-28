@@ -1,17 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Settings;
+namespace App\Http\Controllers\Admin\Settings\Language;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use App\Models\Admin\Settings\Language\Language;
 
+/**
+ * Language Switch Controller
+ * Dil Değiştirme Kontrolcüsü
+ * 
+ * This controller handles language switching operations.
+ * Bu kontrolcü dil değiştirme işlemlerini yönetir.
+ */
 class LanguageSwitchController extends Controller
 {
-    
     /**
      * Switch the application language
      * Uygulama dilini değiştirir
@@ -24,18 +30,16 @@ class LanguageSwitchController extends Controller
     {
         // Check if language is active
         // Dilin aktif olup olmadığını kontrol et
-        $language = DB::table('languages')
-            ->where('code', $locale)
-            ->where('is_active', 1)
-            ->first();
+        $language = Language::where('code', $locale)
+                          ->where('is_active', 1)
+                          ->first();
 
         if (!$language) {
             // If language not found or not active, redirect to default language
             // Dil bulunamadıysa veya aktif değilse, varsayılan dile yönlendir
-            $defaultLanguage = DB::table('languages')
-                ->where('is_default', 1)
-                ->where('is_active', 1)
-                ->first();
+            $defaultLanguage = Language::where('is_default', 1)
+                                     ->where('is_active', 1)
+                                     ->first();
             
             $locale = $defaultLanguage ? $defaultLanguage->code : config('app.locale');
         }
@@ -53,6 +57,4 @@ class LanguageSwitchController extends Controller
         // Önceki sayfaya yönlendir
         return redirect()->back();
     }
-
-
 }

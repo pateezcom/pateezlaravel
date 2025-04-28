@@ -67,6 +67,7 @@ export default defineConfig({
       input: [
         'resources/css/app.css',
         'resources/assets/css/demo.css',
+        'resources/js/helpers/translations.js',
         'resources/js/app.js',
         'resources/js/frontend/app.js',
         ...pageJsFiles,

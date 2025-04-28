@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Settings;
+namespace App\Http\Controllers\Admin\Settings\Language;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -8,7 +8,16 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Admin\Settings\Language\Language;
+use App\Models\Admin\Settings\Language\Translation;
 
+/**
+ * Language Controller
+ * Dil Kontrolcüsü
+ * 
+ * This controller handles language management operations.
+ * Bu kontrolcü dil yönetimi işlemlerini yönetir.
+ */
 class LanguageController extends Controller
 {
   /**
@@ -21,14 +30,16 @@ class LanguageController extends Controller
   {
     $pageConfigs = ['layoutType' => 'content-detached-right-sidebar'];
 
+    // If AJAX request, return JSON
     // AJAX isteği ise JSON olarak dön
     if ($request->ajax()) {
-      $languages = DB::table('languages')->get();
+      $languages = Language::all();
       return response()->json(['data' => $languages]);
     }
 
+    // Normal page load
     // Normal sayfa yükleme
-    return view('content.admin.settings.languages', [
+    return view('content.admin.settings.language.languages', [
       'pageConfigs' => $pageConfigs
     ]);
   }
@@ -43,14 +54,16 @@ class LanguageController extends Controller
   public function store(Request $request)
   {
     // Validate the form data
+    // Form verilerini doğrula
     $validator = Validator::make($request->all(), [
       'languageName' => [
         'required',
         'string',
         'max:255',
         function ($attribute, $value, $fail) {
+          // Language name must be unique
           // Dil adı benzersiz olmalı
-          $exists = DB::table('languages')->where('name', $value)->exists();
+          $exists = Language::where('name', $value)->exists();
           if ($exists) {
             $fail('Bu dil adı zaten kayıtlı');
           }
@@ -61,8 +74,9 @@ class LanguageController extends Controller
         'string',
         'max:5',
         function ($attribute, $value, $fail) {
+          // Short form must be unique
           // Kısa form benzersiz olmalı
-          $exists = DB::table('languages')->where('code', $value)->exists();
+          $exists = Language::where('code', $value)->exists();
           if ($exists) {
             $fail('Bu kısa form zaten kayıtlı');
           }
@@ -73,8 +87,9 @@ class LanguageController extends Controller
         'string',
         'max:10',
         function ($attribute, $value, $fail) {
+          // Language code must be unique
           // Dil kodu benzersiz olmalı
-          $exists = DB::table('languages')->where('code', $value)->exists();
+          $exists = Language::where('code', $value)->exists();
           if ($exists) {
             $fail('Bu dil kodu zaten kayıtlı');
           }
@@ -87,33 +102,35 @@ class LanguageController extends Controller
       return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
     }
 
+    // Determine text direction
     // Yazı yönünü belirle
     $textDirection = $request->has('textDirection') ? $request->input('textDirection') : 'ltr';
     $isRTL = $textDirection === 'rtl' ? 1 : 0;
 
+    // Determine status
     // Durumu belirle
     $status = $request->has('status') ? $request->input('status') : 'active';
     $isActive = $status === 'active' || $status === 'statusActive' ? 1 : 0;
 
     try {
+      // Add language to database
       // Dili veritabanına ekle
-      $languageId = DB::table('languages')->insertGetId([
+      $language = Language::create([
         'name' => $request->input('languageName'),
         'code' => $request->input('shortForm'),
         'icon' => 'flag-icon-' . strtolower($request->input('shortForm')),
         'text_editor_lang' => $request->input('textEditorLanguage'),
         'is_rtl' => $isRTL,
-        'is_default' => 0, // Yeni dil varsayılan değil
+        'is_default' => 0, // New language is not default
         'is_active' => $isActive,
-        'created_at' => now(),
-        'updated_at' => now()
       ]);
 
+      // Return successful response
       // Başarılı cevap döndür
       return response()->json([
         'success' => true,
         'message' => 'Dil başarıyla eklendi',
-        'language_id' => $languageId
+        'language_id' => $language->id
       ]);
     } catch (\Exception $e) {
       return response()->json([
@@ -132,7 +149,7 @@ class LanguageController extends Controller
    */
   public function edit($id)
   {
-    $language = DB::table('languages')->where('id', $id)->first();
+    $language = Language::find($id);
 
     if (!$language) {
       return response()->json(['error' => 'Dil bulunamadı'], 404);
@@ -152,15 +169,16 @@ class LanguageController extends Controller
   public function update(Request $request, $id)
   {
     // Validate the form data
+    // Form verilerini doğrula
     $validator = Validator::make($request->all(), [
       'editLanguageName' => [
         'required',
         'string',
         'max:255',
         function ($attribute, $value, $fail) use ($id) {
+          // Language name must be unique (except itself)
           // Dil adı benzersiz olmalı (kendi dışında)
-          $exists = DB::table('languages')
-            ->where('name', $value)
+          $exists = Language::where('name', $value)
             ->where('id', '!=', $id)
             ->exists();
           if ($exists) {
@@ -173,9 +191,9 @@ class LanguageController extends Controller
         'string',
         'max:5',
         function ($attribute, $value, $fail) use ($id) {
+          // Short form must be unique (except itself)
           // Kısa form benzersiz olmalı (kendi dışında)
-          $exists = DB::table('languages')
-            ->where('code', $value)
+          $exists = Language::where('code', $value)
             ->where('id', '!=', $id)
             ->exists();
           if ($exists) {
@@ -188,9 +206,9 @@ class LanguageController extends Controller
         'string',
         'max:10',
         function ($attribute, $value, $fail) use ($id) {
+          // Language code must be unique (except itself)
           // Dil kodu benzersiz olmalı (kendi dışında)
-          $exists = DB::table('languages')
-            ->where('code', $value)
+          $exists = Language::where('code', $value)
             ->where('id', '!=', $id)
             ->exists();
           if ($exists) {
@@ -205,38 +223,39 @@ class LanguageController extends Controller
       return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
     }
 
+    // Check language to edit
     // Düzenlenecek dili kontrol et
-    $currentLanguage = DB::table('languages')->where('id', $id)->first();
+    $language = Language::find($id);
 
-    if (!$currentLanguage) {
+    if (!$language) {
       return response()->json([
         'success' => false,
         'error' => 'Düzenlenecek dil bulunamadı'
       ], 404);
     }
 
+    // Determine text direction
     // Yazı yönünü belirle
     $textDirection = $request->has('editTextDirection') ? $request->input('editTextDirection') : 'ltr';
     $isRTL = $textDirection === 'rtl' ? 1 : 0;
 
+    // Determine status
     // Durumu belirle
     $status = $request->has('editStatus') ? $request->input('editStatus') : 'active';
     $isActive = $status === 'active' || $status === 'statusActive' ? 1 : 0;
 
     try {
+      // Update language
       // Dili güncelle
-      DB::table('languages')
-        ->where('id', $id)
-        ->update([
-          'name' => $request->input('editLanguageName'),
-          'code' => $request->input('editShortForm'),
-          'icon' => 'flag-icon-' . strtolower($request->input('editShortForm')),
-          'text_editor_lang' => $request->input('editTextEditorLanguage'),
-          'is_rtl' => $isRTL,
-          'is_active' => $isActive,
-          'updated_at' => now()
-        ]);
+      $language->name = $request->input('editLanguageName');
+      $language->code = $request->input('editShortForm');
+      $language->icon = 'flag-icon-' . strtolower($request->input('editShortForm'));
+      $language->text_editor_lang = $request->input('editTextEditorLanguage');
+      $language->is_rtl = $isRTL;
+      $language->is_active = $isActive;
+      $language->save();
 
+      // Return successful response
       // Başarılı cevap döndür
       return response()->json([
         'success' => true,
@@ -259,29 +278,41 @@ class LanguageController extends Controller
    */
   public function destroy($id)
   {
+    // First check if default language
     // Önce varsayılan dili kontrol et
-    $language = DB::table('languages')->where('id', $id)->first();
+    $language = Language::find($id);
 
     if (!$language) {
       return response()->json(['error' => 'Dil bulunamadı'], 404);
     }
 
+    // Default language cannot be deleted
     // Varsayılan dil silinemez
     if ($language->is_default == 1) {
       return response()->json(['error' => 'Varsayılan dil silinemez'], 400);
     }
 
-    // Dili sil
-    DB::table('languages')->where('id', $id)->delete();
+    try {
+      // Delete related translations
+      // İlgili çevirileri sil
+      Translation::where('language_id', $id)->delete();
+      
+      // Delete language
+      // Dili sil
+      $language->delete();
 
-    // Bu dile ait çevirileri de sil
-    DB::table('translations')->where('language_id', $id)->delete();
-
-    // Başarılı cevap döndür
-    return response()->json([
-      'success' => true,
-      'message' => 'Dil ve ilgili çeviriler başarıyla silindi'
-    ]);
+      // Return successful response
+      // Başarılı cevap döndür
+      return response()->json([
+        'success' => true,
+        'message' => 'Dil ve ilgili çeviriler başarıyla silindi'
+      ]);
+    } catch (\Exception $e) {
+      return response()->json([
+        'success' => false,
+        'error' => 'Dil silinirken bir hata oluştu: ' . $e->getMessage()
+      ], 500);
+    }
   }
 
   /**
@@ -293,24 +324,30 @@ class LanguageController extends Controller
    */
   public function setDefault($id)
   {
-    // Önce tüm dilleri varsayılan olmayan olarak işaretle
-    DB::table('languages')
-      ->update(['is_default' => 0]);
+    try {
+      // First unset all languages as default
+      // Önce tüm dilleri varsayılan olmayan olarak işaretle
+      Language::where('is_default', 1)->update(['is_default' => 0]);
 
-    // Seçilen dili varsayılan olarak işaretle
-    DB::table('languages')
-      ->where('id', $id)
-      ->update([
-        'is_default' => 1,
-        'is_active' => 1, // Varsayılan dil her zaman aktif olmalı
-        'updated_at' => now()
+      // Set selected language as default
+      // Seçilen dili varsayılan olarak işaretle
+      $language = Language::findOrFail($id);
+      $language->is_default = 1;
+      $language->is_active = 1; // Default language must always be active
+      $language->save();
+
+      // Return successful response
+      // Başarılı cevap döndür
+      return response()->json([
+        'success' => true,
+        'message' => 'Varsayılan dil başarıyla güncellendi'
       ]);
-
-    // Başarılı cevap döndür
-    return response()->json([
-      'success' => true,
-      'message' => 'Varsayılan dil başarıyla güncellendi'
-    ]);
+    } catch (\Exception $e) {
+      return response()->json([
+        'success' => false,
+        'error' => 'Varsayılan dil ayarlanırken bir hata oluştu: ' . $e->getMessage()
+      ], 500);
+    }
   }
 
   /**
@@ -322,33 +359,28 @@ class LanguageController extends Controller
    */
   public function import(Request $request)
   {
-    // Log ekleyin
-    Log::info('Import metodu çağrıldı');
-    
+    // Check if AJAX request
     // Sadece AJAX isteği mi kontrol et
     if (!$request->ajax()) {
-      Log::warning('AJAX olmayan bir istek geldi');
       return response()->json(['error' => 'Sadece AJAX istekleri kabul edilir'], 400);
     }
     
-    Log::info('Request bilgileri: ' . json_encode($request->all()));
-    
+    // Check file upload
     // Dosya yükleme kontrolü
     if (!$request->hasFile('languageFile')) {
-      Log::error('Dosya bulunamadı');
       return response()->json(['error' => 'Dosya bulunamadı'], 400);
     }
 
     $file = $request->file('languageFile');
-    Log::info('Dosya alındı: ' . $file->getClientOriginalName());
 
+    // Check if JSON file
     // JSON dosyası mı kontrol et
     if ($file->getClientOriginalExtension() !== 'json') {
-      Log::error('Dosya JSON formatında değil: ' . $file->getClientOriginalExtension());
       return response()->json(['error' => 'Dosya JSON formatında olmalıdır'], 400);
     }
 
     try {
+      // Read JSON file
       // JSON dosyasını oku
       $content = file_get_contents($file->getRealPath());
       $languageData = json_decode($content, true);
@@ -357,25 +389,30 @@ class LanguageController extends Controller
         return response()->json(['error' => 'Geçersiz JSON formatı'], 400);
       }
 
+      // Check language info
       // Dil bilgilerini kontrol et
       if (!isset($languageData['language']) || !isset($languageData['translations'])) {
         return response()->json(['error' => 'Geçersiz dil dosyası formatı'], 400);
       }
 
+      // Check language info
       // Dil bilgilerini kontrol et
       $language = $languageData['language'];
       
+      // Check required fields
       // Gerekli alanların varlığını kontrol et
       if (!isset($language['name']) || !isset($language['short_form'])) {
         return response()->json(['error' => 'Dosyada dil adı veya kısa formu eksik'], 400);
       }
 
+      // Check translations format
       // Çevirilerin formatını kontrol et
       $translations = $languageData['translations'];
       if (!is_array($translations) || empty($translations)) {
         return response()->json(['error' => 'Çeviri listesi boş veya geçersiz'], 400);
       }
       
+      // Check translation format
       // Çeviri formatını kontrol et
       foreach ($translations as $translation) {
         if (!isset($translation['label']) || !isset($translation['translation'])) {
@@ -385,6 +422,7 @@ class LanguageController extends Controller
 
       DB::beginTransaction();
       try {
+        // Get language info
         // Dil bilgilerini al
         $languageName = $language['name'];
         $shortForm = $language['short_form'];
@@ -392,10 +430,9 @@ class LanguageController extends Controller
         $textDirection = $language['text_direction'] ?? 'ltr';
         $textEditorLang = $language['text_editor_lang'] ?? $shortForm;
 
+        // Step 1: Check language name
         // 1. Adım: Dil adını kontrol et
-        $existingLanguageByName = DB::table('languages')
-          ->where('name', $languageName)
-          ->first();
+        $existingLanguageByName = Language::where('name', $languageName)->first();
 
         if ($existingLanguageByName) {
           return response()->json([
@@ -404,10 +441,9 @@ class LanguageController extends Controller
           ], 400);
         }
         
+        // Step 2: Check short form (code)
         // 2. Adım: Kısa form (code) kontrol et
-        $existingLanguageByCode = DB::table('languages')
-          ->where('code', $shortForm)
-          ->first();
+        $existingLanguageByCode = Language::where('code', $shortForm)->first();
 
         if ($existingLanguageByCode) {
           return response()->json([
@@ -416,8 +452,9 @@ class LanguageController extends Controller
           ], 400);
         }
         
+        // Step 3: Add new language
         // 3. Adım: Yeni dil ekle
-        $languageId = DB::table('languages')->insertGetId([
+        $newLanguage = Language::create([
           'name' => $languageName,
           'code' => $shortForm,
           'icon' => 'flag-icon-' . strtolower($shortForm),
@@ -425,27 +462,22 @@ class LanguageController extends Controller
           'is_rtl' => $textDirection === 'rtl' ? 1 : 0,
           'is_default' => 0,
           'is_active' => 1,
-          'created_at' => now(),
-          'updated_at' => now()
         ]);
 
+        // Step 4: Add translations
         // 4. Adım: Çevirileri ekle
-        $translationData = [];
+        $translationBatch = [];
         $processedCount = 0;
+        
         foreach ($translations as $translation) {
-          $translationData[] = [
-            'language_id' => $languageId,
+          Translation::create([
+            'language_id' => $newLanguage->id,
             'group' => 'default',
             'key' => $translation['label'],
             'value' => $translation['translation'],
-            'created_at' => now(),
-            'updated_at' => now()
-          ];
+          ]);
           $processedCount++;
         }
-
-        // Çevirileri toplu ekle
-        DB::table('translations')->insert($translationData);
 
         DB::commit();
         return response()->json([
@@ -470,18 +502,19 @@ class LanguageController extends Controller
    */
   public function export($id)
   {
+    // Check language
     // Dili kontrol et
-    $language = DB::table('languages')->where('id', $id)->first();
+    $language = Language::find($id);
 
     if (!$language) {
       return response()->json(['error' => 'Dil bulunamadı'], 404);
     }
 
+    // Get translations for language
     // Dile ait çevirileri getir
-    $translations = DB::table('translations')
-      ->where('language_id', $id)
-      ->get();
+    $translations = Translation::where('language_id', $id)->get();
 
+    // Prepare data for JSON format
     // JSON formatı için veriyi hazırla
     $exportData = [
       'language' => [
@@ -501,15 +534,18 @@ class LanguageController extends Controller
       ];
     }
 
+    // Convert to JSON format
     // JSON formatına dönüştür
     $jsonContent = json_encode($exportData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
+    // Set download headers
     // Dosyayı indirme başlıklarını ayarla
     $headers = [
       'Content-Type' => 'application/json',
       'Content-Disposition' => 'attachment; filename="' . $language->name . '.json"',
     ];
 
+    // Return JSON content
     // JSON içeriğini döndür
     return response($jsonContent, 200, $headers);
   }
@@ -527,6 +563,7 @@ class LanguageController extends Controller
     $value = $request->input('value');
     $excludeId = $request->input('exclude_id');
 
+    // Which field to check?
     // Hangi alanı kontrol edeceğiz?
     $dbField = '';
     switch ($field) {
@@ -544,17 +581,21 @@ class LanguageController extends Controller
         return response()->json(['unique' => true], 200);
     }
 
+    // Prepare query for existing record
     // Var olan kayıt için sorgu hazırla
-    $query = DB::table('languages')->where($dbField, $value);
+    $query = Language::where($dbField, $value);
 
+    // If exclude_id is specified, exclude this ID from check
     // Eğer exclude_id belirtilmişse, bu ID'yi kontrol dışı bırak
     if ($excludeId) {
       $query->where('id', '!=', $excludeId);
     }
 
+    // Check if record exists
     // Kayıt var mı kontrol et
     $exists = $query->exists();
 
+    // Return result - if record doesn't exist, it's unique
     // Sonuç dön - eğer kayıt yoksa unique'dir
     return response()->json(['unique' => !$exists], 200);
   }

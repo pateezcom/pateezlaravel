@@ -1,0 +1,51 @@
+Mac Kullanıcıları İçin:
+
+Görev: Pateez Haber Projesi dokümantasyonunu analiz et
+Dosya: /Users/pateez/Desktop/pateezlaravel/README.md
+İnceleme talimatları:
+1. Dosyayı satır satır dikkatle incele
+2. Tüm proje mimarisini ve yapısını öğren
+3. Önemli notları ve uyarıları belleğine kaydet
+4. Klasör yapısını, teknolojileri ve kod standartlarını kavra
+5. Tamamlanan modülleri ve iş akışını ben sana emir verdiğimde istediğim modülü veya paketi inceleyeceksin.
+Dil tercih notu: Bu analiz sonrasında tüm etkileşim Türkçe dilinde sürdürülecektir.
+Öncelik: Projenin yapısını ve önemli noktaları eksiksiz anlamak.
+
+Analiz sonrası beklenen yanıt: Uzun uzun herhangi bir rapor verilmeyecek "Projeni inceledim ve tüm detaylarını öğrendim. Nasıl yardımcı olabilirim?"
+
+
+Windows Kullanıcıları İçin:
+
+Görev: Pateez Haber Projesi dokümantasyonunu analiz et
+Dosya: C:\Users\nasipse\Desktop\pateezlaravel\README.md
+İnceleme talimatları:
+1. Dosyayı satır satır dikkatle incele
+2. Tüm proje mimarisini ve yapısını öğren
+3. Önemli notları ve uyarıları belleğine kaydet
+4. Klasör yapısını, teknolojileri ve kod standartlarını kavra
+5. Tamamlanan modülleri ve iş akışını ben sana emir verdiğimde istediğim modülü veya paketi inceleyeceksin.
+Dil tercih notu: Bu analiz sonrasında tüm etkileşim Türkçe dilinde sürdürülecektir.
+Öncelik: Projenin yapısını ve önemli noktaları eksiksiz anlamak.
+
+Analiz sonrası beklenen yanıt: Uzun uzun herhangi bir rapor verilmeyecek "Projeni inceledim ve tüm detaylarını öğrendim. Nasıl yardımcı olabilirim?"
+
+
+
+
+Görev: Pateez Haber Projesi'nde "[Dil Paketi]" modülünü detaylı incele
+
+İnceleme talimatları:
+1. README.md dosyasında belirtilen "[Dil Paketi]" modülünün dokümantasyon dosyasını bul
+2. Dosya yolunu README.md'nin "Tamamlanan Modüller ve Paketler" bölümünden al
+3. Modülün amacını, yapısını ve işlevlerini kapsamlı olarak analiz et
+4. Temel bileşenleri, dosya yapısını ve kullanılan teknolojileri öğren
+5. Entegrasyon noktalarını ve diğer modüllerle etkileşimini anla
+6. Önemli kodlama prensiplerini ve uygulama standartlarını kavra
+
+
+Analiz sonrası beklenen yanıt: Uzun uzun herhangi bir rapor verilmeyecek "Modülü inceledim ve tüm detaylarını öğrendim. Nasıl yardımcı olabilirim?"
+
+
+
+
+php artisan translations:sync-js --generate-view

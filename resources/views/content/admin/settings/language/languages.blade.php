@@ -49,15 +49,15 @@
   </div>
 
 <!-- Modallar -->
-@include('content.admin._partials._modals.modal-language-add')
-@include('content.admin._partials._modals.modal-language-edit')
-@include('content.admin._partials._modals.modal-language-import')
+@include('content.admin.settings.language._partials._modals.modal-language-add')
+@include('content.admin.settings.language._partials._modals.modal-language-edit')
+@include('content.admin.settings.language._partials._modals.modal-language-import')
 <!-- /Modallar -->
 @endsection
 
 @section('page-script')
 @vite([
-  'resources/js/admin/settings/languages.js',
-  'resources/js/admin/settings/language-form-validation.js'
+  'resources/js/admin/settings/language/languages.js',
+  'resources/js/admin/settings/language/language-form-validation.js'
 ])
 @endsection

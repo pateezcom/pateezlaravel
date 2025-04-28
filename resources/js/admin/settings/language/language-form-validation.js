@@ -683,7 +683,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // Modal olayları
   $(document).ready(function () {
     // Modal olaylarını kontrol et
-    // Modal olayları
 
     // Yeni Dil Ekle modalı
     $('#addLanguageModal').on('show.bs.modal', function () {

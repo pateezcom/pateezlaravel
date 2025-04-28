@@ -1,13 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin\Settings\Language;
 
+use App\Http\Controllers\Controller;
 use App\Translation\DatabaseTranslator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Database Translation Controller
+ * Veritabanı Çeviri Kontrolcüsü
+ * 
+ * This controller handles database translation operations.
+ * Bu kontrolcü veritabanı çeviri işlemlerini yönetir.
+ */
 class DatabaseTranslationController extends Controller
 {
     /**

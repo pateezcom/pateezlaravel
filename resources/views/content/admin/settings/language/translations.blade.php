@@ -17,7 +17,7 @@
 
 @section('page-script')
 @vite([
-  'resources/js/admin/settings/translations.js'
+  'resources/js/admin/settings/language/translations.js'
 ])
 @endsection
 
@@ -48,6 +48,12 @@
           <button type="submit" class="btn btn-primary">Filtrele</button>
         </div>
       </div>
+      <div class="col-md-3">
+        <label class="form-label">İşlemler</label>
+        <button type="button" class="btn btn-primary btn-add-translation w-100" data-bs-toggle="modal" data-bs-target="#addTranslationModal">
+          <i class="ti ti-plus me-1"></i>Yeni Çeviri Ekle
+        </button>
+      </div>
     </form>
 
     <!-- Çeviri formu -->
@@ -74,10 +80,17 @@
                     <input type="hidden" name="keys[]" value="{{ $translation->key }}">
                   </td>
                   <td>
-                    <input type="text" class="form-control translation-input" 
-                           name="translations[{{ $translation->key }}]" 
-                           value="{{ $translation->value }}"
-                           data-original-value="{{ $translation->value }}">
+                    <div class="input-group">
+                      <input type="text" class="form-control translation-input" 
+                             name="translations[{{ $translation->key }}]" 
+                             value="{{ $translation->value }}"
+                             data-original-value="{{ $translation->value }}">
+                      <button type="button" class="btn btn-outline-danger btn-delete-translation"
+                              data-id="{{ $translation->id }}"
+                              data-key="{{ $translation->key }}">
+                        <i class="ti ti-trash"></i>
+                      </button>
+                    </div>
                   </td>
                 </tr>
               @endforeach
@@ -146,6 +159,63 @@
         </button>
       </div>
     </form>
+  </div>
+</div>
+
+<!-- Yeni Çeviri Ekleme Modal -->
+<div class="modal fade" id="addTranslationModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Yeni Çeviri Ekle</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="addTranslationForm">
+          <input type="hidden" name="language_id" value="{{ $language->id }}">
+          <div class="mb-3">
+            <label class="form-label" for="translationKey">Çeviri Anahtarı</label>
+            <input type="text" class="form-control" id="translationKey" name="key" placeholder="örn: welcome_message" required>
+            <div class="invalid-feedback"></div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="translationValue">Çeviri Değeri</label>
+            <input type="text" class="form-control" id="translationValue" name="value" placeholder="örn: Hoş Geldiniz" required>
+            <div class="invalid-feedback"></div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="translationGroup">Çeviri Grubu</label>
+            <input type="text" class="form-control" id="translationGroup" name="group" placeholder="örn: messages" value="default">
+            <div class="form-text">Boş bırakırsanız 'default' olarak kaydedilir.</div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">İptal</button>
+        <button type="button" class="btn btn-primary" id="btnSaveNewTranslation">Kaydet</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Silme Onay Modal -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Çeviriyi Sil</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <input type="hidden" id="deleteTranslationId">
+        <p class="mb-0">Bu çeviriyi silmek istediğinizden emin misiniz?</p>
+        <p class="mb-0 font-weight-bold"><code id="deleteTranslationKey"></code></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">İptal</button>
+        <button type="button" class="btn btn-danger" id="btnConfirmDelete">Sil</button>
+      </div>
+    </div>
   </div>
 </div>
 @endsection

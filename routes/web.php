@@ -1,36 +1,51 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\frontend\FrontendController;
 use App\Http\Controllers\laravel_example\UserManagement;
 use App\Http\Controllers\dashboard\Analytics;
 use App\Http\Controllers\dashboard\Crm;
-use App\Http\Controllers\language\LanguageController;
+
 
 // Admin Settings Controllers
-use App\Http\Controllers\Admin\Settings\LanguageController as AdminLanguageController;
-use App\Http\Controllers\Admin\Settings\TranslationController;
+use App\Http\Controllers\Admin\Settings\Language\LanguageController;
+use App\Http\Controllers\Admin\Settings\Language\LanguageSwitchController;
+use App\Http\Controllers\Admin\Settings\Language\TranslationController;
+use App\Http\Controllers\Admin\Settings\Language\JsTranslationController;
+
+
+Route::prefix('admin/settings')->middleware(['auth', 'admin'])->group(function () {
+  // Benzersiz URL yapısı
+  Route::get('/lang-translations/{id}', [TranslationController::class, 'edit'])->name('admin.settings.lang-translations.edit');
+  Route::put('/lang-translations/{id}', [TranslationController::class, 'update'])->name('admin.settings.lang-translations.update');
+  Route::get('/lang-translations/{id}/search', [TranslationController::class, 'search'])->name('admin.settings.lang-translations.search');
+});
 
 /* ========== PATEEZ NEWS ROTALAR BAŞLANGIÇ ========== */
 // Translation System Routes
-Route::get('/lang/{locale}', [\App\Http\Controllers\Admin\Settings\LanguageSwitchController::class, 'switchLang'])->name('lang.switch');
-Route::get('/translations/refresh-cache', [\App\Http\Controllers\TranslationController::class, 'refreshCache'])->name('translations.refresh-cache');
+Route::get('/lang/{locale}', [LanguageSwitchController::class, 'switchLang'])->name('lang.switch');
+Route::get('/translations/refresh-cache', [JsTranslationController::class, 'refreshCache'])->name('translations.refresh-cache');
+Route::get('/translations/js', [JsTranslationController::class, 'getTranslationsForJs'])->name('translations.js');
 
 // Admin Settings Routes
-Route::get('/admin/settings/languages', [AdminLanguageController::class, 'index'])->name('admin.settings.languages');
-Route::post('/admin/settings/languages', [AdminLanguageController::class, 'store'])->name('admin.settings.languages.store');
-Route::post('/admin/settings/languages/check-unique', [AdminLanguageController::class, 'checkUnique'])->name('admin.settings.languages.check-unique');
-Route::get('/admin/settings/languages/{id}/edit', [AdminLanguageController::class, 'edit'])->name('admin.settings.languages.edit');
-Route::put('/admin/settings/languages/{id}', [AdminLanguageController::class, 'update'])->name('admin.settings.languages.update');
-Route::delete('/admin/settings/languages/{id}', [AdminLanguageController::class, 'destroy'])->name('admin.settings.languages.destroy');
-Route::post('/admin/settings/languages/{id}/set-default', [AdminLanguageController::class, 'setDefault'])->name('admin.settings.languages.set-default');
-Route::post('/admin/settings/languages/import', [AdminLanguageController::class, 'import'])->name('admin.settings.languages.import');
-Route::get('/admin/settings/languages/{id}/export', [AdminLanguageController::class, 'export'])->name('admin.settings.languages.export');
+Route::get('/admin/settings/languages', [LanguageController::class, 'index'])->name('admin.settings.languages');
+Route::post('/admin/settings/languages', [LanguageController::class, 'store'])->name('admin.settings.languages.store');
+Route::post('/admin/settings/languages/check-unique', [LanguageController::class, 'checkUnique'])->name('admin.settings.languages.check-unique');
+Route::get('/admin/settings/languages/{id}/edit', [LanguageController::class, 'edit'])->name('admin.settings.languages.edit');
+Route::put('/admin/settings/languages/{id}', [LanguageController::class, 'update'])->name('admin.settings.languages.update');
+Route::delete('/admin/settings/languages/{id}', [LanguageController::class, 'destroy'])->name('admin.settings.languages.destroy');
+Route::post('/admin/settings/languages/{id}/set-default', [LanguageController::class, 'setDefault'])->name('admin.settings.languages.set-default');
+Route::post('/admin/settings/languages/import', [LanguageController::class, 'import'])->name('admin.settings.languages.import');
+Route::get('/admin/settings/languages/{id}/export', [LanguageController::class, 'export'])->name('admin.settings.languages.export');
 
 // Translation Routes
 Route::get('/admin/settings/translations/{id}', [TranslationController::class, 'edit'])->name('admin.settings.translations.edit');
 Route::put('/admin/settings/translations/{id}', [TranslationController::class, 'update'])->name('admin.settings.translations.update');
 Route::get('/admin/settings/translations/{id}/search', [TranslationController::class, 'search'])->name('admin.settings.translations.search');
+Route::post('/admin/settings/translations/{id}/add', [TranslationController::class, 'addTranslation'])->name('admin.settings.translations.add');
+Route::delete('/admin/settings/translations/{id}/delete/{translationId}', [TranslationController::class, 'deleteTranslation'])->name('admin.settings.translations.delete');
 /* ========== PATEEZ NEWS ROTALAR BİTİŞ ========== */
+
 use App\Http\Controllers\layouts\CollapsedMenu;
 use App\Http\Controllers\layouts\ContentNavbar;
 use App\Http\Controllers\layouts\ContentNavSidebar;
@@ -194,7 +209,7 @@ Route::get('/', [FrontendController::class, 'index'])->name('frontend.home');
 
 // Admin panel routes - redirect to login
 Route::get('/admin', function () {
-    return redirect('/admin/login');
+  return redirect('/admin/login');
 });
 
 // Admin Authentication Routes

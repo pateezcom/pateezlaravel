@@ -5,11 +5,18 @@
 
 'use strict';
 
+// Çeviri nesnesi için temel tanımlama
+window.translations = window.translations || {};
+
+// Sabit çeviriler
+window.translations['export'] = window.translations['export'] || 'Dışa Aktar';
+window.translations['import_language'] = window.translations['import_language'] || 'İçe Aktar';
+window.translations['add_language'] = window.translations['add_language'] || 'Yeni Dil Ekle';
+
 // DataTable (jquery)
 $(function () {
   // Değişken tanımlamaları
-  var dt_language_table = $('.datatables-languages'),
-    offCanvasForm = $('#offcanvasAddUser');
+  var dt_language_table = $('.datatables-languages');
 
   // DataTable nesnesini global olarak tanımla
   var dt_language;
@@ -193,7 +200,7 @@ $(function () {
         {
           extend: 'collection',
           className: 'btn btn-label-secondary dropdown-toggle me-2',
-          text: '<i class="ti ti-download me-1"></i> Dışa Aktar',
+          text: '<i class="ti ti-download me-1"></i> ' + __('export'),
           buttons: [
             {
               extend: 'print',
@@ -230,7 +237,7 @@ $(function () {
           ]
         },
         {
-          text: '<i class="ti ti-file-import me-1"></i>Dil İçe Aktar',
+          text: '<i class="ti ti-file-import me-1"></i>' + __('import_language'),
           className: 'add-new btn btn-secondary me-2',
           attr: {
             'data-bs-toggle': 'modal',
@@ -238,7 +245,7 @@ $(function () {
           }
         },
         {
-          text: '<i class="ti ti-plus me-1"></i>Yeni Dil Ekle',
+          text: '<i class="ti ti-plus me-1"></i>' + __('add_language'),
           className: 'add-new btn btn-primary',
           attr: {
             'data-bs-toggle': 'modal',
@@ -338,9 +345,6 @@ $(function () {
             $('#editStatusInactive').prop('checked', true);
           }
         }
-      },
-      error: function (xhr) {
-        // Sessizce hatayı geç
       }
     });
   });
@@ -349,23 +353,67 @@ $(function () {
   $(document).on('click', '.delete-record', function () {
     var id = $(this).data('id');
 
-    // Doğrudan sil (onay isteme)
-    // AJAX isteği
-    $.ajax({
-      url: baseUrl + 'admin/settings/languages/' + id,
-      method: 'DELETE',
-      success: function (response) {
-        if (response.success) {
-          // Tabloyu yenile
-          window.refreshLanguageTable();
-        } else {
-          // Hata durumunda tabloyu yine de yenile
-          window.refreshLanguageTable();
-        }
+    // Silmeden önce onay iste
+    Swal.fire({
+      title: 'Emin misiniz?',
+      text: "Bu dil ve ilgili tüm çeviriler silinecek!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Evet, Sil!',
+      cancelButtonText: 'İptal',
+      customClass: {
+        confirmButton: 'btn btn-danger',
+        cancelButton: 'btn btn-outline-secondary ms-1'
       },
-      error: function (xhr) {
-        // Hata durumunda sessizce tabloyu yenile
-        window.refreshLanguageTable();
+      buttonsStyling: false
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        // AJAX isteği
+        $.ajax({
+          url: baseUrl + 'admin/settings/languages/' + id,
+          method: 'DELETE',
+          success: function (response) {
+            if (response.success) {
+              // Başarı mesajı
+              Swal.fire({
+                icon: 'success',
+                title: 'Başarılı!',
+                text: 'Dil başarıyla silindi.',
+                customClass: {
+                  confirmButton: 'btn btn-success'
+                }
+              });
+              
+              // Tabloyu yenile
+              window.refreshLanguageTable();
+            } else {
+              // Hata mesajı
+              Swal.fire({
+                icon: 'error',
+                title: 'Hata!',
+                text: response.error || 'Dil silinirken bir hata oluştu.',
+                customClass: {
+                  confirmButton: 'btn btn-danger'
+                }
+              });
+              // Tabloyu yine de yenile
+              window.refreshLanguageTable();
+            }
+          },
+          error: function (xhr) {
+            // Hata mesajı
+            Swal.fire({
+              icon: 'error',
+              title: 'Hata!',
+              text: 'İşlem sırasında bir hata oluştu.',
+              customClass: {
+                confirmButton: 'btn btn-danger'
+              }
+            });
+            // Tabloyu yine de yenile
+            window.refreshLanguageTable();
+          }
+        });
       }
     });
   });
@@ -380,15 +428,43 @@ $(function () {
       method: 'POST',
       success: function (response) {
         if (response.success) {
+          // Başarı mesajı
+          Swal.fire({
+            icon: 'success',
+            title: 'Başarılı!',
+            text: 'Varsayılan dil başarıyla güncellendi.',
+            customClass: {
+              confirmButton: 'btn btn-success'
+            }
+          });
+          
           // Tabloyu yenile
           window.refreshLanguageTable();
         } else {
-          // Hata durumunda tabloyu yine de yenile
+          // Hata mesajı
+          Swal.fire({
+            icon: 'error',
+            title: 'Hata!',
+            text: response.error || 'Varsayılan dil ayarlanırken bir hata oluştu.',
+            customClass: {
+              confirmButton: 'btn btn-danger'
+            }
+          });
+          // Tabloyu yine de yenile
           window.refreshLanguageTable();
         }
       },
       error: function (xhr) {
-        // Hata durumunda sessizce tabloyu yenile
+        // Hata mesajı
+        Swal.fire({
+          icon: 'error',
+          title: 'Hata!',
+          text: 'İşlem sırasında bir hata oluştu.',
+          customClass: {
+            confirmButton: 'btn btn-danger'
+          }
+        });
+        // Tabloyu yine de yenile
         window.refreshLanguageTable();
       }
     });
@@ -397,7 +473,6 @@ $(function () {
   // Dil İçe Aktar
   $(document).on('submit', '#importLanguageForm', function (e) {
     e.preventDefault();
-    // Form submit edildi
 
     // Önce hata mesajlarını temizle
     $('.invalid-feedback').text('');
@@ -434,8 +509,6 @@ $(function () {
     if (!formData.has('_token')) {
       formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
     }
-
-    // FormData oluşturuldu, dosya seçildi
 
     // AJAX isteği
     $.ajax({
@@ -488,8 +561,7 @@ $(function () {
       },
       error: function (xhr, status, error) {
         // AJAX Hatası
-        // Yanıt
-
+        
         // Submit butonunu sıfırla
         submitButton.prop('disabled', false);
         submitButton.html(originalButtonText);
