@@ -3,6 +3,7 @@
 @endisset
 @php
 $configData = Helper::appClasses();
+$activeMenu = $activeMenu ?? null;
 @endphp
 
 @isset($configData["layout"])

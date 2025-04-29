@@ -12,22 +12,24 @@ $(function () {
 
   // DataTable nesnesini global olarak tanımla
   var dt_language;
-  
+
   // Modal odak sorunu için özel kapatıcı
   function setupModalCloseHandler() {
     // Kapatma butonları için
-    $(document).off('click.modal-close').on('click.modal-close', '.modal .btn-close, .modal [data-bs-dismiss="modal"]', function(e) {
-      // Butonun olduğu modal'ı bul
-      const modalElement = $(this).closest('.modal');
-      const modalId = modalElement.attr('id');
-      
-      // Aktif elementten focus'ı kaldır
-      if (document.activeElement) {
-        document.activeElement.blur();
-      }
-    });
+    $(document)
+      .off('click.modal-close')
+      .on('click.modal-close', '.modal .btn-close, .modal [data-bs-dismiss="modal"]', function (e) {
+        // Butonun olduğu modal'ı bul
+        const modalElement = $(this).closest('.modal');
+        const modalId = modalElement.attr('id');
+
+        // Aktif elementten focus'ı kaldır
+        if (document.activeElement) {
+          document.activeElement.blur();
+        }
+      });
   }
-  
+
   // Sayfa yüklenirken özel kapatıcıyı ayarla
   setupModalCloseHandler();
 
@@ -38,7 +40,7 @@ $(function () {
       document.activeElement.blur();
     }
   });
-  
+
   // Modal tamamen kapandığında form temizle
   $(document).on('hidden.bs.modal', '.modal', function (e) {
     const modalId = $(this).attr('id');
@@ -73,7 +75,7 @@ $(function () {
     }
   });
 
-    // Tabloyu yenileme fonksiyonu
+  // Tabloyu yenileme fonksiyonu
   window.refreshLanguageTable = function () {
     // Eğer tablo zaten yüklenmişse sadece reload et, destroy/recreate yapma
     if (dt_language) {
@@ -349,7 +351,7 @@ $(function () {
   // Dil DataTable - sayfada tablo varsa yükle
   if (dt_language_table.length) {
     // Sayfa ilk yüklemesinde 100ms bekleyerek tarayıcının hazır olmasını sağla - bu hızlı yükleme/zıplama sorununu önler
-    setTimeout(function() {
+    setTimeout(function () {
       // İlk yükleme
       window.refreshLanguageTable();
     }, 100);
@@ -437,10 +439,10 @@ $(function () {
                 customClass: {
                   confirmButton: 'btn btn-success'
                 }
+              }).then(function () {
+                // Sayfa yenilemesi yap
+                window.location.reload();
               });
-
-              // Tabloyu yenile
-              window.refreshLanguageTable();
             } else {
               // Hata mesajı
               Swal.fire({
@@ -450,9 +452,10 @@ $(function () {
                 customClass: {
                   confirmButton: 'btn btn-danger'
                 }
+              }).then(function () {
+                // Sayfa yenilemesi yap
+                window.location.reload();
               });
-              // Tabloyu yine de yenile
-              window.refreshLanguageTable();
             }
           },
           error: function (xhr) {
@@ -464,9 +467,10 @@ $(function () {
               customClass: {
                 confirmButton: 'btn btn-danger'
               }
+            }).then(function () {
+              // Sayfa yenilemesi yap
+              window.location.reload();
             });
-            // Tabloyu yine de yenile
-            window.refreshLanguageTable();
           }
         });
       }
@@ -493,8 +497,8 @@ $(function () {
             }
           });
 
-          // Tabloyu yenile
-          window.refreshLanguageTable();
+          // Sayfa yenilemesi yap
+          window.location.reload();
         } else {
           // Hata mesajı
           Swal.fire({
@@ -505,8 +509,8 @@ $(function () {
               confirmButton: 'btn btn-danger'
             }
           });
-          // Tabloyu yine de yenile
-          window.refreshLanguageTable();
+          // Sayfa yenilemesi yap
+          window.location.reload();
         }
       },
       error: function (xhr) {
@@ -575,9 +579,9 @@ $(function () {
       success: function (response) {
         // Başarılı yanıt
         if (response.success) {
-          // Modal kapat ve tabloyu yenile
+          // Modal kapat ve sayfayı yenile
           $('#importLanguageModal').modal('hide');
-          window.refreshLanguageTable();
+          window.location.reload();
 
           // Başarı mesajı göster
           Swal.fire({

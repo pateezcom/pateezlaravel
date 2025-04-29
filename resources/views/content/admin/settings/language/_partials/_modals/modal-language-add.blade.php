@@ -9,7 +9,7 @@
           <p class="mb-3">{{ __('add_language_description') }}</p>
         </div>
 
-        <form id="addLanguageForm" class="row g-3 px-5 pb-4">
+        <form id="addLanguageForm" class="row g-3 px-5 pb-4" >
           <div class="col-md-12 mb-2">
             <label class="form-label" for="languageName">{{ __('language_name') }}</label>
             <input type="text" id="languageName" name="languageName" class="form-control" placeholder="{{ __('example_english') }}">

@@ -38,21 +38,43 @@ $configData = Helper::appClasses();
       @php
       $activeClass = null;
       $currentRouteName = Route::currentRouteName();
-
-      if ($currentRouteName === $menu->slug) {
-        $activeClass = 'active';
-      }
-      elseif (isset($menu->submenu)) {
-        if (gettype($menu->slug) === 'array') {
-          foreach($menu->slug as $slug){
-            if (str_contains($currentRouteName,$slug) and strpos($currentRouteName,$slug) === 0) {
+      
+      // Check if activeMenu variable is set
+      if (isset($activeMenu)) {
+        if ($activeMenu === $menu->slug) {
+          $activeClass = 'active';
+        }
+        elseif (isset($menu->submenu)) {
+          if (gettype($menu->slug) === 'array') {
+            foreach($menu->slug as $slug){
+              if ($activeMenu === $slug or (str_contains($currentRouteName,$slug) and strpos($currentRouteName,$slug) === 0)) {
+                $activeClass = 'active open';
+              }
+            }
+          }
+          else{
+            if ($activeMenu === $menu->slug or (str_contains($currentRouteName,$menu->slug) and strpos($currentRouteName,$menu->slug) === 0)) {
               $activeClass = 'active open';
             }
           }
         }
-        else{
-          if (str_contains($currentRouteName,$menu->slug) and strpos($currentRouteName,$menu->slug) === 0) {
-            $activeClass = 'active open';
+      } else {
+        // Default behavior
+        if ($currentRouteName === $menu->slug) {
+          $activeClass = 'active';
+        }
+        elseif (isset($menu->submenu)) {
+          if (gettype($menu->slug) === 'array') {
+            foreach($menu->slug as $slug){
+              if (str_contains($currentRouteName,$slug) and strpos($currentRouteName,$slug) === 0) {
+                $activeClass = 'active open';
+              }
+            }
+          }
+          else{
+            if (str_contains($currentRouteName,$menu->slug) and strpos($currentRouteName,$menu->slug) === 0) {
+              $activeClass = 'active open';
+            }
           }
         }
       }
@@ -72,7 +94,7 @@ $configData = Helper::appClasses();
 
         {{-- submenu --}}
         @isset($menu->submenu)
-          @include('layouts.sections.menu.submenu',['menu' => $menu->submenu])
+          @include('layouts.sections.menu.submenu',['menu' => $menu->submenu, 'activeMenu' => $activeMenu ?? null])
         @endisset
       </li>
       @endif

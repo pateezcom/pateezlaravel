@@ -12,20 +12,42 @@ use Illuminate\Support\Facades\Route;
       $active = $configData["layout"] === 'vertical' ? 'active open':'active';
       $currentRouteName =  Route::currentRouteName();
 
-      if ($currentRouteName === $submenu->slug) {
+      // Check if activeMenu variable is set
+      if (isset($activeMenu)) {
+        if ($activeMenu === $submenu->slug) {
           $activeClass = 'active';
-      }
-      elseif (isset($submenu->submenu)) {
-        if (gettype($submenu->slug) === 'array') {
-          foreach($submenu->slug as $slug){
-            if (str_contains($currentRouteName,$slug) and strpos($currentRouteName,$slug) === 0) {
+        }
+        elseif (isset($submenu->submenu)) {
+          if (gettype($submenu->slug) === 'array') {
+            foreach($submenu->slug as $slug){
+              if ($activeMenu === $slug or (str_contains($currentRouteName,$slug) and strpos($currentRouteName,$slug) === 0)) {
                 $activeClass = $active;
+              }
+            }
+          }
+          else{
+            if ($activeMenu === $submenu->slug or (str_contains($currentRouteName,$submenu->slug) and strpos($currentRouteName,$submenu->slug) === 0)) {
+              $activeClass = $active;
             }
           }
         }
-        else{
-          if (str_contains($currentRouteName,$submenu->slug) and strpos($currentRouteName,$submenu->slug) === 0) {
-            $activeClass = $active;
+      } else {
+        // Default behavior
+        if ($currentRouteName === $submenu->slug) {
+            $activeClass = 'active';
+        }
+        elseif (isset($submenu->submenu)) {
+          if (gettype($submenu->slug) === 'array') {
+            foreach($submenu->slug as $slug){
+              if (str_contains($currentRouteName,$slug) and strpos($currentRouteName,$slug) === 0) {
+                  $activeClass = $active;
+              }
+            }
+          }
+          else{
+            if (str_contains($currentRouteName,$submenu->slug) and strpos($currentRouteName,$submenu->slug) === 0) {
+              $activeClass = $active;
+            }
           }
         }
       }
@@ -44,7 +66,7 @@ use Illuminate\Support\Facades\Route;
 
         {{-- submenu --}}
         @if (isset($submenu->submenu))
-          @include('layouts.sections.menu.submenu',['menu' => $submenu->submenu])
+          @include('layouts.sections.menu.submenu',['menu' => $submenu->submenu, 'activeMenu' => $activeMenu ?? null])
         @endif
       </li>
     @endforeach

@@ -988,18 +988,28 @@ youtube: "{{ __('youtube') }}" // YouTube
 
 
 
-// Yeni Ekleneler Aşağıda Olacak
+// UI ve Form
+success: "{{ __('success') }}", // Success
+error: "{{ __('error') }}", // Error
+warning: "{{ __('warning') }}", // Warning
+processing: "{{ __('processing') }}", // Processing
+print: "{{ __('print') }}", // Print
+csv: "{{ __('csv') }}", // CSV
+excel: "{{ __('excel') }}", // Excel
+pdf: "{{ __('pdf') }}", // PDF
 
+// Modül Özellikleri
+add_language_description: "{{ __('add_language_description') }}", // Add a new language to the system
+edit_language_description: "{{ __('edit_language_description') }}", // Update language information
+example_english: "{{ __('example_english') }}", // Example: English
+order_number: "{{ __('order_number') }}", // Order Number
+language_details: "{{ __('language_details') }}", // Language Details
+delete_translation: "{{ __('delete_translation') }}", // Delete Translation
+confirm_delete_translation: "{{ __('confirm_delete_translation') }}", // Are you sure you want to delete this translation?
+placeholder_search_language: "{{ __('placeholder_search_language') }}", // Search language...
+upload_json_language_file: "{{ __('upload_json_language_file') }}", // Upload JSON Language File
 
-placeholder_search_language: "{{ __('placeholder_search_language') }}", // Dil Ara
-table_info: "{{ __('table_info') }}", // Toplam _TOTAL_ kayıttan _START_ - _END_ arası gösteriliyor
-language_details: "{{ __('language_details') }}", // Dil Detayları
-msg_language_delete_warning: "{{ __('msg_language_delete_warning') }}", // Bu dil ve ilgili tüm çeviriler silinecek!
-msg_default_language_updated: "{{ __('msg_default_language_updated') }}", // Varsayılan dil başarıyla güncellendi.
-msg_select_file: "{{ __('msg_select_file') }}", // Lütfen bir dosya seçin
-msg_invalid_json_file: "{{ __('msg_invalid_json_file') }}", // Sadece JSON dosyaları kabul edilir
-msg_import_language_success: "{{ __('msg_import_language_success') }}", // Dil ve çeviriler başarıyla içe aktarıldı.
-
+// Form Doğrulama ve Hata Mesajları
 msg_language_name_required: "{{ __('msg_language_name_required') }}", // Language name cannot be empty
 msg_language_name_length: "{{ __('msg_language_name_length') }}", // Language name must be between 2 and 50 characters
 msg_short_form_required: "{{ __('msg_short_form_required') }}", // Short form cannot be empty
@@ -1007,35 +1017,48 @@ msg_short_form_length: "{{ __('msg_short_form_length') }}", // Short form must b
 msg_short_form_invalid: "{{ __('msg_short_form_invalid') }}", // Short form can only contain letters
 msg_language_code_required: "{{ __('msg_language_code_required') }}", // Language code cannot be empty
 msg_language_code_length: "{{ __('msg_language_code_length') }}", // Language code must be between 2 and 10 characters
-msg_language_code_invalid: "{{ __('msg_language_code_invalid') }}", // Language code can only contain letters and
-underscores
+msg_language_code_invalid: "{{ __('msg_language_code_invalid') }}", // Language code can only contain letters and underscores
 msg_order_required: "{{ __('msg_order_required') }}", // Order number cannot be empty
 msg_order_invalid: "{{ __('msg_order_invalid') }}", // Order number can only contain digits
-msg_text_editor_language_required: "{{ __('msg_text_editor_language_required') }}", // Text editor language must be
-selected
-language_name: "{{ __('language_name') }}", // Language Name
-short_form: "{{ __('short_form') }}", // Short Form
-language_code: "{{ __('language_code') }}", // Language Code
+msg_text_editor_language_required: "{{ __('msg_text_editor_language_required') }}", // Text editor language must be selected
 msg_already_exists: "{{ __('msg_already_exists') }}", // is already registered
-msg_language_added: "{{ __('msg_language_added') }}", // Language successfully added.
-msg_language_updated: "{{ __('msg_language_updated') }}", // Language successfully updated.
+msg_language_added: "{{ __('msg_language_added') }}", // Language successfully added
+msg_language_updated: "{{ __('msg_language_updated') }}", // Language successfully updated
+msg_language_delete_warning: "{{ __('msg_language_delete_warning') }}", // This language and all related translations will be deleted!
+msg_default_language_updated: "{{ __('msg_default_language_updated') }}", // Default language updated successfully
+msg_select_file: "{{ __('msg_select_file') }}", // Please select a file
+msg_import_language_success: "{{ __('msg_import_language_success') }}", // Language and translations successfully imported
 
+// Tablo ve Arayüz
+table_info: "{{ __('table_info') }}", // Showing _START_ to _END_ of _TOTAL_ entries
+table_pagination_info: "{{ __('table_pagination_info') }}", // Showing _START_ to _END_ of _TOTAL_ entries
+
+// Çeviri Modülü
 add_new_translation: "{{ __('add_new_translation') }}", // Add New Translation
 translation_key: "{{ __('translation_key') }}", // Translation Key
 translation_value: "{{ __('translation_value') }}", // Translation Value
 translation_group: "{{ __('translation_group') }}", // Translation Group
-delete_translation: "{{ __('delete_translation') }}", // Delete Translation
-confirm_delete_translation: "{{ __('confirm_delete_translation') }}", // Are you sure you want to delete this
-translation?
-table_pagination_info: "{{ __('table_pagination_info') }}", // Showing _START_ to _END_ of _TOTAL_ entries
 group_default_note: "{{ __('group_default_note') }}", // If left blank, it will be saved as 'default'.
 
-add_new_language: "{{ __('add_new_language') }}", // Add New Language
-add_language_description: "{{ __('add_language_description') }}", // Add a new language to the system
-example_english: "{{ __('example_english') }}", // Example: English
-order_number: "{{ __('order_number') }}", // Order Number
+edit_translations: "{{ __('edit_translations') }}", // Edit Translations
+add_new_translation: "{{ __('add_new_translation') }}", // Add New Translation
+translation_key: "{{ __('translation_key') }}", // Translation Key
+translation: "{{ __('translation') }}", // Translation
+translation_value: "{{ __('translation_value') }}", // Translation Value
+translation_group: "{{ __('translation_group') }}", // Translation Group
+group_default_note: "{{ __('group_default_note') }}", // If left blank, it will be saved as 'default'
+delete_translation: "{{ __('delete_translation') }}", // Delete Translation
+confirm_delete_translation: "{{ __('confirm_delete_translation') }}", // Are you sure you want to delete this translation?
+table_pagination_info: "{{ __('table_pagination_info') }}", // Showing _START_ to _END_ of _TOTAL_ entries
+options: "{{ __('options') }}", // Options
 
-edit_language: "{{ __('edit_language') }}", // Edit Language
-edit_language_description: "{{ __('edit_language_description') }}", // Update language information
-upload_json_language_file: "{{ __('upload_json_language_file') }}", // Upload JSON Language File
-import: "{{ __('import') }}", // Import
+
+
+
+Aşağıdaki dosyaları incele bir kayıt işlemi yada silme işlemi yada import işlemi gerçekleştiğinde tablo yenilemesi değilde sayfa yenilemesi yapsın
+
+C:\Users\nasipse\Desktop\pateezlaravel\resources\views\content\admin\settings\language\languages.blade.php
+
+C:\Users\nasipse\Desktop\pateezlaravel\resources\js\admin\settings\language\language-form-validation.js
+
+C:\Users\nasipse\Desktop\pateezlaravel\resources\js\admin\settings\language\languages.js

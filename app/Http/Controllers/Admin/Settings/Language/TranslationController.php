@@ -46,7 +46,8 @@ class TranslationController extends Controller
         return view('content.admin.settings.language.translations', [
             'pageConfigs' => $pageConfigs,
             'language' => $language,
-            'translations' => $translations
+            'translations' => $translations,
+            'activeMenu' => 'admin.settings.languages'
         ]);
     }
 
@@ -166,7 +167,8 @@ class TranslationController extends Controller
             'language' => $language,
             'translations' => $translations,
             'searchTerm' => $searchTerm,
-            'perPage' => $perPage
+            'perPage' => $perPage,
+            'activeMenu' => 'admin.settings.languages'
         ]);
     }
     
