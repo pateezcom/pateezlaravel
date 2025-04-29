@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import html from '@rollup/plugin-html';
 import { glob } from 'glob';
-import vue from '@vitejs/plugin-vue';
+import vue from '@vitejs/plugin-vue'; // Vue eklentisini import ediyoruz
 
 /**
  * Get Files from a directory
@@ -12,7 +12,6 @@ import vue from '@vitejs/plugin-vue';
 function GetFilesArray(query) {
   return glob.sync(query);
 }
-
 /**
  * Js Files
  */
@@ -55,21 +54,12 @@ function libsWindowAssignment() {
 
 export default defineConfig({
   plugins: [
-    vue({
-      template: {
-        transformAssetUrls: {
-          base: null,
-          includeAbsolute: false,
-        },
-      }
-    }),
     laravel({
       input: [
         'resources/css/app.css',
         'resources/assets/css/demo.css',
-        'resources/js/helpers/translations.js',
         'resources/js/app.js',
-        'resources/js/frontend/app.js',
+        'resources/js/frontend/app.js', // Frontend Vue.js uygulaması
         ...pageJsFiles,
         ...vendorJsFiles,
         ...LibsJsFiles,
@@ -82,11 +72,20 @@ export default defineConfig({
       refresh: true
     }),
     html(),
-    libsWindowAssignment()
+    libsWindowAssignment(),
+    vue({
+      template: {
+        transformAssetUrls: {
+          // Laravel Vite plugin için gerekli
+          base: null,
+          includeAbsolute: false,
+        }
+      }
+    }) // Vue eklentisini kullanıyoruz
   ],
   resolve: {
     alias: {
-      vue: 'vue/dist/vue.esm-bundler.js',
-    },
-  },
+      vue: 'vue/dist/vue.esm-bundler.js'
+    }
+  }
 });

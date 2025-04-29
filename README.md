@@ -68,6 +68,10 @@ Proje üç katmanlı bir mimariye sahiptir:
   
   Laravel ve Vuexy teması ile tam entegre edilmiş çok dilli web sitesi desteği. Veritabanı tabanlı çeviri sistemi, dil değiştirme, çeviri yönetimi ve SEO dostu URL yapısını içerir. Laravel'in __() fonksiyonu ile entegre çalışır.
 
+- [Kullanıcı ve Rol/İzin Sistemi Modülü](C:\Users\nasipse\Desktop\pateezlaravel\usersreadme.md) (2025-04-29)
+  
+  Laravel Jetstream ve Spatie Laravel-Permission paketleri kullanılarak geliştirilen kullanıcı yönetimi, rol ve izin sistemi. Bootstrap entegrasyonu için Vuexy Jetstream kullanılmıştır. Kimlik doğrulama, profil yönetimi, rol ve izin yönetimi araçlarını içerir.
+
 ## Yeni Sohbet Başlatma
 
 Yeni bir sohbet başlatıldığında, bu README.md dosyasını ve GitHub repo linkini paylaşmanız yeterli olacaktır. Herhangi bir ek açıklamaya gerek kalmadan doğrudan "Projeni öğrendim, nasıl devam etmek istersin?" mesajıyla devam edilecektir.

@@ -22,6 +22,9 @@ Route::prefix('admin/settings')->middleware(['auth', 'admin'])->group(function (
 });
 
 /* ========== PATEEZ NEWS ROTALAR BAŞLANGIÇ ========== */
+// Users Routes
+Route::get('/admin/users', [App\Http\Controllers\Admin\Users\UserController::class, 'index'])->name('admin.users');
+
 // Translation System Routes
 Route::get('/lang/{locale}', [LanguageSwitchController::class, 'switchLang'])->name('lang.switch');
 Route::get('/translations/refresh-cache', [JsTranslationController::class, 'refreshCache'])->name('translations.refresh-cache');
@@ -411,3 +414,13 @@ Route::get('/maps/leaflet', [Leaflet::class, 'index'])->name('maps-leaflet');
 // laravel example
 Route::get('/laravel/user-management', [UserManagement::class, 'UserManagement'])->name('laravel-example-user-management');
 Route::resource('/user-list', UserManagement::class);
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('/');
+    })->name('dashboard');
+});
