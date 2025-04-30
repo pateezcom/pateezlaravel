@@ -12,7 +12,7 @@ use App\Http\Controllers\Admin\Settings\Language\LanguageController;
 use App\Http\Controllers\Admin\Settings\Language\LanguageSwitchController;
 use App\Http\Controllers\Admin\Settings\Language\TranslationController;
 use App\Http\Controllers\Admin\Settings\Language\JsTranslationController;
-
+use App\Http\Controllers\Admin\Users\UserController;
 
 Route::prefix('admin/settings')->middleware(['auth', 'admin'])->group(function () {
   // Benzersiz URL yapısı
@@ -24,11 +24,25 @@ Route::prefix('admin/settings')->middleware(['auth', 'admin'])->group(function (
 /* ========== PATEEZ NEWS ROTALAR BAŞLANGIÇ ========== */
 // Users Routes
 Route::get('/admin/users', [App\Http\Controllers\Admin\Users\UserController::class, 'index'])->name('admin.users');
+Route::get('admin/settings/user-list', [UserController::class, 'index'])->name('admin.users.list');
+Route::get('/admin/users/check-username', [UserController::class, 'checkUsername'])->name('admin.users.check-username');
+Route::get('/admin/users/check-email', [UserController::class, 'checkEmail'])->name('admin.users.check-email');
+Route::get('/admin/users/{id}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
+Route::get('/admin/users/{id}/permissions/edit', [UserController::class, 'editPermissions'])->name('admin.users.edit-permissions');
+Route::post('/admin/users', [UserController::class, 'store'])->name('admin.users.store');
+Route::put('/admin/users/{id}', [UserController::class, 'update'])->name('admin.users.update');
+Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->name('admin.users.destroy');
+Route::post('/admin/users/{id}/permissions', [UserController::class, 'updatePermissions'])->name('admin.users.update-permissions');
+
+
 
 // Translation System Routes
 Route::get('/lang/{locale}', [LanguageSwitchController::class, 'switchLang'])->name('lang.switch');
 Route::get('/translations/refresh-cache', [JsTranslationController::class, 'refreshCache'])->name('translations.refresh-cache');
 Route::get('/translations/js', [JsTranslationController::class, 'getTranslationsForJs'])->name('translations.js');
+
+
+
 
 // Admin Settings Routes
 Route::get('/admin/settings/languages', [LanguageController::class, 'index'])->name('admin.settings.languages');
@@ -416,11 +430,11 @@ Route::get('/laravel/user-management', [UserManagement::class, 'UserManagement']
 Route::resource('/user-list', UserManagement::class);
 
 Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
+  'auth:sanctum',
+  config('jetstream.auth_session'),
+  'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('/');
-    })->name('dashboard');
+  Route::get('/dashboard', function () {
+    return view('/');
+  })->name('dashboard');
 });

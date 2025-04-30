@@ -2,8 +2,6 @@
 
 namespace App\Models\Admin\Users;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -14,13 +12,17 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     use HasApiTokens;
-
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory;
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
     use HasRoles;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -29,8 +31,12 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
+        'status',
+        'reward_system_active',
+        'profile_photo_path'
     ];
 
     /**
@@ -46,42 +52,72 @@ class User extends Authenticatable
     ];
 
     /**
-     * The accessors to append to the model's array form.
+     * The attributes that should be cast.
      *
-     * @var array<int, string>
+     * @var array<string, string>
      */
-    protected $appends = [
-        'profile_photo_url',
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'reward_system_active' => 'boolean',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * Kullanıcı durumunu kontrol eden method
+     * Checks if the user is active
      *
-     * @return array<string, string>
+     * @return bool
      */
-    protected function casts(): array
+    public function isActive()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->status === 'active';
     }
 
     /**
-     * Get all roles assigned to this user.
-     * Bu kullanıcıya atanmış tüm rolleri getir.
+     * Ödül sisteminin aktif olup olmadığını kontrol eden method
+     * Checks if the reward system is active for the user
+     *
+     * @return bool
      */
-    public function userRoles()
+    public function isRewardSystemActive()
     {
-        return $this->hasMany(UserRole::class, 'model_id')->where('model_type', static::class);
+        return $this->reward_system_active === true;
     }
 
     /**
-     * Get all permissions directly assigned to this user.
-     * Bu kullanıcıya doğrudan atanmış tüm izinleri getir.
+     * Varsayılan profil fotoğrafı
+     * Default profile photo
+     *
+     * @return string
      */
-    public function userPermissions()
+    public function getProfilePhotoUrlAttribute()
     {
-        return $this->hasMany(UserPermission::class, 'model_id')->where('model_type', static::class);
+        return $this->profile_photo_path 
+            ?? 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&color=7F9CF5&background=EBF4FF';
+    }
+    
+    /**
+     * Kullanıcının belirli bir role sahip olup olmadığını kontrol eder
+     * Checks if user has a specific role
+     *
+     * @param string $role
+     * @return bool
+     */
+    public function hasRole($role)
+    {
+        return $this->roles->contains('name', $role);
+    }
+    
+    /**
+     * Kullanıcının belirli bir izne sahip olup olmadığını kontrol eder
+     * Checks if user has a specific permission
+     *
+     * @param string $permission
+     * @return bool
+     */
+    public function hasPermission($permission)
+    {
+        return $this->getAllPermissions()->contains('name', $permission);
     }
 }
