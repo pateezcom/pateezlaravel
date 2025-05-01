@@ -58,20 +58,26 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'reward_system_active' => 'boolean',
         'created_at' => 'datetime',
-        'updated_at' => 'datetime'
+        'updated_at' => 'datetime',
+        'reward_system_active' => 'boolean',
+        'status' => 'integer'
     ];
 
     /**
      * Kullanıcı durumunu kontrol eden method
      * Checks if the user is active
+     * 
+     * Status values:
+     * 0 = Pending
+     * 1 = Inactive
+     * 2 = Active
      *
      * @return bool
      */
     public function isActive()
     {
-        return $this->status === 'active';
+        return $this->status === 2;
     }
 
     /**

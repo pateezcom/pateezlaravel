@@ -25,6 +25,7 @@ Route::prefix('admin/settings')->middleware(['auth', 'admin'])->group(function (
 // Users Routes
 Route::get('/admin/users', [App\Http\Controllers\Admin\Users\UserController::class, 'index'])->name('admin.users');
 Route::get('admin/settings/user-list', [UserController::class, 'index'])->name('admin.users.list');
+Route::get('/admin/settings/roles', [UserController::class, 'getRoles'])->name('admin.settings.roles');
 Route::get('/admin/users/check-username', [UserController::class, 'checkUsername'])->name('admin.users.check-username');
 Route::get('/admin/users/check-email', [UserController::class, 'checkEmail'])->name('admin.users.check-email');
 Route::get('/admin/users/{id}/edit', [UserController::class, 'edit'])->name('admin.users.edit');

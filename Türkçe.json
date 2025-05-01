@@ -1,0 +1,4147 @@
+{
+  "language": {
+    "name": "Türkçe",
+    "short_form": "tr",
+    "language_code": "tr-TR",
+    "text_direction": "ltr",
+    "text_editor_lang": "tr"
+  },
+  "translations": [
+    {
+      "label": "about_me",
+      "translation": "Hakkımda"
+    },
+    {
+      "label": "accept_cookies",
+      "translation": "Çerezleri Kabul Et"
+    },
+    {
+      "label": "activate",
+      "translation": "Aktifleştir"
+    },
+    {
+      "label": "activated",
+      "translation": "Aktif"
+    },
+    {
+      "label": "active",
+      "translation": "Aktif"
+    },
+    {
+      "label": "active_payment_request_error",
+      "translation": "Zaten bir aktif ödeme talebiniz var! Bu tamamlandığında, yeni bir talep oluşturabilirsiniz."
+    },
+    {
+      "label": "ad_size",
+      "translation": "Reklam Boyutu"
+    },
+    {
+      "label": "ad_space",
+      "translation": "Reklam Alanı"
+    },
+    {
+      "label": "ad_space_header",
+      "translation": "Başlık"
+    },
+    {
+      "label": "ad_space_in_article",
+      "translation": "Makalede"
+    },
+    {
+      "label": "ad_space_index_bottom",
+      "translation": "İndeks (Alt)"
+    },
+    {
+      "label": "ad_space_index_top",
+      "translation": "İndeks (Üst)"
+    },
+    {
+      "label": "ad_space_paragraph_exp",
+      "translation": "Reklam, seçtiğiniz paragraf numarasından sonra gösterilecektir"
+    },
+    {
+      "label": "ad_space_post_bottom",
+      "translation": "Gönderi Detayları (Alt)"
+    },
+    {
+      "label": "ad_space_post_top",
+      "translation": "Gönderi Detayları (Üst)"
+    },
+    {
+      "label": "ad_space_posts_bottom",
+      "translation": "Gönderiler (Alt)"
+    },
+    {
+      "label": "ad_space_posts_exp",
+      "translation": "Bu reklam, Gönderiler, Kategori, Profil, Etiket, Arama ve Profil sayfalarında gösterilecektir"
+    },
+    {
+      "label": "ad_space_posts_top",
+      "translation": "Gönderiler (Üst)"
+    },
+    {
+      "label": "ad_spaces",
+      "translation": "Reklam Alanları"
+    },
+    {
+      "label": "add_album",
+      "translation": "Albüm Ekle"
+    },
+    {
+      "label": "add_answer",
+      "translation": "Cevap Ekle"
+    },
+    {
+      "label": "add_article",
+      "translation": "Makaleyi Ekle"
+    },
+    {
+      "label": "add_audio",
+      "translation": "Ses Ekle"
+    },
+    {
+      "label": "add_breaking",
+      "translation": "Gündeme Ekle"
+    },
+    {
+      "label": "add_category",
+      "translation": "Kategori Ekle"
+    },
+    {
+      "label": "add_featured",
+      "translation": "Öne Çıkarılanlara Ekle"
+    },
+    {
+      "label": "add_font",
+      "translation": "Yazı Tipi Ekle"
+    },
+    {
+      "label": "add_gallery",
+      "translation": "Galeri Ekle"
+    },
+    {
+      "label": "add_iframe",
+      "translation": "Iframe Ekle"
+    },
+    {
+      "label": "add_image",
+      "translation": "Resim Ekle"
+    },
+    {
+      "label": "add_image_url",
+      "translation": "Resim URL'si Ekle"
+    },
+    {
+      "label": "add_language",
+      "translation": "Dil Ekle"
+    },
+    {
+      "label": "add_language_description",
+      "translation": "Sisteme yeni bir dil ekleyin"
+    },
+    {
+      "label": "add_link",
+      "translation": "Menü Bağlantısı Ekle"
+    },
+    {
+      "label": "add_new",
+      "translation": "Yeni Ekle"
+    },
+    {
+      "label": "add_new_item",
+      "translation": "Yeni Öğe Ekle"
+    },
+    {
+      "label": "add_new_language",
+      "translation": "Yeni Dil Ekle"
+    },
+    {
+      "label": "add_new_translation",
+      "translation": "Yeni Çeviri Ekle"
+    },
+    {
+      "label": "add_page",
+      "translation": "Sayfa Ekle"
+    },
+    {
+      "label": "add_payout",
+      "translation": "Ödeme Ekle"
+    },
+    {
+      "label": "add_personality_quiz",
+      "translation": "Kişilik Testi Ekle"
+    },
+    {
+      "label": "add_poll",
+      "translation": "Anket Ekle"
+    },
+    {
+      "label": "add_post",
+      "translation": "Gönderi Ekle"
+    },
+    {
+      "label": "add_posts_as_draft",
+      "translation": "Gönderileri Taslak Olarak Ekle"
+    },
+    {
+      "label": "add_question",
+      "translation": "Soru Ekle"
+    },
+    {
+      "label": "add_quiz",
+      "translation": "Test Ekle"
+    },
+    {
+      "label": "add_reading_list",
+      "translation": "Okuma Listesine Ekle"
+    },
+    {
+      "label": "add_recipe",
+      "translation": "Tarif Ekle"
+    },
+    {
+      "label": "add_recommended",
+      "translation": "Önerilenlere Ekle"
+    },
+    {
+      "label": "add_result",
+      "translation": "Sonucu Ekle"
+    },
+    {
+      "label": "add_role",
+      "translation": "Rol Ekle"
+    },
+    {
+      "label": "add_slider",
+      "translation": "Kaydırıcıya Ekle"
+    },
+    {
+      "label": "add_sorted_list",
+      "translation": "Sıralı Liste Ekle"
+    },
+    {
+      "label": "add_table_of_contents",
+      "translation": "İçindekiler Tablosu Ekle"
+    },
+    {
+      "label": "add_tag",
+      "translation": "Etiket Ekle"
+    },
+    {
+      "label": "add_trivia_quiz",
+      "translation": "Bilgi Yarışması Ekle"
+    },
+    {
+      "label": "add_user",
+      "translation": "Kullanıcı Ekle"
+    },
+    {
+      "label": "add_video",
+      "translation": "Video Ekle"
+    },
+    {
+      "label": "add_widget",
+      "translation": "Widget Ekle"
+    },
+    {
+      "label": "additional_images",
+      "translation": "Ek Görseller"
+    },
+    {
+      "label": "address",
+      "translation": "Adres"
+    },
+    {
+      "label": "admin",
+      "translation": "Yönetici"
+    },
+    {
+      "label": "admin_panel",
+      "translation": "Yönetici Paneli"
+    },
+    {
+      "label": "admin_panel_link",
+      "translation": "Yönetici Paneli Bağlantısı"
+    },
+    {
+      "label": "adsense_activation_code",
+      "translation": "AdSense Etkinleştirme Kodu"
+    },
+    {
+      "label": "advanced",
+      "translation": "Gelişmiş"
+    },
+    {
+      "label": "ago",
+      "translation": "önce"
+    },
+    {
+      "label": "ai_content_creator",
+      "translation": "Yapay Zeka İçerik Üreticisi"
+    },
+    {
+      "label": "ai_writer",
+      "translation": "Yapay Zeka Yazar"
+    },
+    {
+      "label": "album",
+      "translation": "Albüm"
+    },
+    {
+      "label": "album_cover",
+      "translation": "Albüm Kapağı"
+    },
+    {
+      "label": "album_name",
+      "translation": "Albüm Adı"
+    },
+    {
+      "label": "albums",
+      "translation": "Albümler"
+    },
+    {
+      "label": "all",
+      "translation": "Hepsi"
+    },
+    {
+      "label": "all_permissions",
+      "translation": "Tüm İzinler"
+    },
+    {
+      "label": "all_posts",
+      "translation": "Tüm Gönderiler"
+    },
+    {
+      "label": "all_time",
+      "translation": "Her Zaman"
+    },
+    {
+      "label": "all_users_can_vote",
+      "translation": "Tüm Kullanıcılar Oy Verebilir"
+    },
+    {
+      "label": "allowed_file_extensions",
+      "translation": "İzin Verilen Dosya Uzantıları"
+    },
+    {
+      "label": "always",
+      "translation": "Her Zaman"
+    },
+    {
+      "label": "amount",
+      "translation": "Miktar"
+    },
+    {
+      "label": "angry",
+      "translation": "Öfkeli"
+    },
+    {
+      "label": "answer_format",
+      "translation": "Cevap Formatı"
+    },
+    {
+      "label": "answer_text",
+      "translation": "Cevap Metni"
+    },
+    {
+      "label": "answers",
+      "translation": "Cevaplar"
+    },
+    {
+      "label": "api_key",
+      "translation": "API Anahtarı"
+    },
+    {
+      "label": "app_id",
+      "translation": "Uygulama ID'si"
+    },
+    {
+      "label": "app_name",
+      "translation": "Uygulama Adı"
+    },
+    {
+      "label": "app_secret",
+      "translation": "Uygulama Sırrı"
+    },
+    {
+      "label": "approve",
+      "translation": "Onayla"
+    },
+    {
+      "label": "approve_added_user_posts",
+      "translation": "Eklenen Kullanıcı Gönderilerini Onayla"
+    },
+    {
+      "label": "approve_updated_user_posts",
+      "translation": "Güncellenen Kullanıcı Gönderilerini Onayla"
+    },
+    {
+      "label": "approved_comments",
+      "translation": "Onaylanmış Yorumlar"
+    },
+    {
+      "label": "April",
+      "translation": "Nis"
+    },
+    {
+      "label": "article",
+      "translation": "Makaleler"
+    },
+    {
+      "label": "article_post_exp",
+      "translation": "Görüntüler ve yerleştirilmiş videolar içeren bir makale"
+    },
+    {
+      "label": "audio",
+      "translation": "Ses"
+    },
+    {
+      "label": "audio_download_button",
+      "translation": "Ses İndirme Butonu"
+    },
+    {
+      "label": "audio_post_exp",
+      "translation": "Sesleri yükleyin ve çalma listesi oluşturun"
+    },
+    {
+      "label": "audios",
+      "translation": "Sesler"
+    },
+    {
+      "label": "audios_exp",
+      "translation": "Seslerinizi seçin ve çalma listenizi oluşturun"
+    },
+    {
+      "label": "August",
+      "translation": "Ağu"
+    },
+    {
+      "label": "author",
+      "translation": "Yazar"
+    },
+    {
+      "label": "auto_post_deletion",
+      "translation": "Otomatik Post Silme"
+    },
+    {
+      "label": "auto_update",
+      "translation": "Otomatik Güncelleme"
+    },
+    {
+      "label": "automatically_calculated",
+      "translation": "Otomatik Olarak Hesaplanmış"
+    },
+    {
+      "label": "avatar",
+      "translation": "Avatar"
+    },
+    {
+      "label": "aws_key",
+      "translation": "AWS Erişim Anahtarı"
+    },
+    {
+      "label": "aws_secret",
+      "translation": "AWS Gizli Anahtarı"
+    },
+    {
+      "label": "aws_storage",
+      "translation": "AWS S3 Depolama"
+    },
+    {
+      "label": "back",
+      "translation": "Geri"
+    },
+    {
+      "label": "balance",
+      "translation": "Bakiye"
+    },
+    {
+      "label": "ban_user",
+      "translation": "Kullanıcıyı Yasakla"
+    },
+    {
+      "label": "bank_account_holder_name",
+      "translation": "Banka Hesap Sahibi Adı"
+    },
+    {
+      "label": "bank_branch_city",
+      "translation": "Banka Şubesi Şehri"
+    },
+    {
+      "label": "bank_branch_country",
+      "translation": "Banka Şubesi Ülkesi"
+    },
+    {
+      "label": "bank_name",
+      "translation": "Banka Adı"
+    },
+    {
+      "label": "banned",
+      "translation": "Yasaklandı"
+    },
+    {
+      "label": "banner",
+      "translation": "Afiş"
+    },
+    {
+      "label": "banner_desktop",
+      "translation": "Masaüstü Afişi"
+    },
+    {
+      "label": "banner_desktop_exp",
+      "translation": "Bu reklam, 992px'den büyük ekranlarda görüntülenecek"
+    },
+    {
+      "label": "banner_mobile",
+      "translation": "Mobil Afiş"
+    },
+    {
+      "label": "banner_mobile_exp",
+      "translation": "Bu reklam, 992px'den küçük ekranlarda görüntülenecek"
+    },
+    {
+      "label": "bitcoin",
+      "translation": "Bitcoin"
+    },
+    {
+      "label": "bitcoin_address",
+      "translation": "Bitcoin Adresi"
+    },
+    {
+      "label": "block_color",
+      "translation": "Üst Başlık ve Blok Başlık Renkleri"
+    },
+    {
+      "label": "breaking",
+      "translation": "Önemli"
+    },
+    {
+      "label": "breaking_news",
+      "translation": "Son Dakika Haberi"
+    },
+    {
+      "label": "browse_files",
+      "translation": "Dosyaları Gözatma"
+    },
+    {
+      "label": "btn_goto_home",
+      "translation": "Ana Sayfaya Geri Dön"
+    },
+    {
+      "label": "btn_reply",
+      "translation": "Yanıtla"
+    },
+    {
+      "label": "btn_send",
+      "translation": "Gönder"
+    },
+    {
+      "label": "btn_submit",
+      "translation": "Gönder"
+    },
+    {
+      "label": "bucket_name",
+      "translation": "Kova Adı"
+    },
+    {
+      "label": "bulk_post_upload",
+      "translation": "Toplu Gönderi Yükle"
+    },
+    {
+      "label": "bulk_post_upload_exp",
+      "translation": "Bu bölümden bir CSV dosyası ile gönderilerinizi ekleyebilirsiniz"
+    },
+    {
+      "label": "bulk_post_upload_for_authors",
+      "translation": "Yazarlar için Toplu Gönderi Yükleme"
+    },
+    {
+      "label": "by_date",
+      "translation": "Tarihine Göre"
+    },
+    {
+      "label": "by_featured_order",
+      "translation": "Öne Çıkan Sıraya Göre"
+    },
+    {
+      "label": "by_slider_order",
+      "translation": "Kaydırıcı Sıraya Göre"
+    },
+    {
+      "label": "cache_refresh_time",
+      "translation": "Önbellek Yenileme Süresi (Dakika)"
+    },
+    {
+      "label": "cache_refresh_time_exp",
+      "translation": "Bu süre dolduktan sonra, önbellek dosyalarınız yenilenecektir."
+    },
+    {
+      "label": "cache_system",
+      "translation": "Önbellek Sistemi"
+    },
+    {
+      "label": "cancel",
+      "translation": "İptal"
+    },
+    {
+      "label": "categories",
+      "translation": "Kategoriler"
+    },
+    {
+      "label": "category",
+      "translation": "Kategori"
+    },
+    {
+      "label": "category_block_style",
+      "translation": "Kategori Blok Stili"
+    },
+    {
+      "label": "category_ids_list",
+      "translation": "Kategori Kimlikleri listesi"
+    },
+    {
+      "label": "category_name",
+      "translation": "Kategori Adı"
+    },
+    {
+      "label": "category_select_widget",
+      "translation": "Yan panelde göstermek istediğiniz widget'ları seçin"
+    },
+    {
+      "label": "change",
+      "translation": "Değiştir"
+    },
+    {
+      "label": "change_avatar",
+      "translation": "Avatar Değiştir"
+    },
+    {
+      "label": "change_favicon",
+      "translation": "favicon Değiştir"
+    },
+    {
+      "label": "change_logo",
+      "translation": "Logo değiştir"
+    },
+    {
+      "label": "change_password",
+      "translation": "Şifre değiştir"
+    },
+    {
+      "label": "change_user_role",
+      "translation": "Kullanıcı Rolünü Değiştir"
+    },
+    {
+      "label": "choose_post_format",
+      "translation": "Bir Gönderi Formatı Seç"
+    },
+    {
+      "label": "circle",
+      "translation": "Daire"
+    },
+    {
+      "label": "city",
+      "translation": "Şehir"
+    },
+    {
+      "label": "client_id",
+      "translation": "Müşteri ID"
+    },
+    {
+      "label": "client_secret",
+      "translation": "Müşteri Gizli Anahtarı"
+    },
+    {
+      "label": "close",
+      "translation": "Kapat"
+    },
+    {
+      "label": "color",
+      "translation": "Renk"
+    },
+    {
+      "label": "color_code",
+      "translation": "Renk Kodu"
+    },
+    {
+      "label": "comment",
+      "translation": "Yorum"
+    },
+    {
+      "label": "comment_approval_system",
+      "translation": "Yorum Onay Sistemi"
+    },
+    {
+      "label": "comment_system",
+      "translation": "Yorum Sistemi"
+    },
+    {
+      "label": "comments",
+      "translation": "Yorumlar"
+    },
+    {
+      "label": "comments_contact",
+      "translation": "Yorumlar ve İletişim Mesajları"
+    },
+    {
+      "label": "completed",
+      "translation": "Tamamlandı"
+    },
+    {
+      "label": "confirm_album",
+      "translation": "Bu albümü silmek istediğinizden emin misiniz?"
+    },
+    {
+      "label": "confirm_answer",
+      "translation": "Bu yanıtı silmek istediğinizden emin misiniz?"
+    },
+    {
+      "label": "confirm_ban",
+      "translation": "Bu kullanıcıyı yasaklamak istediğinizden emin misiniz?"
+    },
+    {
+      "label": "confirm_category",
+      "translation": "Bu kategoriyi silmek istediğinizden emin misiniz?"
+    },
+    {
+      "label": "confirm_comment",
+      "translation": "Bu yorumu silmek istediğinizden emin misiniz?"
+    },
+    {
+      "label": "confirm_comments",
+      "translation": "Seçilen yorumları silmek istediğinizden emin misiniz?"
+    },
+    {
+      "label": "confirm_delete_translation",
+      "translation": "Bu çeviriyi silmek istediğinizden emin misiniz?"
+    },
+    {
+      "label": "confirm_image",
+      "translation": "Bu resmi silmek istediğinizden emin misiniz?"
+    },
+    {
+      "label": "confirm_item",
+      "translation": "Bu öğeyi silmek istediğinizden emin misiniz?"
+    },
+    {
+      "label": "confirm_language",
+      "translation": "Bu dili silmek istediğinizden emin misiniz?"
+    },
+    {
+      "label": "confirm_link",
+      "translation": "Bu bağlantıyı silmek istediğinizden emin misiniz?"
+    },
+    {
+      "label": "confirm_message",
+      "translation": "Bu mesajı silmek istediğinizden emin misiniz?"
+    },
+    {
+      "label": "confirm_messages",
+      "translation": "Seçilen mesajları silmek istediğinizden emin misiniz?"
+    },
+    {
+      "label": "confirm_page",
+      "translation": "Bu sayfayı silmek istediğinizden emin misiniz?"
+    },
+    {
+      "label": "confirm_password",
+      "translation": "Şifreyi Onaylayın"
+    },
+    {
+      "label": "confirm_poll",
+      "translation": "Bu anketi silmek istediğinizden emin misiniz?"
+    },
+    {
+      "label": "confirm_post",
+      "translation": "Bu gönderiyi silmek istediğinizden emin misiniz?"
+    },
+    {
+      "label": "confirm_posts",
+      "translation": "Seçilen gönderileri silmek istediğinizden emin misiniz?"
+    },
+    {
+      "label": "confirm_question",
+      "translation": "Bu soruyu silmek istediğinizden emin misiniz?"
+    },
+    {
+      "label": "confirm_record",
+      "translation": "Bu kaydı silmek istediğinizden emin misiniz?"
+    },
+    {
+      "label": "confirm_result",
+      "translation": "Bu sonucu silmek istediğinizden emin misiniz?"
+    },
+    {
+      "label": "confirm_rss",
+      "translation": "Bu beslemeyi silmek istediğinizden emin misiniz?"
+    },
+    {
+      "label": "confirm_user",
+      "translation": "Bu kullanıcıyı silmek istediğinizden emin misiniz?"
+    },
+    {
+      "label": "confirm_user_email",
+      "translation": "Kullanıcı E-postasını Onaylayın"
+    },
+    {
+      "label": "confirm_widget",
+      "translation": "Bu widget'ı silmek istediğinizden emin misiniz?"
+    },
+    {
+      "label": "confirm_your_email",
+      "translation": "E-postanızı Onaylayın"
+    },
+    {
+      "label": "confirmed",
+      "translation": "Onaylandı"
+    },
+    {
+      "label": "connect_with_facebook",
+      "translation": "Facebook ile Bağlan"
+    },
+    {
+      "label": "connect_with_google",
+      "translation": "Google ile Bağlan"
+    },
+    {
+      "label": "connect_with_vk",
+      "translation": "VK ile Bağlan"
+    },
+    {
+      "label": "contact",
+      "translation": "İletişim"
+    },
+    {
+      "label": "contact_message",
+      "translation": "İletişim Mesajı"
+    },
+    {
+      "label": "contact_messages",
+      "translation": "İletişim Mesajları"
+    },
+    {
+      "label": "contact_messages_will_send",
+      "translation": "İletişim mesajları bu e-postaya gönderilecektir."
+    },
+    {
+      "label": "contact_settings",
+      "translation": "İletişim Ayarları"
+    },
+    {
+      "label": "contact_text",
+      "translation": "İletişim Metni"
+    },
+    {
+      "label": "content",
+      "translation": "İçerik"
+    },
+    {
+      "label": "cook_time",
+      "translation": "Pişirme Süresi"
+    },
+    {
+      "label": "cookie_prefix",
+      "translation": "Çerez Ön Eki"
+    },
+    {
+      "label": "cookies_warning",
+      "translation": "Çerez Uyarısı"
+    },
+    {
+      "label": "copyright",
+      "translation": "Telif Hakkı"
+    },
+    {
+      "label": "correct",
+      "translation": "Doğru"
+    },
+    {
+      "label": "correct_answer",
+      "translation": "Doğru Cevap"
+    },
+    {
+      "label": "country",
+      "translation": "Ülke"
+    },
+    {
+      "label": "create_account",
+      "translation": "Hesap Oluştur"
+    },
+    {
+      "label": "create_ad_exp",
+      "translation": "Bir reklam kodunuz yoksa, bir resim seçerek ve bir URL ekleyerek bir reklam kodu oluşturabilirsiniz"
+    },
+    {
+      "label": "currency",
+      "translation": "Para Birimi"
+    },
+    {
+      "label": "currency_format",
+      "translation": "Para Birimi Formatı"
+    },
+    {
+      "label": "currency_name",
+      "translation": "Para Birimi Adı"
+    },
+    {
+      "label": "currency_symbol",
+      "translation": "Para Birimi Sembolü"
+    },
+    {
+      "label": "currency_symbol_format",
+      "translation": "Para Birimi Sembolü Formatı"
+    },
+    {
+      "label": "custom",
+      "translation": "Özel"
+    },
+    {
+      "label": "custom_footer_codes",
+      "translation": "Özel Alt Bilgi Kodları"
+    },
+    {
+      "label": "custom_footer_codes_exp",
+      "translation": "Bu kodlar sitenin alt bilgisine eklenecektir."
+    },
+    {
+      "label": "custom_header_codes",
+      "translation": "Özel Üst Bilgi Kodları"
+    },
+    {
+      "label": "custom_header_codes_exp",
+      "translation": "Bu kodlar sitenin üst bilgisine eklenecektir."
+    },
+    {
+      "label": "daily",
+      "translation": "Günlük"
+    },
+    {
+      "label": "dark_mode",
+      "translation": "Karanlık Mod"
+    },
+    {
+      "label": "dashboard",
+      "translation": "Kontrol Paneli"
+    },
+    {
+      "label": "data_type",
+      "translation": "Veri Türü"
+    },
+    {
+      "label": "date",
+      "translation": "Tarih"
+    },
+    {
+      "label": "date_added",
+      "translation": "Ekleme Tarihi"
+    },
+    {
+      "label": "date_publish",
+      "translation": "Yayımlanma Tarihi"
+    },
+    {
+      "label": "day",
+      "translation": "gün"
+    },
+    {
+      "label": "days",
+      "translation": "günler"
+    },
+    {
+      "label": "days_remaining",
+      "translation": "Kalan Günler"
+    },
+    {
+      "label": "December",
+      "translation": "Ara"
+    },
+    {
+      "label": "default",
+      "translation": "Varsayılan"
+    },
+    {
+      "label": "default_language",
+      "translation": "Varsayılan Dil"
+    },
+    {
+      "label": "delete",
+      "translation": "Sil"
+    },
+    {
+      "label": "delete_account",
+      "translation": "Hesabı Sil"
+    },
+    {
+      "label": "delete_account_confirm",
+      "translation": "Hesabınızı silmek kalıcıdır ve yorumlar, avatarlar ve profil ayarları dahil tüm içeriği kaldıracaktır. Hesabınızı silmek istediğinize emin misiniz?"
+    },
+    {
+      "label": "delete_all_posts",
+      "translation": "Tüm Gönderileri Sil"
+    },
+    {
+      "label": "delete_images_with_post",
+      "translation": "Gönderi ile Birlikte Resimleri Sil"
+    },
+    {
+      "label": "delete_only_rss_posts",
+      "translation": "Sadece RSS Gönderilerini Sil"
+    },
+    {
+      "label": "delete_reading_list",
+      "translation": "Okuma Listesinden Kaldır"
+    },
+    {
+      "label": "delete_translation",
+      "translation": "Çeviriyi Sil"
+    },
+    {
+      "label": "description",
+      "translation": "Açıklama"
+    },
+    {
+      "label": "difficulty",
+      "translation": "Zorluk"
+    },
+    {
+      "label": "directions",
+      "translation": "Talimatlar"
+    },
+    {
+      "label": "disable",
+      "translation": "Devre Dışı Bırak"
+    },
+    {
+      "label": "disable_reward_system",
+      "translation": "Ödül Sistemini Devre Dışı Bırak"
+    },
+    {
+      "label": "discord",
+      "translation": "Discord"
+    },
+    {
+      "label": "dislike",
+      "translation": "Beğenmiyorum"
+    },
+    {
+      "label": "distribute_only_post_summary",
+      "translation": "Sadece Gönderi Özeti Dağıt"
+    },
+    {
+      "label": "distribute_post_content",
+      "translation": "Gönderi İçeriğini Dağıt"
+    },
+    {
+      "label": "documentation",
+      "translation": "Doküman"
+    },
+    {
+      "label": "dont_add_menu",
+      "translation": "Menuya Ekleme"
+    },
+    {
+      "label": "dont_want_receive_emails",
+      "translation": "Bu e-postaları almak istemiyor musunuz?"
+    },
+    {
+      "label": "download",
+      "translation": "İndir"
+    },
+    {
+      "label": "download_button",
+      "translation": "İndirme Butonu"
+    },
+    {
+      "label": "download_csv_example",
+      "translation": "CSV Örneğini İndir"
+    },
+    {
+      "label": "download_csv_template",
+      "translation": "CSV Şablonunu İndir"
+    },
+    {
+      "label": "download_database_backup",
+      "translation": "Veritabanı Yedeğini İndir"
+    },
+    {
+      "label": "download_images_my_server",
+      "translation": "Resimleri Sunucuma İndir"
+    },
+    {
+      "label": "drafts",
+      "translation": "Taslaklar"
+    },
+    {
+      "label": "drag_drop_file_here",
+      "translation": "Dosyayı buraya sürükleyip bırakın veya"
+    },
+    {
+      "label": "drag_drop_files_here",
+      "translation": "Dosyaları buraya sürükleyip bırakın veya"
+    },
+    {
+      "label": "earnings",
+      "translation": "Kazançlar"
+    },
+    {
+      "label": "easy",
+      "translation": "Kolay"
+    },
+    {
+      "label": "edit",
+      "translation": "Düzenle"
+    },
+    {
+      "label": "edit_language",
+      "translation": "Dil Düzenle"
+    },
+    {
+      "label": "edit_language_description",
+      "translation": "Dil bilgilerini güncelleyin"
+    },
+    {
+      "label": "edit_phrases",
+      "translation": "İfadeleri Düzenle"
+    },
+    {
+      "label": "edit_role",
+      "translation": "Rolü Düzenle"
+    },
+    {
+      "label": "edit_translations",
+      "translation": "Çevirileri Düzenle"
+    },
+    {
+      "label": "edited",
+      "translation": "Düzenlendi"
+    },
+    {
+      "label": "email",
+      "translation": "E-posta"
+    },
+    {
+      "label": "email_reset_password",
+      "translation": "Şifrenizi sıfırlamak için lütfen aşağıdaki düğmeye tıklayın."
+    },
+    {
+      "label": "email_settings",
+      "translation": "E-posta Ayarları"
+    },
+    {
+      "label": "email_status",
+      "translation": "E-posta Durumu"
+    },
+    {
+      "label": "email_verification",
+      "translation": "E-posta Doğrulaması"
+    },
+    {
+      "label": "embed_media",
+      "translation": "Medya Göm"
+    },
+    {
+      "label": "emoji_reactions",
+      "translation": "Emoji Tepkileri"
+    },
+    {
+      "label": "enable",
+      "translation": "Etkinleştir"
+    },
+    {
+      "label": "enable_reward_system",
+      "translation": "Ödül Sistemini Etkinleştir"
+    },
+    {
+      "label": "encryption",
+      "translation": "Şifreleme"
+    },
+    {
+      "label": "enter_2_characters",
+      "translation": "En az 2 karakter girin"
+    },
+    {
+      "label": "enter_email_address",
+      "translation": "Email adresinizi girin"
+    },
+    {
+      "label": "enter_new_password",
+      "translation": "Yeni şifrenizi girin"
+    },
+    {
+      "label": "enter_topic",
+      "translation": "Konu girin"
+    },
+    {
+      "label": "enter_url",
+      "translation": "URL girin"
+    },
+    {
+      "label": "example",
+      "translation": "Örnek"
+    },
+    {
+      "label": "example_english",
+      "translation": "Örnek: English"
+    },
+    {
+      "label": "export",
+      "translation": "Dışa Aktar"
+    },
+    {
+      "label": "facebook",
+      "translation": "Facebook"
+    },
+    {
+      "label": "facebook_comments",
+      "translation": "Facebook Yorumları"
+    },
+    {
+      "label": "facebook_comments_code",
+      "translation": "Facebook Yorumları Eklenti Kodu"
+    },
+    {
+      "label": "favicon",
+      "translation": "Favicon"
+    },
+    {
+      "label": "featured",
+      "translation": "Özellikli"
+    },
+    {
+      "label": "featured_order",
+      "translation": "Özellikli Sipariş"
+    },
+    {
+      "label": "featured_posts",
+      "translation": "Özellikli Gönderiler"
+    },
+    {
+      "label": "February",
+      "translation": "Şub"
+    },
+    {
+      "label": "feed",
+      "translation": "Akış"
+    },
+    {
+      "label": "feed_name",
+      "translation": "Akış Adı"
+    },
+    {
+      "label": "feed_url",
+      "translation": "Akış URL'si"
+    },
+    {
+      "label": "field",
+      "translation": "Alan"
+    },
+    {
+      "label": "file_extensions",
+      "translation": "Dosya Uzantıları"
+    },
+    {
+      "label": "file_manager",
+      "translation": "Dosya Yöneticisi"
+    },
+    {
+      "label": "file_upload",
+      "translation": "Dosya Yükle"
+    },
+    {
+      "label": "files",
+      "translation": "Dosyalar"
+    },
+    {
+      "label": "files_exp",
+      "translation": "İndirilebilir ek dosyalar (.pdf, .docx, .zip vb.)"
+    },
+    {
+      "label": "filter",
+      "translation": "Filtre"
+    },
+    {
+      "label": "folder_name",
+      "translation": "Klasör Adı"
+    },
+    {
+      "label": "follow",
+      "translation": "Takip Et"
+    },
+    {
+      "label": "followers",
+      "translation": "Takipçiler"
+    },
+    {
+      "label": "following",
+      "translation": "Takip Ediliyor"
+    },
+    {
+      "label": "font_family",
+      "translation": "Yazı Tipi Ailesi"
+    },
+    {
+      "label": "font_settings",
+      "translation": "Yazı Tipi Ayarları"
+    },
+    {
+      "label": "font_source",
+      "translation": "Yazı Tipi Kaynağı"
+    },
+    {
+      "label": "fonts",
+      "translation": "Yazı Tipleri"
+    },
+    {
+      "label": "footer",
+      "translation": "Alt Bilgi"
+    },
+    {
+      "label": "footer_about_section",
+      "translation": "Alt Bilgi Hakkında Bölümü"
+    },
+    {
+      "label": "footer_follow",
+      "translation": "Sosyal Medya"
+    },
+    {
+      "label": "forgot_password",
+      "translation": "Şifreyi Unuttum"
+    },
+    {
+      "label": "form_validation_is_unique",
+      "translation": "{field} alanı benzersiz bir değer içermelidir."
+    },
+    {
+      "label": "form_validation_matches",
+      "translation": "{field} alanı {param} alanı ile eşleşmiyor."
+    },
+    {
+      "label": "form_validation_max_length",
+      "translation": "{field} alanı {param} karakter uzunluğunu aşamaz."
+    },
+    {
+      "label": "form_validation_min_length",
+      "translation": "{field} alanı en az {param} karakter uzunluğunda olmalıdır."
+    },
+    {
+      "label": "form_validation_required",
+      "translation": "{field} alanı gereklidir."
+    },
+    {
+      "label": "frequency",
+      "translation": "Sıklık"
+    },
+    {
+      "label": "frequency_exp",
+      "translation": "Bu değer, belirli bir URL'deki içeriğin ne sıklıkla değişebileceğini gösterir."
+    },
+    {
+      "label": "full_name",
+      "translation": "Tam İsim"
+    },
+    {
+      "label": "funny",
+      "translation": "Komik"
+    },
+    {
+      "label": "gallery",
+      "translation": "Galerisi"
+    },
+    {
+      "label": "gallery_albums",
+      "translation": "Galeri Albümleri"
+    },
+    {
+      "label": "gallery_categories",
+      "translation": "Galeri Kategorileri"
+    },
+    {
+      "label": "gallery_post",
+      "translation": "Galeri Paylaşımı"
+    },
+    {
+      "label": "gallery_post_exp",
+      "translation": "Bir dizi görüntü"
+    },
+    {
+      "label": "gallery_post_items",
+      "translation": "Galeri Paylaşım Öğeleri"
+    },
+    {
+      "label": "general",
+      "translation": "Genel"
+    },
+    {
+      "label": "general_settings",
+      "translation": "Genel Ayarlar"
+    },
+    {
+      "label": "generate",
+      "translation": "Oluştur"
+    },
+    {
+      "label": "generate_feed_url",
+      "translation": "Besleme URL'si Oluştur"
+    },
+    {
+      "label": "generate_keywords_from_title",
+      "translation": "Başlıktan Anahtar Kelimeler Oluştur"
+    },
+    {
+      "label": "generate_sitemap",
+      "translation": "Site Haritası Oluştur"
+    },
+    {
+      "label": "generate_text",
+      "translation": "Metin Oluştur"
+    },
+    {
+      "label": "generated_sitemaps",
+      "translation": "Oluşturulan Site Haritaları"
+    },
+    {
+      "label": "generated_text",
+      "translation": "Oluşturulan Metin"
+    },
+    {
+      "label": "generating_text",
+      "translation": "Metin üretiliyor..."
+    },
+    {
+      "label": "get_video",
+      "translation": "Video Al"
+    },
+    {
+      "label": "get_video_from_url",
+      "translation": "URL'den Video Al"
+    },
+    {
+      "label": "google",
+      "translation": "Google"
+    },
+    {
+      "label": "google_analytics",
+      "translation": "Google Analytics"
+    },
+    {
+      "label": "google_analytics_code",
+      "translation": "Google Analytics Kodu"
+    },
+    {
+      "label": "google_indexing_api",
+      "translation": "Google Dizine Ekleme API'si"
+    },
+    {
+      "label": "google_news",
+      "translation": "Google Haberleri"
+    },
+    {
+      "label": "google_news_cache_exp",
+      "translation": "Bu sistem önbellek sistemini kullanır. Bu nedenle, XML dosyanızdaki kayıtlar her 15 dakikada bir otomatik olarak güncellenecektir."
+    },
+    {
+      "label": "google_news_exp",
+      "translation": "Google Haberler kurallarına göre, bir XML dosyasında maksimum 1000 yayın olabilir. Bu nedenle, bu sınırı artırmak önerilmez."
+    },
+    {
+      "label": "google_recaptcha",
+      "translation": "Google reCAPTCHA"
+    },
+    {
+      "label": "group_default_note",
+      "translation": "Boş bırakırsanız 'default' olarak kaydedilir."
+    },
+    {
+      "label": "height",
+      "translation": "Yükseklik"
+    },
+    {
+      "label": "help_documents",
+      "translation": "Yardım Belgeleri"
+    },
+    {
+      "label": "help_documents_exp",
+      "translation": "Bu belgeleri CSV dosyanızı oluşturmak için kullanabilirsiniz"
+    },
+    {
+      "label": "hide",
+      "translation": "Gizle"
+    },
+    {
+      "label": "hit",
+      "translation": "Vur"
+    },
+    {
+      "label": "home",
+      "translation": "Anasayfa"
+    },
+    {
+      "label": "home_title",
+      "translation": "Ana Sayfa Başlığı"
+    },
+    {
+      "label": "homepage",
+      "translation": "Ana Sayfa"
+    },
+    {
+      "label": "horizontal",
+      "translation": "Yatay"
+    },
+    {
+      "label": "hour",
+      "translation": "saat"
+    },
+    {
+      "label": "hourly",
+      "translation": "Saatlik"
+    },
+    {
+      "label": "hours",
+      "translation": "saatler"
+    },
+    {
+      "label": "human_verification",
+      "translation": "İnsan Doğrulaması"
+    },
+    {
+      "label": "human_verification_exp",
+      "translation": "Gerçek etkileşimi sağlamak ve botları önlemek için fare hareketleri, kaydırma ve sayfada harcanan zaman aracılığıyla kullanıcı etkinliğini doğrulayın."
+    },
+    {
+      "label": "iban",
+      "translation": "IBAN"
+    },
+    {
+      "label": "iban_long",
+      "translation": "Uluslararası Banka Hesap Numarası"
+    },
+    {
+      "label": "id",
+      "translation": "Kimlik"
+    },
+    {
+      "label": "image",
+      "translation": "Görsel"
+    },
+    {
+      "label": "image_description",
+      "translation": "Görsel Açıklaması"
+    },
+    {
+      "label": "image_file_format",
+      "translation": "Görsel Dosya Formatı"
+    },
+    {
+      "label": "image_for_video",
+      "translation": "Video için görsel"
+    },
+    {
+      "label": "images",
+      "translation": "Görüntüler"
+    },
+    {
+      "label": "import",
+      "translation": "İçe Aktar"
+    },
+    {
+      "label": "import_language",
+      "translation": "Dil İçe Aktar"
+    },
+    {
+      "label": "import_rss_feed",
+      "translation": "RSS Beslemesini İçe Aktar"
+    },
+    {
+      "label": "importing_posts",
+      "translation": "Gönderiler içe aktarılıyor..."
+    },
+    {
+      "label": "inactive",
+      "translation": "Pasif"
+    },
+    {
+      "label": "index",
+      "translation": "Dizin"
+    },
+    {
+      "label": "info_about_recipe",
+      "translation": "Tarifle İlgili Bilgiler"
+    },
+    {
+      "label": "ingredient",
+      "translation": "Malzeme"
+    },
+    {
+      "label": "ingredient_ex",
+      "translation": "Örnek: 1 yemek kaşığı zeytinyağı"
+    },
+    {
+      "label": "ingredients",
+      "translation": "Malzemeler"
+    },
+    {
+      "label": "instagram",
+      "translation": "Instagram"
+    },
+    {
+      "label": "insufficient_balance",
+      "translation": "Yetersiz bakiye!"
+    },
+    {
+      "label": "intermediate",
+      "translation": "Orta Seviye"
+    },
+    {
+      "label": "invalid",
+      "translation": "Geçersiz!"
+    },
+    {
+      "label": "invalid_feed_url",
+      "translation": "Geçersiz besleme URL'si!"
+    },
+    {
+      "label": "invalid_file_type",
+      "translation": "Geçersiz dosya türü!"
+    },
+    {
+      "label": "invalid_url",
+      "translation": "Geçersiz URL!"
+    },
+    {
+      "label": "invalid_withdrawal_amount",
+      "translation": "Geçersiz çekim tutarı!"
+    },
+    {
+      "label": "ip_address",
+      "translation": "IP Adresi"
+    },
+    {
+      "label": "item_order",
+      "translation": "Öğe Sırası"
+    },
+    {
+      "label": "January",
+      "translation": "Oca"
+    },
+    {
+      "label": "join_newsletter",
+      "translation": "Bültenimize Katılın"
+    },
+    {
+      "label": "json_language_file",
+      "translation": "JSON Dil Dosyası"
+    },
+    {
+      "label": "July",
+      "translation": "Tem"
+    },
+    {
+      "label": "June",
+      "translation": "Haz"
+    },
+    {
+      "label": "just_now",
+      "translation": "Az Önce"
+    },
+    {
+      "label": "keywords",
+      "translation": "Anahtar Kelimeler"
+    },
+    {
+      "label": "label",
+      "translation": "Etiket"
+    },
+    {
+      "label": "language",
+      "translation": "Dil"
+    },
+    {
+      "label": "language_code",
+      "translation": "Dil Kodu"
+    },
+    {
+      "label": "language_code",
+      "translation": "Dil Kodu"
+    },
+    {
+      "label": "language_details",
+      "translation": "Dil Detayları"
+    },
+    {
+      "label": "language_name",
+      "translation": "Dil Adı"
+    },
+    {
+      "label": "language_name",
+      "translation": "Dil Adı"
+    },
+    {
+      "label": "language_settings",
+      "translation": "Dil Ayarları"
+    },
+    {
+      "label": "languages",
+      "translation": "Diller"
+    },
+    {
+      "label": "last_comments",
+      "translation": "Son Yorumlar"
+    },
+    {
+      "label": "last_contact_messages",
+      "translation": "Son İletişim Mesajları"
+    },
+    {
+      "label": "last_modification",
+      "translation": "Son Değişiklik"
+    },
+    {
+      "label": "last_modification_exp",
+      "translation": "URL'nin son değiştirildiği zaman"
+    },
+    {
+      "label": "last_seen",
+      "translation": "Son görüldü:"
+    },
+    {
+      "label": "latest_posts",
+      "translation": "Son Gönderiler"
+    },
+    {
+      "label": "latest_users",
+      "translation": "Son Kullanıcılar"
+    },
+    {
+      "label": "leave_message",
+      "translation": "Mesaj Gönder"
+    },
+    {
+      "label": "leave_reply",
+      "translation": "Cevap Bırak"
+    },
+    {
+      "label": "leave_your_comment",
+      "translation": "Yorumunuzu bırakın..."
+    },
+    {
+      "label": "left",
+      "translation": "Sol"
+    },
+    {
+      "label": "left_to_right",
+      "translation": "Soldan Sağa"
+    },
+    {
+      "label": "length_of_text",
+      "translation": "Metin Uzunluğu"
+    },
+    {
+      "label": "level_1",
+      "translation": "Seviye 1"
+    },
+    {
+      "label": "level_2",
+      "translation": "Seviye 2"
+    },
+    {
+      "label": "level_3",
+      "translation": "Seviye 3"
+    },
+    {
+      "label": "like",
+      "translation": "Beğen"
+    },
+    {
+      "label": "limit",
+      "translation": "Sınır"
+    },
+    {
+      "label": "link",
+      "translation": "Bağlantı"
+    },
+    {
+      "label": "link_list_style",
+      "translation": "Link Liste Stili"
+    },
+    {
+      "label": "link_type",
+      "translation": "Link Türü"
+    },
+    {
+      "label": "linkedin",
+      "translation": "Linkedin"
+    },
+    {
+      "label": "load_more",
+      "translation": "Daha Fazla Yükle"
+    },
+    {
+      "label": "load_more_comments",
+      "translation": "Daha Fazla Yorum Yükle"
+    },
+    {
+      "label": "local",
+      "translation": "Yerel"
+    },
+    {
+      "label": "local_storage",
+      "translation": "Yerel Depolama"
+    },
+    {
+      "label": "location",
+      "translation": "Konum"
+    },
+    {
+      "label": "login",
+      "translation": "Giriş"
+    },
+    {
+      "label": "login_error",
+      "translation": "Kullanıcı adı veya şifre yanlış!"
+    },
+    {
+      "label": "logo",
+      "translation": "Logo"
+    },
+    {
+      "label": "logo_email",
+      "translation": "Logo E-posta"
+    },
+    {
+      "label": "logo_footer",
+      "translation": "Logo Altbilgi"
+    },
+    {
+      "label": "logo_size",
+      "translation": "Logo Boyutu"
+    },
+    {
+      "label": "logout",
+      "translation": "Çıkış"
+    },
+    {
+      "label": "long",
+      "translation": "Uzun"
+    },
+    {
+      "label": "love",
+      "translation": "Aşk"
+    },
+    {
+      "label": "mail",
+      "translation": "Mail"
+    },
+    {
+      "label": "mail_host",
+      "translation": "Mail Sunucusu"
+    },
+    {
+      "label": "mail_is_being_sent",
+      "translation": "Mail gönderiliyor. Lütfen işlem tamamlanana kadar bu sayfayı kapatmayın!"
+    },
+    {
+      "label": "mail_password",
+      "translation": "Mail Şifresi"
+    },
+    {
+      "label": "mail_port",
+      "translation": "Mail Portu"
+    },
+    {
+      "label": "mail_protocol",
+      "translation": "Mail Protokolü"
+    },
+    {
+      "label": "mail_service",
+      "translation": "Mail Servisi"
+    },
+    {
+      "label": "mail_title",
+      "translation": "Mail Başlığı"
+    },
+    {
+      "label": "mail_username",
+      "translation": "Mail Kullanıcı Adı"
+    },
+    {
+      "label": "mailjet_email_address",
+      "translation": "Mailjet E-posta Adresi"
+    },
+    {
+      "label": "mailjet_email_address_exp",
+      "translation": "Mailjet hesabınızı oluşturduğunuz adres"
+    },
+    {
+      "label": "main_menu",
+      "translation": "Ana Menü"
+    },
+    {
+      "label": "main_navigation",
+      "translation": "ANA NAVEGASYON"
+    },
+    {
+      "label": "main_post_image",
+      "translation": "Ana gönderi resmi"
+    },
+    {
+      "label": "maintenance_mode",
+      "translation": "Bakım Modu"
+    },
+    {
+      "label": "manage_all_posts",
+      "translation": "Tüm Gönderileri Yönet"
+    },
+    {
+      "label": "manage_tags",
+      "translation": "Etiketleri Yönet"
+    },
+    {
+      "label": "March",
+      "translation": "Mar"
+    },
+    {
+      "label": "max",
+      "translation": "Max"
+    },
+    {
+      "label": "May",
+      "translation": "May"
+    },
+    {
+      "label": "medium",
+      "translation": "Orta"
+    },
+    {
+      "label": "mega_menu_color",
+      "translation": "Mega Menü Rengi"
+    },
+    {
+      "label": "member_since",
+      "translation": "Üyelik tarihi"
+    },
+    {
+      "label": "menu_limit",
+      "translation": "Menü Limiti"
+    },
+    {
+      "label": "message",
+      "translation": "Mesaj"
+    },
+    {
+      "label": "message_ban_error",
+      "translation": "Hesabınız yasaklandı!"
+    },
+    {
+      "label": "message_change_password_error",
+      "translation": "Şifrenizi değiştirmede bir sorun oluştu!"
+    },
+    {
+      "label": "message_change_password_success",
+      "translation": "Şifreniz başarıyla değiştirildi!"
+    },
+    {
+      "label": "message_contact_error",
+      "translation": "Mesajınızı göndermede bir sorun oluştu!"
+    },
+    {
+      "label": "message_contact_success",
+      "translation": "Mesajınız başarıyla gönderildi!"
+    },
+    {
+      "label": "message_email_unique_error",
+      "translation": "E-posta zaten alınmış."
+    },
+    {
+      "label": "message_invalid_email",
+      "translation": "Geçersiz e-posta adresi!"
+    },
+    {
+      "label": "message_newsletter_error",
+      "translation": "E-posta adresiniz zaten kayıtlı!"
+    },
+    {
+      "label": "message_newsletter_success",
+      "translation": "E-posta adresiniz başarıyla eklendi!"
+    },
+    {
+      "label": "message_page_auth",
+      "translation": "Bu sayfayı görüntülemek için giriş yapmalısınız!"
+    },
+    {
+      "label": "message_post_auth",
+      "translation": "Bu gönderiyi görüntülemek için giriş yapmalısınız!"
+    },
+    {
+      "label": "message_profile_success",
+      "translation": "Profiliniz başarıyla güncellendi!"
+    },
+    {
+      "label": "message_register_error",
+      "translation": "Kayıt sırasında bir sorun oluştu. Lütfen tekrar deneyin!"
+    },
+    {
+      "label": "meta_tag",
+      "translation": "Meta Etiketi"
+    },
+    {
+      "label": "min",
+      "translation": "Dakika"
+    },
+    {
+      "label": "min_mouse_movements",
+      "translation": "Minimum Fare Hareketi"
+    },
+    {
+      "label": "min_poyout_amount",
+      "translation": "Minimum ödeme tutarı"
+    },
+    {
+      "label": "min_poyout_amounts",
+      "translation": "Minimum Ödeme Tutarları"
+    },
+    {
+      "label": "min_scroll_movements",
+      "translation": "Minimum Kaydırma Hareketleri"
+    },
+    {
+      "label": "min_time_spent_on_page",
+      "translation": "Sayfada Harcanan Minimum Süre (Saniye)"
+    },
+    {
+      "label": "minute",
+      "translation": "dakika"
+    },
+    {
+      "label": "minute_short",
+      "translation": "dakika"
+    },
+    {
+      "label": "minutes",
+      "translation": "dakika"
+    },
+    {
+      "label": "model",
+      "translation": "Model"
+    },
+    {
+      "label": "month",
+      "translation": "ay"
+    },
+    {
+      "label": "monthly",
+      "translation": "Aylık"
+    },
+    {
+      "label": "months",
+      "translation": "aylar"
+    },
+    {
+      "label": "more",
+      "translation": "Daha Fazla"
+    },
+    {
+      "label": "more_info",
+      "translation": "Daha fazla bilgi"
+    },
+    {
+      "label": "more_main_images",
+      "translation": "Daha fazla ana görsel (slider aktif olacak)"
+    },
+    {
+      "label": "most_viewed_posts",
+      "translation": "En Çok Görüntülenen Gönderiler"
+    },
+    {
+      "label": "msg_added",
+      "translation": "Öğe başarıyla eklendi!"
+    },
+    {
+      "label": "msg_already_exists",
+      "translation": "zaten kayıtlı"
+    },
+    {
+      "label": "msg_beforeunload",
+      "translation": "Kaydedilmemiş değişiklikleriniz var! Bu sayfadan ayrılmak istediğinize emin misiniz?"
+    },
+    {
+      "label": "msg_comment_approved",
+      "translation": "Yorum başarıyla onaylandı!"
+    },
+    {
+      "label": "msg_comment_sent_successfully",
+      "translation": "Yorumunuz gönderildi. Site yönetimi tarafından incelendikten sonra yayınlanacaktır."
+    },
+    {
+      "label": "msg_confirmation_email",
+      "translation": "Aşağıdaki düğmeye tıklayarak e-posta adresinizi onaylayın lütfen."
+    },
+    {
+      "label": "msg_confirmed",
+      "translation": "E-posta adresiniz başarıyla onaylandı!"
+    },
+    {
+      "label": "msg_confirmed_required",
+      "translation": "Lütfen e-posta adresinizi doğrulayın!"
+    },
+    {
+      "label": "msg_cron_feed",
+      "translation": "Bu URL ile beslemelerinizi otomatik olarak güncelleyebilirsiniz."
+    },
+    {
+      "label": "msg_cron_sitemap",
+      "translation": "Bu URL ile site haritanızı otomatik olarak güncelleyebilirsiniz."
+    },
+    {
+      "label": "msg_default_language_updated",
+      "translation": "Varsayılan dil başarıyla güncellendi."
+    },
+    {
+      "label": "msg_delete_album",
+      "translation": "Lütfen önce bu albüme ait kategorileri silin!"
+    },
+    {
+      "label": "msg_delete_images",
+      "translation": "Lütfen önce bu kategoriye ait resimleri silin!"
+    },
+    {
+      "label": "msg_delete_posts",
+      "translation": "Lütfen önce bu kategoriye ait gönderileri silin!"
+    },
+    {
+      "label": "msg_delete_subcategories",
+      "translation": "Lütfen önce bu kategoriye ait alt kategorileri silin!"
+    },
+    {
+      "label": "msg_delete_subpages",
+      "translation": "Lütfen önce alt sayfaları\/alt bağlantıları silin!"
+    },
+    {
+      "label": "msg_deleted",
+      "translation": "Öğe başarıyla silindi!"
+    },
+    {
+      "label": "msg_email_sent",
+      "translation": "E-posta başarıyla gönderildi!"
+    },
+    {
+      "label": "msg_error",
+      "translation": "Bir hata oluştu. Lütfen tekrar deneyin!"
+    },
+    {
+      "label": "msg_import_language_success",
+      "translation": "Dil ve çeviriler başarıyla içe aktarıldı."
+    },
+    {
+      "label": "msg_invalid_json_file",
+      "translation": "Sadece JSON dosyaları kabul edilir"
+    },
+    {
+      "label": "msg_language_added",
+      "translation": "Dil başarıyla eklendi."
+    },
+    {
+      "label": "msg_language_code_invalid",
+      "translation": "Dil kodu sadece harfler ve alt çizgi içerebilir"
+    },
+    {
+      "label": "msg_language_code_length",
+      "translation": "Dil kodu 2 - 10 karakter arasında olmalıdır"
+    },
+    {
+      "label": "msg_language_code_required",
+      "translation": "Dil kodu boş bırakılamaz"
+    },
+    {
+      "label": "msg_language_delete",
+      "translation": "Varsayılan dil silinemez!"
+    },
+    {
+      "label": "msg_language_delete_warning",
+      "translation": "Bu dil ve ilgili tüm çeviriler silinecek!"
+    },
+    {
+      "label": "msg_language_name_length",
+      "translation": "Dil adı 2 - 50 karakter arasında olmalıdır"
+    },
+    {
+      "label": "msg_language_name_required",
+      "translation": "Dil adı boş bırakılamaz"
+    },
+    {
+      "label": "msg_language_updated",
+      "translation": "Dil başarıyla güncellendi."
+    },
+    {
+      "label": "msg_not_authorized",
+      "translation": "Bu işlemi gerçekleştirmek için yetkiniz yok!"
+    },
+    {
+      "label": "msg_order_invalid",
+      "translation": "Sıra numarası sadece rakamlardan oluşabilir"
+    },
+    {
+      "label": "msg_order_required",
+      "translation": "Sıra numarası boş bırakılamaz"
+    },
+    {
+      "label": "msg_page_delete",
+      "translation": "Varsayılan sayfalar silinemez!"
+    },
+    {
+      "label": "msg_payout_added",
+      "translation": "Ödeme başarıyla eklendi!"
+    },
+    {
+      "label": "msg_recaptcha",
+      "translation": "Robot olmadığınızı lütfen onaylayın!"
+    },
+    {
+      "label": "msg_request_sent",
+      "translation": "İstek başarıyla gönderildi!"
+    },
+    {
+      "label": "msg_reset_cache",
+      "translation": "Tüm önbellek dosyaları silindi!"
+    },
+    {
+      "label": "msg_rss_warning",
+      "translation": "Eğer resimleri sunucunuza indirmeyi seçtiyseniz, gönderi eklemek daha fazla zaman alacak ve daha fazla kaynak kullanacaktır. Herhangi bir sorunla karşılaşırsanız, sunucu ayarlarınızdan 'max_execution_time' ve 'memory_limit' değerlerini artırın."
+    },
+    {
+      "label": "msg_select_file",
+      "translation": "Lütfen bir dosya seçin"
+    },
+    {
+      "label": "msg_send_confirmation_email",
+      "translation": "Aktivasyon için e-posta adresinize bir onay e-postası gönderildi. Lütfen hesabınızı onaylayın."
+    },
+    {
+      "label": "msg_short_form_invalid",
+      "translation": "Kısa form sadece harflerden oluşabilir"
+    },
+    {
+      "label": "msg_short_form_length",
+      "translation": "Kısa form 2 - 5 karakter arasında olmalıdır"
+    },
+    {
+      "label": "msg_short_form_required",
+      "translation": "Kısa form boş bırakılamaz"
+    },
+    {
+      "label": "msg_slug_used",
+      "translation": "Girdiğiniz slug başka bir kullanıcı tarafından kullanılıyor!"
+    },
+    {
+      "label": "msg_tag_exists",
+      "translation": "Bu etiket zaten mevcut!"
+    },
+    {
+      "label": "msg_text_editor_language_required",
+      "translation": "Text editör dili seçilmelidir"
+    },
+    {
+      "label": "msg_topic_empty",
+      "translation": "Konu boş olamaz!"
+    },
+    {
+      "label": "msg_unsubscribe",
+      "translation": "Artık bizden e-posta almayacaksınız!"
+    },
+    {
+      "label": "msg_updated",
+      "translation": "Değişiklikler başarıyla kaydedildi!"
+    },
+    {
+      "label": "msg_user_added",
+      "translation": "Kullanıcı başarıyla eklendi!"
+    },
+    {
+      "label": "msg_username_unique_error",
+      "translation": "Kullanıcı adı zaten alınmış."
+    },
+    {
+      "label": "msg_widget_delete",
+      "translation": "Varsayılan widget'lar silinemez!"
+    },
+    {
+      "label": "msg_wrong_password",
+      "translation": "Yanlış Şifre!"
+    },
+    {
+      "label": "multilingual_system",
+      "translation": "Çok Dilli Sistem"
+    },
+    {
+      "label": "musician",
+      "translation": "Müzisyen"
+    },
+    {
+      "label": "my_earnings",
+      "translation": "Kazancım"
+    },
+    {
+      "label": "name",
+      "translation": "İsim"
+    },
+    {
+      "label": "nav_drag_warning",
+      "translation": "Bir sayfanın altına veya bir kategori bağlantısının altına bir kategori taşıyamazsınız!"
+    },
+    {
+      "label": "navigation",
+      "translation": "Navigasyon"
+    },
+    {
+      "label": "navigation_exp",
+      "translation": "Menü öğelerini sürükleyip bırakarak navigasyonu yönetebilirsiniz."
+    },
+    {
+      "label": "never",
+      "translation": "Asla"
+    },
+    {
+      "label": "new_password",
+      "translation": "Yeni Şifre"
+    },
+    {
+      "label": "new_payout_request",
+      "translation": "Yeni Ödeme Talebi"
+    },
+    {
+      "label": "newsletter",
+      "translation": "Bülten"
+    },
+    {
+      "label": "newsletter_desc",
+      "translation": "En son haberler, güncellemeler ve özel teklifler almak için abone listemize katılın, doğrudan gelen kutunuza."
+    },
+    {
+      "label": "newsletter_email_error",
+      "translation": "E-posta göndermek istediğiniz e-posta adreslerini seçin!"
+    },
+    {
+      "label": "newsletter_popup",
+      "translation": "Bülten Pop-up"
+    },
+    {
+      "label": "newsletter_send_many_exp",
+      "translation": "Bazı sunucular toplu e-posta göndermeye izin vermez. Bu nedenle, e-postalarınızı tüm abonelere aynı anda göndermek yerine, onları parça parça gönderebilirsiniz (Örnek: aynı anda 50 abone). E-posta sunucunuz e-posta göndermeyi durdurursa, gönderim işlemi de duracaktır."
+    },
+    {
+      "label": "next",
+      "translation": "Sonraki"
+    },
+    {
+      "label": "next_article",
+      "translation": "Sonraki Makale"
+    },
+    {
+      "label": "next_video",
+      "translation": "Sonraki Video"
+    },
+    {
+      "label": "no",
+      "translation": "Hayır"
+    },
+    {
+      "label": "no_records_found",
+      "translation": "Kayıt bulunamadı."
+    },
+    {
+      "label": "none",
+      "translation": "Hiçbiri"
+    },
+    {
+      "label": "November",
+      "translation": "Kasım"
+    },
+    {
+      "label": "number",
+      "translation": "Numara"
+    },
+    {
+      "label": "number_of_correct_answers",
+      "translation": "Doğru Cevaplar Sayısı"
+    },
+    {
+      "label": "number_of_correct_answers_range",
+      "translation": "Bu sonucu göstermek için doğru cevapların aralığı"
+    },
+    {
+      "label": "number_of_days",
+      "translation": "Gün Sayısı"
+    },
+    {
+      "label": "number_of_days_exp",
+      "translation": "Buraya 30 eklediğinizde, sistem 30 günden daha eski olan gönderileri silecektir"
+    },
+    {
+      "label": "number_of_links_in_menu",
+      "translation": "Menüde görünen bağlantı sayısı"
+    },
+    {
+      "label": "number_of_posts_import",
+      "translation": "İçe Aktarılacak Gönderi Sayısı"
+    },
+    {
+      "label": "number_short_billion",
+      "translation": "b"
+    },
+    {
+      "label": "number_short_million",
+      "translation": "m"
+    },
+    {
+      "label": "number_short_thousand",
+      "translation": "k"
+    },
+    {
+      "label": "nutritional_ex",
+      "translation": "Örnek: Protein 34g"
+    },
+    {
+      "label": "nutritional_information",
+      "translation": "Besin Bilgisi"
+    },
+    {
+      "label": "October",
+      "translation": "Ekim"
+    },
+    {
+      "label": "ok",
+      "translation": "Tamam"
+    },
+    {
+      "label": "old_password",
+      "translation": "Eski Şifre"
+    },
+    {
+      "label": "online",
+      "translation": "çevrimiçi"
+    },
+    {
+      "label": "only_registered",
+      "translation": "Sadece Kaydedilenler"
+    },
+    {
+      "label": "option_1",
+      "translation": "Seçenek 1"
+    },
+    {
+      "label": "option_10",
+      "translation": "Seçenek 10"
+    },
+    {
+      "label": "option_2",
+      "translation": "Seçenek 2"
+    },
+    {
+      "label": "option_3",
+      "translation": "Seçenek 3"
+    },
+    {
+      "label": "option_4",
+      "translation": "Seçenek 4"
+    },
+    {
+      "label": "option_5",
+      "translation": "Seçenek 5"
+    },
+    {
+      "label": "option_6",
+      "translation": "Seçenek 6"
+    },
+    {
+      "label": "option_7",
+      "translation": "Seçenek 7"
+    },
+    {
+      "label": "option_8",
+      "translation": "Seçenek 8"
+    },
+    {
+      "label": "option_9",
+      "translation": "Seçenek 9"
+    },
+    {
+      "label": "optional",
+      "translation": "İsteğe Bağlı"
+    },
+    {
+      "label": "optional_url",
+      "translation": "İsteğe Bağlı URL"
+    },
+    {
+      "label": "optional_url_name",
+      "translation": "Gönderi İsteğe Bağlı URL Butonu Adı"
+    },
+    {
+      "label": "options",
+      "translation": "Seçenekler"
+    },
+    {
+      "label": "or",
+      "translation": "veya"
+    },
+    {
+      "label": "or_login_with_email",
+      "translation": "Ya e-posta ile giriş yapın"
+    },
+    {
+      "label": "or_register_with_email",
+      "translation": "Ya e-posta ile kaydolun"
+    },
+    {
+      "label": "order",
+      "translation": "Menü Sırası"
+    },
+    {
+      "label": "order_1",
+      "translation": "Sıra"
+    },
+    {
+      "label": "order_number",
+      "translation": "Sıra Numarası"
+    },
+    {
+      "label": "page",
+      "translation": "Sayfa"
+    },
+    {
+      "label": "page_not_found",
+      "translation": "Sayfa bulunamadı"
+    },
+    {
+      "label": "page_not_found_sub",
+      "translation": "Aradığınız sayfa mevcut değil."
+    },
+    {
+      "label": "page_type",
+      "translation": "Sayfa Türü"
+    },
+    {
+      "label": "pages",
+      "translation": "Sayfalar"
+    },
+    {
+      "label": "pageviews",
+      "translation": "Sayfa Görüntüleme"
+    },
+    {
+      "label": "pagination_number_posts",
+      "translation": "Sayfa Başına Gönderi Sayısı (Sayfalandırma)"
+    },
+    {
+      "label": "panel",
+      "translation": "Panel"
+    },
+    {
+      "label": "paragraph",
+      "translation": "Paragraf"
+    },
+    {
+      "label": "parent_category",
+      "translation": "Ana Kategori"
+    },
+    {
+      "label": "parent_link",
+      "translation": "Ana Bağlantı"
+    },
+    {
+      "label": "password",
+      "translation": "Şifre"
+    },
+    {
+      "label": "paste_ad_code",
+      "translation": "Reklam Kodu"
+    },
+    {
+      "label": "paste_ad_url",
+      "translation": "Reklam URL'si"
+    },
+    {
+      "label": "payout_method",
+      "translation": "Ödeme Yöntemi"
+    },
+    {
+      "label": "payout_methods",
+      "translation": "Ödeme Yöntemleri"
+    },
+    {
+      "label": "payouts",
+      "translation": "Ödemeler"
+    },
+    {
+      "label": "paypal",
+      "translation": "PayPal"
+    },
+    {
+      "label": "paypal_email_address",
+      "translation": "PayPal E-posta Adresi"
+    },
+    {
+      "label": "pending",
+      "translation": "Beklemede"
+    },
+    {
+      "label": "pending_comments",
+      "translation": "Bekleyen Yorumlar"
+    },
+    {
+      "label": "pending_posts",
+      "translation": "Bekleyen Gönderiler"
+    },
+    {
+      "label": "permissions",
+      "translation": "İzinler"
+    },
+    {
+      "label": "personal_website_url",
+      "translation": "Kişisel Web Sitesi URL'si"
+    },
+    {
+      "label": "personality_quiz",
+      "translation": "Kişilik Testi"
+    },
+    {
+      "label": "personality_quiz_exp",
+      "translation": "Özel sonuçlarla testler"
+    },
+    {
+      "label": "phone",
+      "translation": "Telefon"
+    },
+    {
+      "label": "phrase",
+      "translation": "İfade"
+    },
+    {
+      "label": "phrases",
+      "translation": "İfadeler"
+    },
+    {
+      "label": "pinterest",
+      "translation": "Pinterest"
+    },
+    {
+      "label": "placeholder_search",
+      "translation": "Ara..."
+    },
+    {
+      "label": "placeholder_search_language",
+      "translation": "Dil Ara"
+    },
+    {
+      "label": "play_again",
+      "translation": "Tekrar Oynat"
+    },
+    {
+      "label": "play_list_empty",
+      "translation": "Çalma listesi boş."
+    },
+    {
+      "label": "please_select_option",
+      "translation": "Lütfen bir seçenek seçin!"
+    },
+    {
+      "label": "poll",
+      "translation": "Anket"
+    },
+    {
+      "label": "poll_exp",
+      "translation": "Bir konu hakkında kullanıcı görüşlerini alın"
+    },
+    {
+      "label": "polls",
+      "translation": "Anketler"
+    },
+    {
+      "label": "popular_posts",
+      "translation": "Popüler Gönderiler"
+    },
+    {
+      "label": "post",
+      "translation": "Gönderi"
+    },
+    {
+      "label": "post_comment",
+      "translation": "Gönderi Yorum"
+    },
+    {
+      "label": "post_details",
+      "translation": "Gönderi Detayları"
+    },
+    {
+      "label": "post_formats",
+      "translation": "Gönderi Formatları"
+    },
+    {
+      "label": "post_options",
+      "translation": "Gönderi Seçenekleri"
+    },
+    {
+      "label": "post_owner",
+      "translation": "Gönderi Sahibi"
+    },
+    {
+      "label": "post_tags",
+      "translation": "Etiketler:"
+    },
+    {
+      "label": "post_type",
+      "translation": "Gönderi Türü"
+    },
+    {
+      "label": "post_url_structur_id",
+      "translation": "URL'lerde ID Numaraları Kullanın"
+    },
+    {
+      "label": "post_url_structure",
+      "translation": "Gönderi URL Yapısı"
+    },
+    {
+      "label": "post_url_structure_exp",
+      "translation": "URL yapısını değiştirmek eski kayıtları etkilemeyecektir."
+    },
+    {
+      "label": "post_url_structure_slug",
+      "translation": "URL'lerde Slug Kullanın"
+    },
+    {
+      "label": "postcode",
+      "translation": "Posta Kodu"
+    },
+    {
+      "label": "posts",
+      "translation": "Gönderiler"
+    },
+    {
+      "label": "preferences",
+      "translation": "Tercihler"
+    },
+    {
+      "label": "prep_time",
+      "translation": "Hazırlık Süresi"
+    },
+    {
+      "label": "preview",
+      "translation": "Önizleme"
+    },
+    {
+      "label": "previous",
+      "translation": "Önceki"
+    },
+    {
+      "label": "previous_article",
+      "translation": "Önceki Makale"
+    },
+    {
+      "label": "previous_video",
+      "translation": "Önceki Video"
+    },
+    {
+      "label": "primary_font",
+      "translation": "Ana Yazı Tipi (Ana)"
+    },
+    {
+      "label": "priority",
+      "translation": "Öncelik"
+    },
+    {
+      "label": "priority_exp",
+      "translation": "Belirli bir URL'nin aynı sitedeki diğer sayfalara göre önceliği"
+    },
+    {
+      "label": "profile",
+      "translation": "Profil"
+    },
+    {
+      "label": "progressive_web_app",
+      "translation": "Gelişmiş Web Uygulaması (PWA)"
+    },
+    {
+      "label": "publish",
+      "translation": "Yayınla"
+    },
+    {
+      "label": "pwa_logo",
+      "translation": "PWA Logosu"
+    },
+    {
+      "label": "question",
+      "translation": "Soru"
+    },
+    {
+      "label": "questions",
+      "translation": "Sorular"
+    },
+    {
+      "label": "quiz_images",
+      "translation": "Quiz Görselleri"
+    },
+    {
+      "label": "random_posts",
+      "translation": "Rastgele Gönderiler"
+    },
+    {
+      "label": "read_more_button_text",
+      "translation": "Daha Fazla Oku Buton Metni"
+    },
+    {
+      "label": "reading_list",
+      "translation": "Okuma Listesi"
+    },
+    {
+      "label": "recently_added_comments",
+      "translation": "Son zamanlarda eklenen yorumlar"
+    },
+    {
+      "label": "recently_added_contact_messages",
+      "translation": "Son zamanlarda eklenen iletişim mesajları"
+    },
+    {
+      "label": "recently_added_unapproved_comments",
+      "translation": "Son zamanlarda eklenen onaylanmamış yorumlar"
+    },
+    {
+      "label": "recently_registered_users",
+      "translation": "Son zamanlarda kaydedilen kullanıcılar"
+    },
+    {
+      "label": "recipe",
+      "translation": "Tarif"
+    },
+    {
+      "label": "recipe_exp",
+      "translation": "Yemek pişirmek için malzeme ve talimatlar listesi"
+    },
+    {
+      "label": "recipe_video",
+      "translation": "Tarif videosu"
+    },
+    {
+      "label": "recommended",
+      "translation": "Tavsiye Edilen"
+    },
+    {
+      "label": "recommended_posts",
+      "translation": "Tavsiye Edilen Gönderiler"
+    },
+    {
+      "label": "redirect_rss_posts_to_original",
+      "translation": "RSS Gönderilerini Orijinal Siteye Yönlendir"
+    },
+    {
+      "label": "refresh",
+      "translation": "Yenile"
+    },
+    {
+      "label": "refresh_cache_database_changes",
+      "translation": "Veritabanı Değiştiğinde Önbellek Dosyalarını Yenile"
+    },
+    {
+      "label": "regenerate",
+      "translation": "Yeniden Oluştur"
+    },
+    {
+      "label": "region_code",
+      "translation": "Bölge Kodu"
+    },
+    {
+      "label": "register",
+      "translation": "Kayıt"
+    },
+    {
+      "label": "registered_emails",
+      "translation": "Kayıtlı E-postalar"
+    },
+    {
+      "label": "registered_users_can_vote",
+      "translation": "Yalnızca Kayıtlı Kullanıcılar Oy Verebilir"
+    },
+    {
+      "label": "registration_system",
+      "translation": "Kayıt Sistemi"
+    },
+    {
+      "label": "related_posts",
+      "translation": "İlgili Gönderiler"
+    },
+    {
+      "label": "related_videos",
+      "translation": "İlgili Videolar"
+    },
+    {
+      "label": "remove_ban",
+      "translation": "Yasaklamayı Kaldır"
+    },
+    {
+      "label": "remove_breaking",
+      "translation": "Öne Çıkanlardan Kaldır"
+    },
+    {
+      "label": "remove_featured",
+      "translation": "Öne Çıkanlardan Kaldır"
+    },
+    {
+      "label": "remove_recommended",
+      "translation": "Önerilenlerden Kaldır"
+    },
+    {
+      "label": "remove_slider",
+      "translation": "Kaydırmadan Kaldır"
+    },
+    {
+      "label": "reply_to",
+      "translation": "Yanıtla"
+    },
+    {
+      "label": "required",
+      "translation": "Gerekli"
+    },
+    {
+      "label": "resend_activation_email",
+      "translation": "Aktivasyon E-postasını Yeniden Gönder"
+    },
+    {
+      "label": "reset",
+      "translation": "Sıfırla"
+    },
+    {
+      "label": "reset_cache",
+      "translation": "Önbelleği Sıfırla"
+    },
+    {
+      "label": "reset_password",
+      "translation": "Şifreyi Sıfırla"
+    },
+    {
+      "label": "reset_password_error",
+      "translation": "Bu e-posta adresine sahip bir kullanıcı bulamadık!"
+    },
+    {
+      "label": "reset_password_success",
+      "translation": "Şifrenizi sıfırlamak için bir e-posta gönderdik. Lütfen sonraki adımlar için e-postanızı kontrol edin."
+    },
+    {
+      "label": "result",
+      "translation": "Sonuç"
+    },
+    {
+      "label": "results",
+      "translation": "Sonuçlar"
+    },
+    {
+      "label": "reward_amount",
+      "translation": "1000 Sayfa Görüntüleme için Ödül Tutarı"
+    },
+    {
+      "label": "reward_system",
+      "translation": "Ödül Sistemi"
+    },
+    {
+      "label": "right",
+      "translation": "Sağ"
+    },
+    {
+      "label": "right_to_left",
+      "translation": "Sağdan Sola"
+    },
+    {
+      "label": "role",
+      "translation": "Rol"
+    },
+    {
+      "label": "role_name",
+      "translation": "Rol Adı"
+    },
+    {
+      "label": "roles",
+      "translation": "Roller"
+    },
+    {
+      "label": "roles_permissions",
+      "translation": "Roller ve İzinler"
+    },
+    {
+      "label": "route_settings",
+      "translation": "Yol Ayarları"
+    },
+    {
+      "label": "route_settings_warning",
+      "translation": "Rotalarda özel karakterler kullanamazsınız. Diliniz özel karakterler içeriyorsa, rotaları düzenlerken dikkatli olun. Geçersiz bir rota girerseniz, ilgili sayfaya erişim sağlayamayacaksınız."
+    },
+    {
+      "label": "rss",
+      "translation": "RSS"
+    },
+    {
+      "label": "rss_content",
+      "translation": "RSS İçeriği"
+    },
+    {
+      "label": "rss_feeds",
+      "translation": "RSS Beslemeleri"
+    },
+    {
+      "label": "sad",
+      "translation": "Üzgün"
+    },
+    {
+      "label": "save",
+      "translation": "Kaydet"
+    },
+    {
+      "label": "save_changes",
+      "translation": "Değişiklikleri Kaydet"
+    },
+    {
+      "label": "save_draft",
+      "translation": "Taslak Olarak Kaydet"
+    },
+    {
+      "label": "scheduled_post",
+      "translation": "Planlanmış Gönderi"
+    },
+    {
+      "label": "scheduled_posts",
+      "translation": "Planlanmış Gönderiler"
+    },
+    {
+      "label": "search",
+      "translation": "Ara"
+    },
+    {
+      "label": "search_in_post_content",
+      "translation": "Gönderi İçeriğinde Ara"
+    },
+    {
+      "label": "search_noresult",
+      "translation": "Sonuç bulunamadı."
+    },
+    {
+      "label": "searching",
+      "translation": "Aranıyor..."
+    },
+    {
+      "label": "secondary_font",
+      "translation": "İkincil Yazı Tipi (Başlıklar)"
+    },
+    {
+      "label": "secret_key",
+      "translation": "Gizli Anahtar"
+    },
+    {
+      "label": "secure_key",
+      "translation": "Güvenli Anahtar"
+    },
+    {
+      "label": "select",
+      "translation": "Seç"
+    },
+    {
+      "label": "select_a_result",
+      "translation": "Bir sonuç seçin"
+    },
+    {
+      "label": "select_ad_spaces",
+      "translation": "Reklam Alanı Seç"
+    },
+    {
+      "label": "select_an_option",
+      "translation": "Bir seçenek seçin"
+    },
+    {
+      "label": "select_audio",
+      "translation": "Ses Seçin"
+    },
+    {
+      "label": "select_category",
+      "translation": "Bir kategori seçin"
+    },
+    {
+      "label": "select_file",
+      "translation": "Dosya Seçin"
+    },
+    {
+      "label": "select_image",
+      "translation": "Resim Seçin"
+    },
+    {
+      "label": "select_multiple_images",
+      "translation": "Birden fazla resim seçebilirsiniz."
+    },
+    {
+      "label": "select_video",
+      "translation": "Video Seçin"
+    },
+    {
+      "label": "send_contact_to_mail",
+      "translation": "İletişim Mesajlarını E-posta Adresine Gönder"
+    },
+    {
+      "label": "send_email",
+      "translation": "E-posta Gönder"
+    },
+    {
+      "label": "send_email_registered",
+      "translation": "Kayıtlı E-posta Adreslerine E-posta Gönder"
+    },
+    {
+      "label": "send_email_subscriber",
+      "translation": "Aboneye E-posta Gönder"
+    },
+    {
+      "label": "send_email_subscribers",
+      "translation": "Abonelere E-posta Gönder"
+    },
+    {
+      "label": "send_test_email",
+      "translation": "Test E-postası Gönder"
+    },
+    {
+      "label": "send_test_email_exp",
+      "translation": "Mail sunucunuzun çalışıp çalışmadığını kontrol etmek için bir test e-postası gönderebilirsiniz."
+    },
+    {
+      "label": "seo_options",
+      "translation": "Seo seçenekleri"
+    },
+    {
+      "label": "seo_tools",
+      "translation": "SEO Araçları"
+    },
+    {
+      "label": "September",
+      "translation": "Eyl"
+    },
+    {
+      "label": "serving",
+      "translation": "Hizmet"
+    },
+    {
+      "label": "set_as_album_cover",
+      "translation": "Albüm Kapağı Olarak Ayarla"
+    },
+    {
+      "label": "set_as_default",
+      "translation": "Varsayılan Olarak Ayarla"
+    },
+    {
+      "label": "set_payout_account",
+      "translation": "Ödeme Hesabını Ayarla"
+    },
+    {
+      "label": "settings",
+      "translation": "Ayarlar"
+    },
+    {
+      "label": "settings_language",
+      "translation": "Ayarlar Dili"
+    },
+    {
+      "label": "share",
+      "translation": "Paylaş"
+    },
+    {
+      "label": "shared",
+      "translation": "Paylaşıldı"
+    },
+    {
+      "label": "short",
+      "translation": "Kısa"
+    },
+    {
+      "label": "short_form",
+      "translation": "Kısa Form"
+    },
+    {
+      "label": "short_form",
+      "translation": "Kısa Form"
+    },
+    {
+      "label": "show",
+      "translation": "Göster"
+    },
+    {
+      "label": "show_all_files",
+      "translation": "Tüm Dosyaları Göster"
+    },
+    {
+      "label": "show_breadcrumb",
+      "translation": "Yol Göstericiyi Göster"
+    },
+    {
+      "label": "show_cookies_warning",
+      "translation": "Çerez Uyarısını Göster"
+    },
+    {
+      "label": "show_email_on_profile",
+      "translation": "Profil Sayfasında E-postayı Göster"
+    },
+    {
+      "label": "show_featured_section",
+      "translation": "Öne Çıkan Bölümü Göster"
+    },
+    {
+      "label": "show_images_from_original_source",
+      "translation": "Orijinal Kaynaktan Görüntüleri Göster"
+    },
+    {
+      "label": "show_item_numbers",
+      "translation": "Gönderi Ayrıntılar Sayfasında Öğe Numaralarını Göster"
+    },
+    {
+      "label": "show_latest_posts_homepage",
+      "translation": "Ana Sayfada En Son Gönderileri Göster"
+    },
+    {
+      "label": "show_latest_posts_on_featured",
+      "translation": "Öne Çıkan Gönderilerde En Son Gönderileri Göster"
+    },
+    {
+      "label": "show_latest_posts_on_slider",
+      "translation": "Kaydırıcıda En Son Gönderileri Göster"
+    },
+    {
+      "label": "show_list_style_post_text",
+      "translation": "Gönderi Metninde Liste Stilini Göster"
+    },
+    {
+      "label": "show_news_ticker",
+      "translation": "Haber Ticker'ını Göster"
+    },
+    {
+      "label": "show_on_homepage",
+      "translation": "Ana Sayfada Göster"
+    },
+    {
+      "label": "show_on_menu",
+      "translation": "Menüde Göster"
+    },
+    {
+      "label": "show_only_own_files",
+      "translation": "Yalnızca Kullanıcıya Ait Dosyaları Göster"
+    },
+    {
+      "label": "show_only_registered",
+      "translation": "Yalnızca Kayıtlı Kullanıcılara Göster"
+    },
+    {
+      "label": "show_post_author",
+      "translation": "Gönderi Yazarını Göster"
+    },
+    {
+      "label": "show_post_dates",
+      "translation": "Gönderi Tarihini Göster"
+    },
+    {
+      "label": "show_post_view_counts",
+      "translation": "Gönderi Görüntüleme Sayısını Göster"
+    },
+    {
+      "label": "show_read_more_button",
+      "translation": "Daha Fazla Oku Butonunu Göster"
+    },
+    {
+      "label": "show_right_column",
+      "translation": "Sağ Sütunu Göster"
+    },
+    {
+      "label": "show_title",
+      "translation": "Gösteri Başlığı"
+    },
+    {
+      "label": "show_user_email_profile",
+      "translation": "Kullanıcının E-posta Adresini Profilde Göster"
+    },
+    {
+      "label": "sidebar",
+      "translation": "Yan Menü"
+    },
+    {
+      "label": "site_color",
+      "translation": "Site Rengi"
+    },
+    {
+      "label": "site_description",
+      "translation": "Site Açıklaması"
+    },
+    {
+      "label": "site_font",
+      "translation": "Site Yazı Tipi"
+    },
+    {
+      "label": "site_key",
+      "translation": "Site Anahtarı"
+    },
+    {
+      "label": "site_title",
+      "translation": "Site Başlığı"
+    },
+    {
+      "label": "sitemap",
+      "translation": "Site Haritası"
+    },
+    {
+      "label": "sitemap_generate_exp",
+      "translation": "Eğer sitenizde 49,000'den fazla bağlantı varsa, sitemap.xml dosyası parça parça oluşturulacaktır."
+    },
+    {
+      "label": "slider",
+      "translation": "Kaydırıcı"
+    },
+    {
+      "label": "slider_order",
+      "translation": "Kaydırıcı Sırası"
+    },
+    {
+      "label": "slider_posts",
+      "translation": "Kaydırıcı Gönderileri"
+    },
+    {
+      "label": "slug",
+      "translation": "Slug"
+    },
+    {
+      "label": "slug_exp",
+      "translation": "Bunu boş bırakırsanız, otomatik olarak oluşturulacaktır."
+    },
+    {
+      "label": "smtp",
+      "translation": "SMTP"
+    },
+    {
+      "label": "social_accounts",
+      "translation": "Sosyal Hesaplar"
+    },
+    {
+      "label": "social_login_settings",
+      "translation": "Sosyal Giriş Ayarları"
+    },
+    {
+      "label": "social_media_settings",
+      "translation": "Sosyal Medya Ayarları"
+    },
+    {
+      "label": "sort_featured_posts",
+      "translation": "Öne Çıkan Gönderileri Sırala"
+    },
+    {
+      "label": "sort_slider_posts",
+      "translation": "Kaydırıcı Gönderilerini Sırala"
+    },
+    {
+      "label": "sorted_list",
+      "translation": "Sıralanmış Liste"
+    },
+    {
+      "label": "sorted_list_exp",
+      "translation": "Bir listeye dayalı makale"
+    },
+    {
+      "label": "sorted_list_items",
+      "translation": "Sıralanmış Liste Elemanları"
+    },
+    {
+      "label": "state",
+      "translation": "Durum"
+    },
+    {
+      "label": "static_cache_system",
+      "translation": "Statik Önbellek Sistemi"
+    },
+    {
+      "label": "status",
+      "translation": "Durum"
+    },
+    {
+      "label": "sticky_sidebar",
+      "translation": "Yapışkan Kenar Çubuğu"
+    },
+    {
+      "label": "storage",
+      "translation": "Depolama"
+    },
+    {
+      "label": "style",
+      "translation": "Üslup"
+    },
+    {
+      "label": "subcategory",
+      "translation": "Alt Kategori"
+    },
+    {
+      "label": "subject",
+      "translation": "Konu"
+    },
+    {
+      "label": "submit",
+      "translation": "Gönder"
+    },
+    {
+      "label": "subscribe",
+      "translation": "Abone Ol"
+    },
+    {
+      "label": "subscribers",
+      "translation": "Aboneler"
+    },
+    {
+      "label": "success",
+      "translation": "Başarılı"
+    },
+    {
+      "label": "summary",
+      "translation": "Özet"
+    },
+    {
+      "label": "swift",
+      "translation": "SWIFT"
+    },
+    {
+      "label": "swift_code",
+      "translation": "SWIFT Kodu"
+    },
+    {
+      "label": "swift_iban",
+      "translation": "Banka Hesap Numarası\/IBAN"
+    },
+    {
+      "label": "table_info",
+      "translation": "Toplam _TOTAL_ kayıttan _START_ - _END_ arası gösteriliyor"
+    },
+    {
+      "label": "table_of_contents",
+      "translation": "İçindekiler Tablosu"
+    },
+    {
+      "label": "table_of_contents_exp",
+      "translation": "Başlıklara dayalı bağlantılar listesi"
+    },
+    {
+      "label": "table_of_contents_items",
+      "translation": "İçindekiler Tablosu Öğeleri"
+    },
+    {
+      "label": "table_pagination_info",
+      "translation": "Toplam _TOTAL_ kayıttan _START_ - _END_ arası gösteriliyor"
+    },
+    {
+      "label": "tag",
+      "translation": "Etiket"
+    },
+    {
+      "label": "tags",
+      "translation": "Etiketler"
+    },
+    {
+      "label": "telegram",
+      "translation": "Telegram"
+    },
+    {
+      "label": "temperature_response_diversity",
+      "translation": "Sıcaklık (Yanıt Çeşitliliği)"
+    },
+    {
+      "label": "terms_conditions",
+      "translation": "Şartlar ve Koşullar"
+    },
+    {
+      "label": "terms_conditions_exp",
+      "translation": "Okudum ve kabul ediyorum"
+    },
+    {
+      "label": "tertiary_font",
+      "translation": "İkincil Yazı Tipi (Gönderi ve Sayfa Metni)"
+    },
+    {
+      "label": "test_api",
+      "translation": "Test API"
+    },
+    {
+      "label": "text_direction",
+      "translation": "Metin Yönü"
+    },
+    {
+      "label": "text_editor_language",
+      "translation": "Metin Düzenleyici Dili"
+    },
+    {
+      "label": "text_list_empty",
+      "translation": "Okuma listeniz boş."
+    },
+    {
+      "label": "the_operation_completed",
+      "translation": "İşlem başarılı bir şekilde tamamlandı!"
+    },
+    {
+      "label": "theme_settings",
+      "translation": "Tema Ayarları"
+    },
+    {
+      "label": "themes",
+      "translation": "Temalar"
+    },
+    {
+      "label": "this_month",
+      "translation": "Bu Ay"
+    },
+    {
+      "label": "this_week",
+      "translation": "Bu Hafta"
+    },
+    {
+      "label": "tiktok",
+      "translation": "Tiktok"
+    },
+    {
+      "label": "timezone",
+      "translation": "Saat Dilimi"
+    },
+    {
+      "label": "title",
+      "translation": "Başlık"
+    },
+    {
+      "label": "to",
+      "translation": "Kime:"
+    },
+    {
+      "label": "tone_academic",
+      "translation": "Akademik"
+    },
+    {
+      "label": "tone_casual",
+      "translation": "Gündelik"
+    },
+    {
+      "label": "tone_critical",
+      "translation": "Eleştirel"
+    },
+    {
+      "label": "tone_formal",
+      "translation": "Resmi"
+    },
+    {
+      "label": "tone_humorous",
+      "translation": "Mizahi"
+    },
+    {
+      "label": "tone_inspirational",
+      "translation": "İlham Verici"
+    },
+    {
+      "label": "tone_persuasive",
+      "translation": "İkna Edici"
+    },
+    {
+      "label": "tone_professional",
+      "translation": "Profesyonel"
+    },
+    {
+      "label": "tone_style",
+      "translation": "Ton\/Stil"
+    },
+    {
+      "label": "top_headlines",
+      "translation": "Önemli Başlıklar"
+    },
+    {
+      "label": "top_menu",
+      "translation": "Üst Menü"
+    },
+    {
+      "label": "topic",
+      "translation": "Konu"
+    },
+    {
+      "label": "total_pageviews",
+      "translation": "Toplam Sayfa Görüntüleme"
+    },
+    {
+      "label": "total_vote",
+      "translation": "Toplam Oy:"
+    },
+    {
+      "label": "total_votes",
+      "translation": "Toplam Oylar"
+    },
+    {
+      "label": "translation",
+      "translation": "Çeviri"
+    },
+    {
+      "label": "translation_group",
+      "translation": "Çeviri Grubu"
+    },
+    {
+      "label": "translation_key",
+      "translation": "Çeviri Anahtarı"
+    },
+    {
+      "label": "translation_value",
+      "translation": "Çeviri Değeri"
+    },
+    {
+      "label": "trending_posts",
+      "translation": "Trend Olan Gönderiler"
+    },
+    {
+      "label": "trivia_quiz",
+      "translation": "Bilgi Yarışması"
+    },
+    {
+      "label": "trivia_quiz_exp",
+      "translation": "Doğru ve yanlış cevaplarla testler"
+    },
+    {
+      "label": "twitch",
+      "translation": "Twitch"
+    },
+    {
+      "label": "twitter",
+      "translation": "Twitter"
+    },
+    {
+      "label": "txt_processing",
+      "translation": "İşleniyor..."
+    },
+    {
+      "label": "type",
+      "translation": "Tür"
+    },
+    {
+      "label": "type_tag",
+      "translation": "Etiket yaz ve enter tuşuna bas"
+    },
+    {
+      "label": "unconfirmed",
+      "translation": "Onaylanmamış"
+    },
+    {
+      "label": "unfollow",
+      "translation": "Takibi bırak"
+    },
+    {
+      "label": "unsubscribe",
+      "translation": "Aboneliği iptal et"
+    },
+    {
+      "label": "unsubscribe_successful",
+      "translation": "Başarıyla abonelik iptal edildi!"
+    },
+    {
+      "label": "update",
+      "translation": "Güncelle"
+    },
+    {
+      "label": "update_album",
+      "translation": "Albümü Güncelle"
+    },
+    {
+      "label": "update_article",
+      "translation": "Makaleyi Güncelle"
+    },
+    {
+      "label": "update_audio",
+      "translation": "Sesi Güncelle"
+    },
+    {
+      "label": "update_category",
+      "translation": "Kategoriyi Güncelle"
+    },
+    {
+      "label": "update_font",
+      "translation": "Yazı Tipini Güncelle"
+    },
+    {
+      "label": "update_gallery",
+      "translation": "Galeriyi Güncelle"
+    },
+    {
+      "label": "update_image",
+      "translation": "Görüntüyü Güncelle"
+    },
+    {
+      "label": "update_language",
+      "translation": "Dili Güncelle"
+    },
+    {
+      "label": "update_link",
+      "translation": "Menü Bağlantısını Güncelle"
+    },
+    {
+      "label": "update_page",
+      "translation": "Sayfayı Güncelle"
+    },
+    {
+      "label": "update_personality_quiz",
+      "translation": "Kişilik Testini Güncelle"
+    },
+    {
+      "label": "update_poll",
+      "translation": "Anketi Güncelle"
+    },
+    {
+      "label": "update_post",
+      "translation": "Gönderiyi Güncelle"
+    },
+    {
+      "label": "update_profile",
+      "translation": "Profili Güncelle"
+    },
+    {
+      "label": "update_recipe",
+      "translation": "Tarifini Güncelle"
+    },
+    {
+      "label": "update_rss_feed",
+      "translation": "RSS Akışını Güncelle"
+    },
+    {
+      "label": "update_sorted_list",
+      "translation": "Sıralı Listeyi Güncelle"
+    },
+    {
+      "label": "update_subcategory",
+      "translation": "Alt Kategoriyi Güncelle"
+    },
+    {
+      "label": "update_table_of_contents",
+      "translation": "İçindekiler Tablosunu Güncelle"
+    },
+    {
+      "label": "update_trivia_quiz",
+      "translation": "Bilgi Yarışmasını Güncelle"
+    },
+    {
+      "label": "update_video",
+      "translation": "Videoyu Güncelle"
+    },
+    {
+      "label": "update_widget",
+      "translation": "Widget'ı Güncelle"
+    },
+    {
+      "label": "updated",
+      "translation": "Güncellendi"
+    },
+    {
+      "label": "upload",
+      "translation": "Yükle"
+    },
+    {
+      "label": "upload_csv_file",
+      "translation": "CSV Dosyası Yükle"
+    },
+    {
+      "label": "upload_image",
+      "translation": "Görüntü Yükle"
+    },
+    {
+      "label": "upload_json_language_file",
+      "translation": "JSON dil dosyasını yükleyin"
+    },
+    {
+      "label": "upload_video",
+      "translation": "Video Yükle"
+    },
+    {
+      "label": "upload_your_banner",
+      "translation": "Reklam Kodu Oluştur"
+    },
+    {
+      "label": "uploading",
+      "translation": "Yükleniyor..."
+    },
+    {
+      "label": "url",
+      "translation": "URL"
+    },
+    {
+      "label": "use_text",
+      "translation": "Metin Kullan"
+    },
+    {
+      "label": "user",
+      "translation": "Kullanıcı"
+    },
+    {
+      "label": "user_agent",
+      "translation": "Kullanıcı-Agent"
+    },
+    {
+      "label": "user_agreement",
+      "translation": "Kullanıcı Sözleşmesi"
+    },
+    {
+      "label": "user_id",
+      "translation": "Kullanıcı Kimliği"
+    },
+    {
+      "label": "username",
+      "translation": "Kullanıcı Adı"
+    },
+    {
+      "label": "users",
+      "translation": "Kullanıcılar"
+    },
+    {
+      "label": "value",
+      "translation": "Değer"
+    },
+    {
+      "label": "vertical",
+      "translation": "Dikey"
+    },
+    {
+      "label": "very_long",
+      "translation": "Çok Uzun"
+    },
+    {
+      "label": "very_short",
+      "translation": "Çok Kısa"
+    },
+    {
+      "label": "video",
+      "translation": "Video"
+    },
+    {
+      "label": "video_embed_code",
+      "translation": "Video Gömme Kodu"
+    },
+    {
+      "label": "video_file",
+      "translation": "Video Dosyası"
+    },
+    {
+      "label": "video_name",
+      "translation": "Video Adı"
+    },
+    {
+      "label": "video_post_exp",
+      "translation": "Videoları yükle veya göm"
+    },
+    {
+      "label": "video_thumbnails",
+      "translation": "Video Küçültmesi"
+    },
+    {
+      "label": "video_url",
+      "translation": "Video URL'si"
+    },
+    {
+      "label": "videos",
+      "translation": "Videolar"
+    },
+    {
+      "label": "view_all",
+      "translation": "Tümü Gör"
+    },
+    {
+      "label": "view_all_posts",
+      "translation": "Tüm Gönderileri Gör"
+    },
+    {
+      "label": "view_options",
+      "translation": "Seçenekleri Gör"
+    },
+    {
+      "label": "view_post",
+      "translation": "Gönderiyi Gör"
+    },
+    {
+      "label": "view_results",
+      "translation": "Sonuçları Gör"
+    },
+    {
+      "label": "view_site",
+      "translation": "Siteyi Gör"
+    },
+    {
+      "label": "visibility",
+      "translation": "Görünürlük"
+    },
+    {
+      "label": "vk",
+      "translation": "VK"
+    },
+    {
+      "label": "vkontakte",
+      "translation": "VKontakte"
+    },
+    {
+      "label": "vote",
+      "translation": "Oylama"
+    },
+    {
+      "label": "vote_permission",
+      "translation": "Oylama İzni"
+    },
+    {
+      "label": "voted_message",
+      "translation": "Bu oylamayı daha önce oyladınız."
+    },
+    {
+      "label": "warning",
+      "translation": "Uyarı"
+    },
+    {
+      "label": "warning_documentation",
+      "translation": "Bu seçeneği etkinleştirmeden önce belgeleri okuyun"
+    },
+    {
+      "label": "warning_edit_profile_image",
+      "translation": "Resminizi seçtikten sonra değişiklikleri kaydet butonuna tıklayın"
+    },
+    {
+      "label": "weekly",
+      "translation": "Haftalık"
+    },
+    {
+      "label": "whats_your_reaction",
+      "translation": "Tepkiniz Nedir?"
+    },
+    {
+      "label": "whatsapp",
+      "translation": "WhatsApp"
+    },
+    {
+      "label": "where_to_display",
+      "translation": "Nerede Gösterilir"
+    },
+    {
+      "label": "widget",
+      "translation": "Widget"
+    },
+    {
+      "label": "widgets",
+      "translation": "Widget'lar"
+    },
+    {
+      "label": "width",
+      "translation": "Genişlik"
+    },
+    {
+      "label": "withdraw_amount",
+      "translation": "Çekim Miktarı"
+    },
+    {
+      "label": "withdraw_method",
+      "translation": "Çekim Yöntemi"
+    },
+    {
+      "label": "wow",
+      "translation": "Vay"
+    },
+    {
+      "label": "wrong_answer",
+      "translation": "Yanlış Cevap"
+    },
+    {
+      "label": "wrong_password_error",
+      "translation": "Yanlış eski şifre!"
+    },
+    {
+      "label": "year",
+      "translation": "yıl"
+    },
+    {
+      "label": "yearly",
+      "translation": "Yıllık"
+    },
+    {
+      "label": "years",
+      "translation": "yıllar"
+    },
+    {
+      "label": "yes",
+      "translation": "Evet"
+    },
+    {
+      "label": "your_balance",
+      "translation": "Bakiyeniz"
+    },
+    {
+      "label": "total_users",
+      "translation": "Toplam Kullanıcılar"
+    },
+    {
+      "label": "overall_registered_users",
+      "translation": "Genel kayıtlı kullanıcılar"
+    },
+    {
+      "label": "reward_users",
+      "translation": "Ödüllü Kullanıcılar"
+    },
+    {
+      "label": "users_with_active_rewards",
+      "translation": "Aktif ödüllü kullanıcılar"
+    },
+    {
+      "label": "active_users",
+      "translation": "Aktif Kullanıcılar"
+    },
+    {
+      "label": "currently_active_accounts",
+      "translation": "Şu anda aktif hesaplar"
+    },
+    {
+      "label": "pending_users",
+      "translation": "Bekleyen Kullanıcılar"
+    },
+    {
+      "label": "awaiting_account_verification",
+      "translation": "Hesap doğrulaması bekleniyor"
+    },
+    {
+      "label": "add_new_user_instruction",
+      "translation": "Sisteme uygun roller ve izinlerle yeni bir kullanıcı ekleyin."
+    },
+    {
+      "label": "john_doe",
+      "translation": "John Doe"
+    },
+    {
+      "label": "johndoe",
+      "translation": "johndoe"
+    },
+    {
+      "label": "kaydet",
+      "translation": "Kaydet"
+    },
+    {
+      "label": "edit_user_information",
+      "translation": "Kullanıcı Bilgilerini Düzenle"
+    },
+    {
+      "label": "update_user_details_instruction",
+      "translation": "Kullanıcı bilgilerini uygun roller ve izinlerle güncelleyin."
+    },
+    {
+      "label": "unknown",
+      "translation": "Bilinmeyen"
+    },
+    {
+      "label": "failed_to_load_roles",
+      "translation": "Roller yüklenemedi."
+    },
+    {
+      "label": "failed_to_load_user_data",
+      "translation": "Kullanıcı verileri yüklenemedi."
+    },
+    {
+      "label": "are_you_sure",
+      "translation": "Emin misiniz?"
+    },
+    {
+      "label": "action_cannot_be_undone",
+      "translation": "Bu işlem geri alınamaz!"
+    },
+    {
+      "label": "yes",
+      "translation": "Evet"
+    },
+    {
+      "label": "success",
+      "translation": "Başarılı!"
+    },
+    {
+      "label": "user_deleted_successfully",
+      "translation": "Kullanıcı başarıyla silindi."
+    },
+    {
+      "label": "error",
+      "translation": "Hata!"
+    },
+    {
+      "label": "user_deletion_error",
+      "translation": "Kullanıcı silinirken bir hata oluştu."
+    },
+    {
+      "label": "enter_full_name",
+      "translation": "Lütfen tam adınızı giriniz."
+    },
+    {
+      "label": "name_length_validation",
+      "translation": "Ad en az 3, en fazla 255 karakter olmalıdır."
+    },
+    {
+      "label": "enter_username",
+      "translation": "Lütfen kullanıcı adınızı giriniz."
+    },
+    {
+      "label": "username_length_validation",
+      "translation": "Kullanıcı adı en az 3, en fazla 255 karakter olmalıdır."
+    },
+    {
+      "label": "username_format_validation",
+      "translation": "Kullanıcı adı yalnızca harf, rakam ve alt çizgi içerebilir."
+    },
+    {
+      "label": "username_taken",
+      "translation": "Bu kullanıcı adı zaten kullanılıyor."
+    },
+    {
+      "label": "enter_email",
+      "translation": "Lütfen e-posta adresinizi giriniz."
+    },
+    {
+      "label": "enter_valid_email",
+      "translation": "Lütfen geçerli bir e-posta adresi giriniz."
+    },
+    {
+      "label": "email_taken",
+      "translation": "Bu e-posta adresi zaten kullanılıyor."
+    },
+    {
+      "label": "select_role",
+      "translation": "Lütfen bir rol seçiniz."
+    },
+    {
+      "label": "password_length_validation",
+      "translation": "Şifre en az 4 karakter olmalıdır."
+    },
+    {
+      "label": "password_mismatch",
+      "translation": "Şifre ve onay şifresi eşleşmiyor."
+    },
+    {
+      "label": "select_status",
+      "translation": "Lütfen bir durum seçiniz."
+    },
+    {
+      "label": "saving",
+      "translation": "Kaydediliyor..."
+    },
+    {
+      "label": "user_updated_successfully",
+      "translation": "Kullanıcı başarıyla güncellendi."
+    },
+    {
+      "label": "update_error",
+      "translation": "Güncelleme sırasında bir hata oluştu."
+    },
+    {
+      "label": "enter_password",
+      "translation": "Lütfen şifrenizi giriniz."
+    },
+    {
+      "label": "confirm_password",
+      "translation": "Lütfen şifrenizi onaylayınız."
+    },
+    {
+      "label": "user_added_successfully",
+      "translation": "Kullanıcı başarıyla eklendi."
+    },
+    {
+      "label": "save_error",
+      "translation": "Kaydetme sırasında bir hata oluştu."
+    },
+    {
+      "label": "youtube",
+      "translation": "YouTube"
+    }
+  ]
+}

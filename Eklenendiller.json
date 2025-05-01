@@ -1,0 +1,180 @@
+{
+  "label": "total_users",
+  "translation": "Total Users"
+},
+{
+  "label": "overall_registered_users",
+  "translation": "Overall registered users"
+},
+{
+  "label": "reward_users",
+  "translation": "Reward Users"
+},
+{
+  "label": "users_with_active_rewards",
+  "translation": "Users with active rewards"
+},
+{
+  "label": "active_users",
+  "translation": "Active Users"
+},
+{
+  "label": "currently_active_accounts",
+  "translation": "Currently active accounts"
+},
+{
+  "label": "pending_users",
+  "translation": "Pending Users"
+},
+{
+  "label": "awaiting_account_verification",
+  "translation": "Awaiting account verification"
+},
+{
+  "label": "add_new_user_instruction",
+  "translation": "Add a new user to the system with appropriate roles and permissions."
+},
+{
+  "label": "john_doe",
+  "translation": "John Doe"
+},
+{
+  "label": "johndoe",
+  "translation": "johndoe"
+},
+{
+  "label": "kaydet",
+  "translation": "Save"
+},
+{
+  "label": "edit_user_information",
+  "translation": "Edit User Information"
+},
+{
+  "label": "update_user_details_instruction",
+  "translation": "Update user details with appropriate roles and permissions."
+},
+{
+  "label": "unknown",
+  "translation": "Unknown"
+},
+{
+  "label": "failed_to_load_roles",
+  "translation": "Failed to load roles"
+},
+{
+  "label": "failed_to_load_user_data",
+  "translation": "Failed to load user data"
+},
+{
+  "label": "are_you_sure",
+  "translation": "Are you sure?"
+},
+{
+  "label": "action_cannot_be_undone",
+  "translation": "This action cannot be undone!"
+},
+{
+  "label": "yes",
+  "translation": "Yes"
+},
+{
+  "label": "success",
+  "translation": "Success!"
+},
+{
+  "label": "user_deleted_successfully",
+  "translation": "User successfully deleted."
+},
+{
+  "label": "error",
+  "translation": "Error!"
+},
+{
+  "label": "user_deletion_error",
+  "translation": "An error occurred while deleting the user."
+},
+{
+  "label": "enter_full_name",
+  "translation": "Please enter your full name"
+},
+{
+  "label": "name_length_validation",
+  "translation": "Name must be at least 3 and at most 255 characters."
+},
+{
+  "label": "enter_username",
+  "translation": "Please enter username"
+},
+{
+  "label": "username_length_validation",
+  "translation": "Username must be at least 3 and at most 255 characters."
+},
+{
+  "label": "username_format_validation",
+  "translation": "Username can only contain letters, numbers, and underscores."
+},
+{
+  "label": "username_taken",
+  "translation": "This username is already taken."
+},
+{
+  "label": "enter_email",
+  "translation": "Please enter email address"
+},
+{
+  "label": "enter_valid_email",
+  "translation": "Please enter a valid email address"
+},
+{
+  "label": "email_taken",
+  "translation": "This email address is already taken."
+},
+{
+  "label": "select_role",
+  "translation": "Please select a role"
+},
+{
+  "label": "password_length_validation",
+  "translation": "Password must be at least 4 characters."
+},
+{
+  "label": "password_mismatch",
+  "translation": "Password and confirm password do not match."
+},
+{
+  "label": "select_status",
+  "translation": "Please select a status"
+},
+{
+  "label": "saving",
+  "translation": "Saving..."
+},
+{
+  "label": "user_updated_successfully",
+  "translation": "User successfully updated"
+},
+{
+  "label": "user_created_successfully",
+  "translation": "User created successfully"
+},
+{
+  "label": "update_error",
+  "translation": "An error occurred during update"
+},
+{
+  "label": "enter_password",
+  "translation": "Please enter password"
+},
+{
+  "label": "confirm_password",
+  "translation": "Please confirm password"
+},
+{
+  "label": "user_added_successfully",
+  "translation": "User successfully added"
+},
+{
+  "label": "save_error",
+  "translation": "An error occurred while saving"
+},

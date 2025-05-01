@@ -1,6 +1,6 @@
 @extends('layouts/layoutMaster')
 
-@section('title', 'User List - Pages')
+@section('title', __('Users'))
 
 @section('vendor-style')
 @vite([
@@ -8,7 +8,9 @@
   'resources/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.scss',
   'resources/assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.scss',
   'resources/assets/vendor/libs/select2/select2.scss',
-  'resources/assets/vendor/libs/@form-validation/form-validation.scss'
+  'resources/assets/vendor/libs/@form-validation/form-validation.scss',
+  'resources/assets/vendor/libs/toastr/toastr.scss',
+  'resources/assets/vendor/libs/sweetalert2/sweetalert2.scss'
 ])
 @endsection
 
@@ -21,14 +23,17 @@
   'resources/assets/vendor/libs/@form-validation/bootstrap5.js',
   'resources/assets/vendor/libs/@form-validation/auto-focus.js',
   'resources/assets/vendor/libs/cleavejs/cleave.js',
-  'resources/assets/vendor/libs/cleavejs/cleave-phone.js'
+  'resources/assets/vendor/libs/cleavejs/cleave-phone.js',
+  'resources/assets/vendor/libs/toastr/toastr.js',
+  'resources/assets/vendor/libs/sweetalert2/sweetalert2.js'
 ])
 @endsection
 
 @section('page-script')
 @vite([
   'resources/js/admin/users/user-list.js',
-  'resources/js/admin/users/user-form-validation.js'
+  'resources/js/admin/users/user-add-form-validation.js',
+  'resources/js/admin/users/user-edit-form-validation.js',
 ])
 @endsection
 
@@ -40,12 +45,14 @@
       <div class="card-body">
         <div class="d-flex align-items-start justify-content-between">
           <div class="content-left">
-            <span class="text-heading">{{ __('Total Users') }}</span>
+            <span class="text-heading">{{ __('total_users') }}</span>
             <div class="d-flex align-items-center my-1">
-              <h4 class="mb-0 me-2">21,459</h4>
-              <p class="text-success mb-0">(+29%)</p>
+              <h4 class="mb-0 me-2">{{ number_format($stats['total']['count']) }}</h4>
+              <p class="{{ $stats['total']['increase'] ? 'text-success' : 'text-danger' }} mb-0">
+                ({{ $stats['total']['increase'] ? '+' : '-' }}{{ $stats['total']['change'] }}%)
+              </p>
             </div>
-            <small class="mb-0">{{ __('Overall registered users') }}</small>
+            <small class="mb-0">{{ __('overall_registered_users') }}</small>
           </div>
           <div class="avatar">
             <span class="avatar-initial rounded bg-label-primary">
@@ -61,12 +68,14 @@
       <div class="card-body">
         <div class="d-flex align-items-start justify-content-between">
           <div class="content-left">
-            <span class="text-heading">{{ __('Reward Users') }}</span>
+            <span class="text-heading">{{ __('reward_users') }}</span>
             <div class="d-flex align-items-center my-1">
-              <h4 class="mb-0 me-2">4,567</h4>
-              <p class="text-success mb-0">(+18%)</p>
+              <h4 class="mb-0 me-2">{{ number_format($stats['reward']['count']) }}</h4>
+              <p class="{{ $stats['reward']['increase'] ? 'text-success' : 'text-danger' }} mb-0">
+                ({{ $stats['reward']['increase'] ? '+' : '-' }}{{ $stats['reward']['change'] }}%)
+              </p>
             </div>
-            <small class="mb-0">{{ __('Users with active rewards') }}</small>
+            <small class="mb-0">{{ __('users_with_active_rewards') }}</small>
           </div>
           <div class="avatar">
             <span class="avatar-initial rounded bg-label-danger">
@@ -82,12 +91,14 @@
       <div class="card-body">
         <div class="d-flex align-items-start justify-content-between">
           <div class="content-left">
-            <span class="text-heading">{{ __('Active Users') }}</span>
+            <span class="text-heading">{{ __('active_users') }}</span>
             <div class="d-flex align-items-center my-1">
-              <h4 class="mb-0 me-2">19,860</h4>
-              <p class="text-danger mb-0">(-14%)</p>
+              <h4 class="mb-0 me-2">{{ number_format($stats['active']['count']) }}</h4>
+              <p class="{{ $stats['active']['increase'] ? 'text-success' : 'text-danger' }} mb-0">
+                ({{ $stats['active']['increase'] ? '+' : '-' }}{{ $stats['active']['change'] }}%)
+              </p>
             </div>
-            <small class="mb-0">{{ __('Currently active accounts') }}</small>
+            <small class="mb-0">{{ __('currently_active_accounts') }}</small>
           </div>
           <div class="avatar">
             <span class="avatar-initial rounded bg-label-success">
@@ -103,12 +114,14 @@
       <div class="card-body">
         <div class="d-flex align-items-start justify-content-between">
           <div class="content-left">
-            <span class="text-heading">{{ __('Pending Users') }}</span>
+            <span class="text-heading">{{ __('pending_users') }}</span>
             <div class="d-flex align-items-center my-1">
-              <h4 class="mb-0 me-2">237</h4>
-              <p class="text-success mb-0">(+42%)</p>
+              <h4 class="mb-0 me-2">{{ number_format($stats['pending']['count']) }}</h4>
+              <p class="{{ $stats['pending']['increase'] ? 'text-success' : 'text-danger' }} mb-0">
+                ({{ $stats['pending']['increase'] ? '+' : '-' }}{{ $stats['pending']['change'] }}%)
+              </p>
             </div>
-            <small class="mb-0">{{ __('Awaiting account verification') }}</small>
+            <small class="mb-0">{{ __('awaiting_account_verification') }}</small>
           </div>
           <div class="avatar">
             <span class="avatar-initial rounded bg-label-warning">
@@ -123,7 +136,7 @@
 <!-- Users List Table -->
 <div class="card">
   <div class="card-header border-bottom">
-    <h5 class="card-title mb-0">Filters</h5>
+    <h5 class="card-title mb-0">{{ __('filter') }}</h5>
     <div class="d-flex justify-content-between align-items-center row pt-4 gap-4 gap-md-0">
       <div class="col-md-4 user_role"></div>
       <div class="col-md-4 user_reward"></div>
@@ -136,11 +149,12 @@
         <tr>
           <th></th>
           <th></th>
-          <th>{{ __('User') }}</th>
-          <th>{{ __('Role') }}</th>
-          <th>{{ __('Reward System') }}</th>
-          <th>{{ __('Status') }}</th>
-          <th>{{ __('Options') }}</th>
+          <th>{{ __('user') }}</th>
+          <th>{{ __('role') }}</th>
+          <th>{{ __('reward_system') }}</th>
+          <th>{{ __('status') }}</th>
+          <th>{{ __('date') }}</th>
+          <th>{{ __('options') }}</th>
         </tr>
       </thead>
     </table>
@@ -149,6 +163,5 @@
 
 @include('content.admin.users._partials._modals.modal-add-user')
 @include('content.admin.users._partials._modals.modal-edit-user')
-@include('content.admin.users._partials._modals.modal-edit-permission')
 
 @endsection

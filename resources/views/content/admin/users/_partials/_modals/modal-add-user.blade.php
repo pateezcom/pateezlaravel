@@ -5,85 +5,109 @@
       <div class="modal-body">
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         <div class="text-center mb-6">
-          <h4 class="address-title mb-2">{{ __('Yeni Kullanıcı Ekle') }}</h4>
-          <p class="address-subtitle">{{ __('Sisteme yeni bir kullanıcı ekleyin') }}</p>
+          <h4 class="mb-2">{{ __('add_user') }}</h4>
+          <p>{{ __('add_new_user_instruction') }}</p>
         </div>
-        
-        <div class="alert alert-warning d-none" id="add-form-errors">
-          <div class="alert-body fw-normal"></div>
-        </div>
-        
-        <form id="addNewUserForm" class="row g-6" onsubmit="return false">
-          @csrf
-          
-          <div class="col-12 col-md-6">
-            <label class="form-label" for="add-user-fullname">{{ __('Ad Soyad') }}</label>
-            <input type="text" id="add-user-fullname" name="userFullname" class="form-control" placeholder="John Doe" />
+        <form id="addUserForm" class="row g-6" onsubmit="return false">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}">
+          <!-- User Name -->
+          <div class="col-12 col-md-12">
+            <label class="form-label" for="add-user-fullname">{{ __('full_name') }} <span class="text-danger">*</span></label>
+            <input
+              type="text"
+              id="add-user-fullname"
+              name="name"
+              class="form-control"
+              placeholder="{{ __('john_doe') }}"
+              required
+            />
           </div>
-          
+
+          <!-- Username -->
           <div class="col-12 col-md-6">
-            <label class="form-label" for="add-user-username">{{ __('Kullanıcı Adı') }}</label>
-            <input type="text" id="add-user-username" name="userUsername" class="form-control" placeholder="johndoe" />
-            <div id="username-availability-add"></div>
+            <label class="form-label" for="add-user-username">{{ __('username') }} <span class="text-danger">*</span></label>
+            <input
+              type="text"
+              id="add-user-username"
+              name="username"
+              class="form-control"
+              placeholder="{{ __('johndoe') }}"
+              required
+            />
           </div>
-          
+
+          <!-- Email -->
           <div class="col-12 col-md-6">
-            <label class="form-label" for="add-user-email">{{ __('E-posta Adresi') }}</label>
-            <input type="email" id="add-user-email" name="userEmail" class="form-control" placeholder="john.doe@example.com" />
+            <label class="form-label" for="add-user-email">{{ __('email') }} <span class="text-danger">*</span></label>
+            <input
+              type="email"
+              id="add-user-email"
+              name="email"
+              class="form-control"
+              placeholder="{{ __('example@domain.com') }}"
+              required
+            />
           </div>
-          
+
+          <!-- Role -->
           <div class="col-12 col-md-6">
-            <label class="form-label" for="add-user-role">{{ __('Kullanıcı Rolü') }}</label>
-            <select id="add-user-role" name="userRole" class="form-select" data-allow-clear="true">
-              <option value="">{{ __('Rol Seçin') }}</option>
-              <option value="Admin">{{ __('Yönetici') }}</option>
-              <option value="Moderator">{{ __('Moderatör') }}</option>
-              <option value="Author">{{ __('Yazar') }}</option>
-              <option value="Member">{{ __('Üye') }}</option>
+            <label class="form-label" for="add-user-role">{{ __('role') }} <span class="text-danger">*</span></label>
+            <select id="add-user-role" name="role_id" class="form-select" required>
+              <option value="">{{ __('select_role') }}</option>
+              <!-- Roles will be populated dynamically -->
             </select>
           </div>
-          
+
           <div class="col-12 col-md-6">
-            <label class="form-label" for="add-user-password">{{ __('Şifre') }}</label>
-            <input type="password" id="add-user-password" name="userPassword" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+            <!-- Boş div, burayı boş bırakıyoruz -->
           </div>
-          
+
+          <!-- Password -->
           <div class="col-12 col-md-6">
-            <label class="form-label" for="add-user-confirm-password">{{ __('Şifre Onayı') }}</label>
-            <input type="password" id="add-user-confirm-password" name="confirmPassword" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
-          </div>
-          
-          <div class="col-12 col-md-6">
-            <label class="form-label d-block">{{ __('Durum') }}</label>
-            <div class="mt-2">
-              <div class="form-check mb-2">
-                <input class="form-check-input" type="radio" name="userStatus" id="user-active" value="2" checked />
-                <label class="form-check-label" for="user-active">{{ __('Aktif') }}</label>
-              </div>
-              <div class="form-check mb-2">
-                <input class="form-check-input" type="radio" name="userStatus" id="user-inactive" value="1" />
-                <label class="form-check-label" for="user-inactive">{{ __('Pasif') }}</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="userStatus" id="user-pending" value="0" />
-                <label class="form-check-label" for="user-pending">{{ __('Beklemede') }}</label>
-              </div>
+            <label class="form-label" for="add-user-password">{{ __('password') }} <span class="text-danger">*</span></label>
+            <div class="input-group input-group-merge">
+              <input
+                type="password"
+                id="add-user-password"
+                name="password"
+                class="form-control"
+                placeholder="{{ __('············') }}"
+                minlength="4"
+                required
+              />
+              <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
             </div>
           </div>
-          
+
+          <!-- Confirm Password -->
           <div class="col-12 col-md-6">
-            <label class="form-label d-block">{{ __('Ödül Seçenekleri') }}</label>
-            <div class="mt-2">
-              <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="user-reward" name="userReward" value="1" />
-                <label class="form-check-label" for="user-reward">{{ __('Ödül Sistemi Aktif') }}</label>
-              </div>
+            <label class="form-label" for="add-user-confirm-password">{{ __('confirm_password') }} <span class="text-danger">*</span></label>
+            <div class="input-group input-group-merge">
+              <input
+                type="password"
+                id="add-user-confirm-password"
+                name="password_confirmation"
+                class="form-control"
+                placeholder="{{ __('············') }}"
+                minlength="4"
+                required
+              />
+              <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
             </div>
           </div>
-          
+
+          <!-- Reward System -->
+          <div class="col-12">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="add-user-reward" name="reward_system_active" />
+              <label class="form-check-label" for="add-user-reward">{{ __('enable_reward_system') }}</label>
+            </div>
+          </div>
+
+          <!-- Submit Buttons -->
           <div class="col-12 text-center">
-            <button type="submit" class="btn btn-primary me-3">{{ __('Kaydet') }}</button>
-            <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">{{ __('İptal') }}</button>
+            <button type="submit" class="btn btn-primary me-sm-3 me-1">{{ __('save') }}</button>
+            <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">{{ __('cancel') }}</button>
           </div>
         </form>
       </div>

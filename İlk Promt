@@ -49,3 +49,9 @@ Analiz sonrası beklenen yanıt: Uzun uzun herhangi bir rapor verilmeyecek "Mod�
 
 
 php artisan translations:sync-js --generate-view
+
+
+
+php artisan cache:clear
+php artisan config:clear
+php artisan optimize:clear

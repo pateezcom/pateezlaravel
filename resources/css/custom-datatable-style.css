@@ -1,0 +1,22 @@
+/* Custom CSS for DataTables inputs to match height of Export and Add New buttons */
+.dataTables_length select,
+.dataTables_filter input,
+div.dt-buttons .dt-button,
+.add-new {
+  height: 38px !important; /* Standart buton yüksekliği */
+  line-height: 1.5 !important;
+}
+
+/* Arama input alanı için genişlik ve yükseklik ayarı */
+.dataTables_filter input.form-control {
+  min-height: 38px !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+}
+
+/* Select box yüksekliği ve hizalaması */
+.dataTables_length select.form-select {
+  min-height: 38px !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+}

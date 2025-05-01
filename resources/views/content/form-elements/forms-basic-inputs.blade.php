@@ -104,7 +104,7 @@
         </div>
         <div>
           <label for="smallInput" class="form-label">Small input</label>
-          <input id="smallInput" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" />
+          <input id="smallInput" class="form-control" type="text" placeholder=".form-control-sm" />
         </div>
       </div>
       <hr class="m-0" />

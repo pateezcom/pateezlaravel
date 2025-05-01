@@ -1,7 +1,7 @@
 {
   "menu": [
     {
-      "name": "Users",
+      "name": "users",
       "icon": "menu-icon tf-icons ti ti-users",
       "slug": "admin.users",
       "url": "admin/users"

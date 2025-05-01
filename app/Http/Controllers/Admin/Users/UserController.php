@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -24,19 +25,22 @@ class UserController extends Controller
 
     // If AJAX request, return JSON
     if ($request->ajax()) {
-      $users = User::with('roles')->get()->map(function ($user) {
+      $users = User::with('roles')
+        ->orderBy('id', 'desc') // En son eklenen kullanıcılar en üstte
+        ->get()
+        ->map(function ($user) {
         // Get the first role of the user or 'Member' as default
         // Kullanıcının ilk rolünü al veya varsayılan olarak 'Member' kullan
         $roleName = $user->roles->first() ? $user->roles->first()->name : 'Member';
-        
-        // Map status code to readable status
+
+        // Map status code to readable status - Frontend'de çevrilecek kod olarak kullan
         // Durum kodunu okunabilir duruma dönüştür
         $statusMap = [
-          1 => 'Pending',
-          2 => 'Active',
-          3 => 'Inactive'
+          0 => 0, // 'pending',
+          1 => 1, // 'inactive',
+          2 => 2  // 'active'
         ];
-        
+
         return [
           'id' => $user->id,
           'full_name' => $user->name, // 'name' alanını 'full_name' olarak eşleştir
@@ -53,13 +57,75 @@ class UserController extends Controller
       return response()->json(['data' => $users]);
     }
 
+    // Get user statistics for dashboard cards
+    // İstatistik kartları için kullanıcı sayılarını al
+    $userStats = $this->getUserStatistics();
+
     // Normal page load
-    return view('content.admin.users.user-list', ['pageConfigs' => $pageConfigs]);
+    return view('content.admin.users.user-list', [
+      'pageConfigs' => $pageConfigs,
+      'stats' => $userStats
+    ]);
   }
 
   /**
-   * Check if username is available
-   * Kullanıcı adının kullanılabilir olup olmadığını kontrol eder
+   * Get user statistics for dashboard cards
+   * Dashboard kartları için kullanıcı istatistiklerini al
+   *
+   * @return array
+   */
+  private function getUserStatistics()
+  {
+    // Get total user count
+    // Toplam kullanıcı sayısı
+    $totalUsers = User::count();
+    
+    // Get reward system active user count
+    // Ödül sistemi aktif olan kullanıcı sayısı
+    $rewardUsers = User::where('reward_system_active', true)->count();
+    
+    // Get active user count (status = 2)
+    // Aktif kullanıcı sayısı
+    $activeUsers = User::where('status', 2)->count();
+    
+    // Get pending user count (status = 0)
+    // Bekleyen kullanıcı sayısı
+    $pendingUsers = User::where('status', 0)->count();
+
+    // Calculate percentage changes (for demo purposes with random values)
+    // Yüzde değişimlerini hesapla (demo amaçlı rastgele değerlerle)
+    $totalChange = rand(5, 35); // Örnek: %5 ile %35 arası artış
+    $rewardChange = rand(10, 50); // Örnek: %10 ile %50 arası artış
+    $activeChange = $activeUsers > 5000 ? rand(-20, -5) : rand(5, 20); // Aktif kullanıcılar çok fazlaysa azalış, değilse artış göster
+    $pendingChange = rand(25, 55); // Bekleyen kullanıcılarda artış
+
+    return [
+      'total' => [
+        'count' => $totalUsers,
+        'change' => $totalChange,
+        'increase' => true // Artış mı, azalış mı?
+      ],
+      'reward' => [
+        'count' => $rewardUsers,
+        'change' => $rewardChange,
+        'increase' => true
+      ],
+      'active' => [
+        'count' => $activeUsers,
+        'change' => abs($activeChange),
+        'increase' => $activeChange > 0
+      ],
+      'pending' => [
+        'count' => $pendingUsers,
+        'change' => $pendingChange,
+        'increase' => true
+      ]
+    ];
+  }
+
+  /**
+   * Check if a username is already taken.
+   * Kullanıcı adının daha önce alınıp alınmadığını kontrol eder.
    *
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
@@ -67,24 +133,24 @@ class UserController extends Controller
   public function checkUsername(Request $request)
   {
     $username = $request->input('username');
-    $userId = $request->input('userId');
-    
+    $userId = $request->input('id'); // Edit işleminde mevcut kullanıcıyı hariç tutmak için
+
     $query = User::where('username', $username);
-    
+
     if ($userId) {
       $query->where('id', '!=', $userId);
     }
-    
+
     $exists = $query->exists();
-    
+
     return response()->json([
-      'available' => !$exists
+      'valid' => !$exists
     ]);
   }
-  
+
   /**
-   * Check if email is available
-   * E-posta adresinin kullanılabilir olup olmadığını kontrol eder
+   * Check if an email is already taken.
+   * E-posta adresinin daha önce alınıp alınmadığını kontrol eder.
    *
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
@@ -92,21 +158,54 @@ class UserController extends Controller
   public function checkEmail(Request $request)
   {
     $email = $request->input('email');
-    $userId = $request->input('userId');
-    
+    $userId = $request->input('id'); // Edit işleminde mevcut kullanıcıyı hariç tutmak için
+
     $query = User::where('email', $email);
-    
+
     if ($userId) {
       $query->where('id', '!=', $userId);
     }
-    
+
     $exists = $query->exists();
-    
+
     return response()->json([
-      'available' => !$exists
+      'valid' => !$exists
     ]);
   }
-  
+
+  /**
+   * Get all roles for select box.
+   * Seçim kutusu için tüm rolleri getirir.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function getRoles()
+  {
+    try {
+      // Get all roles
+      // Tüm rolleri al
+      $roles = Role::all();
+
+      // Return success response
+      // Başarı yanıtı döndür
+      return response()->json([
+        'success' => true,
+        'data' => $roles
+      ]);
+    } catch (\Exception $e) {
+      // Log error
+      // Hatayı logla
+      Log::error('Error fetching roles: ' . $e->getMessage());
+
+      // Return error response
+      // Hata yanıtı döndür
+      return response()->json([
+        'success' => false,
+        'message' => __('An error occurred while fetching roles')
+      ], 500);
+    }
+  }
+
   /**
    * Store a newly created user in storage.
    * Yeni bir kullanıcıyı veritabanına kaydeder.
@@ -116,97 +215,120 @@ class UserController extends Controller
    */
   public function store(Request $request)
   {
-    // Validate input data
-    // Girilen verileri doğrula
-    $request->validate([
-      'userFullname' => 'required|string|max:255',
-      'userUsername' => 'required|string|max:25|unique:users,username|regex:/^[a-zA-Z0-9_\-\.]+$/',
-      'userEmail' => 'required|string|email|max:255|unique:users,email',
-      'userPassword' => 'required|string|min:8|confirmed',
-      'userRole' => 'required|exists:roles,name'
-    ], [
-      'userFullname.required' => 'Ad soyad alanı zorunludur',
-      'userUsername.required' => 'Kullanıcı adı zorunludur',
-      'userUsername.unique' => 'Bu kullanıcı adı zaten kullanılıyor',
-      'userUsername.regex' => 'Kullanıcı adı yalnızca harf, sayı, alt çizgi, nokta ve tire içerebilir',
-      'userEmail.required' => 'E-posta adresi zorunludur',
-      'userEmail.email' => 'Geçerli bir e-posta adresi giriniz',
-      'userEmail.unique' => 'Bu e-posta adresi zaten kullanılıyor',
-      'userPassword.required' => 'Şifre zorunludur',
-      'userPassword.min' => 'Şifre en az 8 karakter olmalıdır',
-      'userPassword.confirmed' => 'Şifreler eşleşmiyor',
-      'userRole.required' => 'Lütfen bir rol seçin',
-    ]);
+    try {
+      // Validate request
+      // İstek doğrulama
+      $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'username' => 'required|string|max:255|unique:users',
+        'email' => 'required|string|email|max:255|unique:users',
+        'role_id' => 'required|exists:roles,id',
+        'password' => 'required|string|min:4|confirmed',
+        'reward_system_active' => 'nullable|in:0,1',
+        'status' => 'sometimes|integer|in:0,1,2'
+      ]);
 
-    // Create new user
-    // Yeni kullanıcı oluştur
-    $user = User::create([
-      'name' => $request->userFullname,
-      'username' => $request->userUsername,
-      'email' => $request->userEmail,
-      'password' => Hash::make($request->userPassword),
-      'reward_system_active' => $request->has('userReward'),
-      'status' => $request->userStatus ?? 2 // 2 = Active
-    ]);
+      // Create new user
+      // Yeni kullanıcı oluştur
+      $user = new User();
+      $user->name = $validated['name'];
+      $user->username = $validated['username'];
+      $user->email = $validated['email'];
+      $user->password = Hash::make($validated['password']);
 
-    // Assign role to user
-    // Kullanıcıya rol ata
-    $user->assignRole($request->userRole);
+      // Reward system için özel işlem
+      $user->reward_system_active = isset($validated['reward_system_active'])
+          ? filter_var($validated['reward_system_active'], FILTER_VALIDATE_BOOLEAN)
+          : false;
+      $user->status = $request->input('status', 0); // Default to 0 (Pending) if not provided
+      $user->save();
 
-    return response()->json([
-      'success' => true,
-      'message' => 'Kullanıcı başarıyla oluşturuldu!'
-    ]);
-  }
+      // Assign role
+      // Rol ata
+      $role = Role::findById($validated['role_id']);
+      $user->assignRole($role);
 
-  /**
-   * Display the specified user.
-   * Belirtilen kullanıcının detaylarını gösterir.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-  public function show($id)
-  {
-    $user = User::with('roles')->findOrFail($id);
-    
-    return response()->json([
-      'success' => true,
-      'data' => $user
-    ]);
+      // Return success response
+      // Başarı yanıtı döndür
+      return response()->json([
+        'success' => true,
+        'message' => __('user_created_successfully'),
+        'data' => $user
+      ]);
+    } catch (\Illuminate\Validation\ValidationException $e) {
+      // Return validation errors
+      // Doğrulama hatalarını döndür
+      return response()->json([
+        'success' => false,
+        'message' => __('Validation error'),
+        'errors' => $e->errors()
+      ], 422);
+    } catch (\Exception $e) {
+      // Log error
+      // Hatayı logla
+      Log::error('User creation error: ' . $e->getMessage());
+      Log::error($e->getTraceAsString());
+
+      // Return error response
+      // Hata yanıtı döndür
+      return response()->json([
+        'success' => false,
+        'message' => __('An error occurred while creating the user')
+      ], 500);
+    }
   }
 
   /**
    * Show the form for editing the specified user.
-   * Belirtilen kullanıcıyı düzenlemek için form verilerini döndürür.
+   * Belirtilen kullanıcıyı düzenleme formunu gösterir.
    *
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
   public function edit($id)
   {
-    $user = User::with('roles')->findOrFail($id);
-    
-    $userData = [
-      'id' => $user->id,
-      'name' => $user->name,
-      'username' => $user->username,
-      'email' => $user->email,
-      'role_id' => $user->roles->first() ? $user->roles->first()->id : null,
-      'role' => $user->roles->first() ? $user->roles->first()->name : null,
-      'reward_system_active' => $user->reward_system_active,
-      'status' => $user->status ?? 2,
-    ];
-    
-    return response()->json([
-      'success' => true,
-      'data' => $userData
-    ]);
+    try {
+      // Find user
+      // Kullanıcıyı bul
+      $user = User::with('roles')->findOrFail($id);
+
+      // Get user data
+      // Kullanıcı verilerini al
+      $userData = [
+        'id' => $user->id,
+        'name' => $user->name,
+        'username' => $user->username,
+        'email' => $user->email,
+        'role_id' => $user->roles->first() ? $user->roles->first()->id : null,
+        'role' => $user->roles->first() ? $user->roles->first()->name : null,
+        'reward_system_active' => (bool)$user->reward_system_active,
+        'status' => $user->status ?? 2, // Default to active if null
+      ];
+
+      // Return success response
+      // Başarı yanıtı döndür
+      return response()->json([
+        'success' => true,
+        'data' => $userData
+      ]);
+    } catch (\Exception $e) {
+      // Log error
+      // Hatayı logla
+      Log::error('User edit error: ' . $e->getMessage());
+      Log::error($e->getTraceAsString());
+
+      // Return error response
+      // Hata yanıtı döndür
+      return response()->json([
+        'success' => false,
+        'message' => __('An error occurred while fetching user data')
+      ], 500);
+    }
   }
 
   /**
    * Update the specified user in storage.
-   * Belirtilen kullanıcıyı günceller.
+   * Belirtilen kullanıcıyı veritabanında günceller.
    *
    * @param  \Illuminate\Http\Request  $request
    * @param  int  $id
@@ -214,170 +336,145 @@ class UserController extends Controller
    */
   public function update(Request $request, $id)
   {
-    // Find user
-    // Kullanıcıyı bul
-    $user = User::findOrFail($id);
+    try {
+      // Find user
+      // Kullanıcıyı bul
+      $user = User::findOrFail($id);
 
-    // Validate input data
-    // Girilen verileri doğrula
-    $validated = $request->validate([
-      'editUserFullname' => 'required|string|max:255',
-      'editUserUsername' => [
-        'required',
-        'string',
-        'max:25',
-        'regex:/^[a-zA-Z0-9_\-\.]+$/',
-        Rule::unique('users', 'username')->ignore($id)
-      ],
-      'editUserEmail' => [
-        'required',
-        'string',
-        'email',
-        'max:255',
-        Rule::unique('users', 'email')->ignore($id)
-      ],
-      'editUserRole' => 'required|exists:roles,name',
-      'editUserPassword' => 'nullable|string|min:8',
-      'editUserConfirmPassword' => 'nullable|same:editUserPassword',
-    ], [
-      'editUserFullname.required' => 'Ad soyad alanı zorunludur',
-      'editUserUsername.required' => 'Kullanıcı adı zorunludur',
-      'editUserUsername.unique' => 'Bu kullanıcı adı zaten kullanılıyor',
-      'editUserUsername.regex' => 'Kullanıcı adı yalnızca harf, sayı, alt çizgi, nokta ve tire içerebilir',
-      'editUserEmail.required' => 'E-posta adresi zorunludur',
-      'editUserEmail.email' => 'Geçerli bir e-posta adresi giriniz',
-      'editUserEmail.unique' => 'Bu e-posta adresi zaten kullanılıyor',
-      'editUserPassword.min' => 'Şifre en az 8 karakter olmalıdır',
-      'editUserConfirmPassword.same' => 'Şifreler eşleşmiyor',
-      'editUserRole.required' => 'Lütfen bir rol seçin',
-    ]);
+      // Validate request
+      // İstek doğrulama
+      $validationRules = [
+        'name' => 'required|string|max:255',
+        'username' => [
+          'required',
+          'string',
+          'max:255',
+          Rule::unique('users')->ignore($id),
+        ],
+        'email' => [
+          'required',
+          'string',
+          'email',
+          'max:255',
+          Rule::unique('users')->ignore($id),
+        ],
+        'role_id' => 'required|exists:roles,id',
+        'reward_system_active' => 'nullable|in:0,1',
+        'status' => 'required|integer|in:0,1,2'
+      ];
 
-    // Update user
-    // Kullanıcıyı güncelle
-    $userData = [
-      'name' => $request->editUserFullname,
-      'username' => $request->editUserUsername,
-      'email' => $request->editUserEmail,
-      'reward_system_active' => $request->has('editUserReward'),
-      'status' => $request->editUserStatus ?? $user->status
-    ];
-    
-    // Update password if provided
-    // Şifre girildiyse güncelle
-    if ($request->filled('editUserPassword')) {
-      $userData['password'] = Hash::make($request->editUserPassword);
+      // Password is optional in update
+      // Güncelleme sırasında şifre opsiyonel
+      if ($request->filled('password')) {
+        $validationRules['password'] = 'string|min:4|confirmed';
+      }
+
+      $validated = $request->validate($validationRules);
+
+      // Update user
+      // Kullanıcıyı güncelle
+      $user->name = $validated['name'];
+      $user->username = $validated['username'];
+      $user->email = $validated['email'];
+
+      // Update password if provided
+      // Şifre sağlandıysa güncelle
+      if ($request->filled('password')) {
+        $user->password = Hash::make($validated['password']);
+      }
+
+      // Reward system için özel işlem
+      $user->reward_system_active = isset($validated['reward_system_active'])
+          ? filter_var($validated['reward_system_active'], FILTER_VALIDATE_BOOLEAN)
+          : false;
+
+      // Status update
+      // Durum güncelleme
+      $user->status = $validated['status'];
+
+      // Save user
+      // Kullanıcıyı kaydet
+      $user->save();
+
+      // Update role
+      // Rolü güncelle
+      if (isset($validated['role_id'])) {
+        // Remove all current roles
+        // Mevcut tüm rolleri kaldır
+        $user->roles()->detach();
+
+        // Assign new role
+        // Yeni rol ata
+        $role = Role::findById($validated['role_id']);
+        $user->assignRole($role);
+      }
+
+      // Return success response
+      // Başarı yanıtı döndür
+      return response()->json([
+        'success' => true,
+        'message' => __('user_updated_successfully'),
+        'data' => $user
+      ]);
+    } catch (\Illuminate\Validation\ValidationException $e) {
+      // Return validation errors
+      // Doğrulama hatalarını döndür
+      return response()->json([
+        'success' => false,
+        'message' => __('Validation error'),
+        'errors' => $e->errors()
+      ], 422);
+    } catch (\Exception $e) {
+      // Log error
+      // Hatayı logla
+      Log::error('User update error: ' . $e->getMessage());
+      Log::error($e->getTraceAsString());
+
+      // Return error response
+      // Hata yanıtı döndür
+      return response()->json([
+        'success' => false,
+        'message' => __('An error occurred while updating the user')
+      ], 500);
     }
-    
-    $user->update($userData);
-
-    // Sync roles
-    // Rolleri senkronize et
-    $user->syncRoles([$request->editUserRole]);
-
-    return response()->json([
-      'success' => true,
-      'message' => 'Kullanıcı başarıyla güncellendi!'
-    ]);
   }
 
   /**
    * Remove the specified user from storage.
-   * Belirtilen kullanıcıyı siler.
+   * Belirtilen kullanıcıyı veritabanından siler.
    *
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
   public function destroy($id)
   {
-    // Find and delete user
-    // Kullanıcıyı bul ve sil
-    $user = User::findOrFail($id);
-    $user->delete();
+    try {
+      // Find user
+      // Kullanıcıyı bul
+      $user = User::findOrFail($id);
 
-    return response()->json([
-      'success' => true,
-      'message' => 'Kullanıcı başarıyla silindi!'
-    ]);
-  }
+      // Delete user
+      // Kullanıcıyı sil
+      $user->delete();
 
-  /**
-   * Get all available roles for dropdowns.
-   * Açılır menüler için tüm mevcut rolleri getirir.
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function getRoles()
-  {
-    $roles = Role::all();
-    return response()->json($roles);
-  }
+      // Return success response
+      // Başarı yanıtı döndür
+      return response()->json([
+        'success' => true,
+        'message' => __('User deleted successfully')
+      ]);
+    } catch (\Exception $e) {
+      // Log error
+      // Hatayı logla
+      Log::error('User deletion error: ' . $e->getMessage());
+      Log::error($e->getTraceAsString());
 
-  /**
-   * Get all permissions for a role.
-   * Bir rol için tüm izinleri getirir.
-   *
-   * @param  int  $roleId
-   * @return \Illuminate\Http\Response
-   */
-  public function getRolePermissions($roleId)
-  {
-    $role = Role::findOrFail($roleId);
-    $permissions = $role->permissions;
-    return response()->json($permissions);
-  }
-
-  /**
-   * Show the form for editing user permissions.
-   * Kullanıcı izinlerini düzenlemek için form verilerini döndürür.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-  public function editPermissions($id)
-  {
-    $user = User::with('permissions')->findOrFail($id);
-    $permissions = $user->getAllPermissions()->pluck('name');
-    
-    return response()->json([
-      'success' => true,
-      'data' => $permissions
-    ]);
-  }
-
-  /**
-   * Update a user's permissions.
-   * Kullanıcının izinlerini günceller.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-  public function updatePermissions(Request $request, $id)
-  {
-    // Find user
-    // Kullanıcıyı bul
-    $user = User::findOrFail($id);
-
-    // Validate input
-    // Girilen verileri doğrula
-    $request->validate([
-      'permissions' => 'nullable|array',
-      'permissions.*' => 'exists:permissions,name'
-    ], [
-      'permissions.*.exists' => 'Geçersiz izin belirtildi',
-    ]);
-
-    // Get permission instances
-    // İzin nesnelerini al
-    $permissions = $request->input('permissions', []);
-
-    // Sync direct permissions (in addition to role-based permissions)
-    // Doğrudan izinleri senkronize et (rol tabanlı izinlere ek olarak)
-    $user->syncPermissions($permissions);
-
-    return response()->json([
-      'success' => true,
-      'message' => 'Kullanıcı izinleri başarıyla güncellendi!'
-    ]);
+      // Return error response
+      // Hata yanıtı döndür
+      return response()->json([
+        'success' => false,
+        'message' => __('An error occurred while deleting the user')
+      ], 500);
+    }
   }
 }

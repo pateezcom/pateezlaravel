@@ -1,3 +1,5 @@
+//app.js kodları
+
 import './bootstrap';
 import './helpers/translations';
 
@@ -8,6 +10,7 @@ window.translations = window.translations || {};
 window.addEventListener('translationsLoaded', function () {
   // DataTable varsa yenile
   if (window.refreshLanguageTable) setTimeout(window.refreshLanguageTable, 10);
+  if (window.refreshUserTable) setTimeout(window.refreshUserTable, 10);
 });
 
 // Gerekli asset'leri import et

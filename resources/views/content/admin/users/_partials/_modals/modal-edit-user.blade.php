@@ -5,86 +5,137 @@
       <div class="modal-body">
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         <div class="text-center mb-6">
-          <h4 class="address-title mb-2">{{ __('Kullanıcı Düzenle') }}</h4>
-          <p class="address-subtitle">{{ __('Kullanıcı bilgilerini güncelleyin') }}</p>
+          <h4 class="mb-2">{{ __('edit_user_information') }}</h4>
+          <p>{{ __('update_user_details_instruction') }}</p>
         </div>
-        
-        <div class="alert alert-warning d-none" id="edit-form-errors">
-          <div class="alert-body fw-normal"></div>
-        </div>
-        
         <form id="editUserForm" class="row g-6" onsubmit="return false">
-          @csrf
-          <input type="hidden" id="edit-user-id" name="userId">
-          
-          <div class="col-12 col-md-6">
-            <label class="form-label" for="edit-user-fullname">{{ __('Ad Soyad') }}</label>
-            <input type="text" id="edit-user-fullname" name="editUserFullname" class="form-control" placeholder="John Doe" />
+          <input type="hidden" name="_token" value="{{ csrf_token() }}">
+          <input type="hidden" id="edit-user-id" name="id">
+          <input type="hidden" name="_method" value="PUT">
+
+          <!-- User Name -->
+          <div class="col-12 col-md-12">
+            <label class="form-label" for="edit-user-fullname">{{ __('full_name') }} <span class="text-danger">*</span></label>
+            <input
+              type="text"
+              id="edit-user-fullname"
+              name="name"
+              class="form-control"
+              placeholder="{{ __('john_doe') }}"
+              required
+            />
           </div>
-          
+
+          <!-- Username -->
           <div class="col-12 col-md-6">
-            <label class="form-label" for="edit-user-username">{{ __('Kullanıcı Adı') }}</label>
-            <input type="text" id="edit-user-username" name="editUserUsername" class="form-control" placeholder="johndoe" />
-            <div id="username-availability"></div>
+            <label class="form-label" for="edit-user-username">{{ __('username') }} <span class="text-danger">*</span></label>
+            <input
+              type="text"
+              id="edit-user-username"
+              name="username"
+              class="form-control"
+              placeholder="{{ __('johndoe') }}"
+              required
+            />
           </div>
-          
+
+          <!-- Email -->
           <div class="col-12 col-md-6">
-            <label class="form-label" for="edit-user-email">{{ __('E-posta Adresi') }}</label>
-            <input type="email" id="edit-user-email" name="editUserEmail" class="form-control" placeholder="john.doe@example.com" />
+            <label class="form-label" for="edit-user-email">{{ __('email') }} <span class="text-danger">*</span></label>
+            <input
+              type="email"
+              id="edit-user-email"
+              name="email"
+              class="form-control"
+              placeholder="{{ __('example@domain.com') }}"
+              required
+            />
           </div>
-          
+
+          <!-- Role -->
           <div class="col-12 col-md-6">
-            <label class="form-label" for="edit-user-role">{{ __('Kullanıcı Rolü') }}</label>
-            <select id="edit-user-role" name="editUserRole" class="form-select" data-allow-clear="true">
-              <option value="">{{ __('Rol Seçin') }}</option>
-              <option value="Admin">{{ __('Yönetici') }}</option>
-              <option value="Moderator">{{ __('Moderatör') }}</option>
-              <option value="Author">{{ __('Yazar') }}</option>
-              <option value="Member">{{ __('Üye') }}</option>
+            <label class="form-label" for="edit-user-role">{{ __('role') }} <span class="text-danger">*</span></label>
+            <select id="edit-user-role" name="role_id" class="form-select" required>
+              <option value="">{{ __('select_role') }}</option>
+              <!-- Roles will be populated dynamically -->
             </select>
           </div>
-          
+
+          <!-- Status -->
           <div class="col-12 col-md-6">
-            <label class="form-label" for="edit-user-password">{{ __('Şifre (Boş bırakılırsa değişmez)') }}</label>
-            <input type="password" id="edit-user-password" name="editUserPassword" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
-          </div>
-          
-          <div class="col-12 col-md-6">
-            <label class="form-label" for="edit-user-confirm-password">{{ __('Şifre Onayı') }}</label>
-            <input type="password" id="edit-user-confirm-password" name="editUserConfirmPassword" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
-          </div>
-          
-          <div class="col-12 col-md-6">
-            <label class="form-label d-block">{{ __('Durum') }}</label>
-            <div class="mt-2">
-              <div class="form-check mb-2">
-                <input class="form-check-input" type="radio" name="editUserStatus" id="edit-user-active" value="2" />
-                <label class="form-check-label" for="edit-user-active">{{ __('Aktif') }}</label>
+            <label class="form-label">{{ __('status') }}</label>
+            <div class="d-flex flex-wrap">
+              <div class="form-check me-3 me-lg-5 mt-2">
+                <input class="form-check-input" type="radio" name="status" id="edit-user-status-pending" value="0">
+                <label class="form-check-label" for="edit-user-status-pending">
+                  {{ __('pending') }}
+                </label>
               </div>
-              <div class="form-check mb-2">
-                <input class="form-check-input" type="radio" name="editUserStatus" id="edit-user-inactive" value="1" />
-                <label class="form-check-label" for="edit-user-inactive">{{ __('Pasif') }}</label>
+              <div class="form-check me-3 me-lg-5 mt-2">
+                <input class="form-check-input" type="radio" name="status" id="edit-user-status-inactive" value="1">
+                <label class="form-check-label" for="edit-user-status-inactive">
+                  {{ __('inactive') }}
+                </label>
               </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="editUserStatus" id="edit-user-pending" value="0" />
-                <label class="form-check-label" for="edit-user-pending">{{ __('Beklemede') }}</label>
+              <div class="form-check me-3 me-lg-5 mt-2">
+                <input class="form-check-input" type="radio" name="status" id="edit-user-status-active" value="2">
+                <label class="form-check-label" for="edit-user-status-active">
+                  {{ __('active') }}
+                </label>
               </div>
             </div>
           </div>
-          
+
+          <!-- Password heading (optional) -->
+          <div class="col-12">
+            <h6 class="mt-2">{{ __('change_password') }} <small class="text-muted">({{ __('optional') }})</small></h6>
+            <hr class="mt-0" />
+          </div>
+
+          <!-- Password -->
           <div class="col-12 col-md-6">
-            <label class="form-label d-block">{{ __('Ödül Seçenekleri') }}</label>
-            <div class="mt-2">
-              <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="edit-user-reward" name="editUserReward" />
-                <label class="form-check-label" for="edit-user-reward">{{ __('Ödül Sistemi Aktif') }}</label>
-              </div>
+            <label class="form-label" for="edit-user-password">{{ __('new_password') }}</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="password"
+                id="edit-user-password"
+                name="password"
+                class="form-control"
+                placeholder="{{ __('············') }}"
+                minlength="4"
+              />
+              <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
             </div>
           </div>
-          
+
+          <!-- Confirm Password -->
+          <div class="col-12 col-md-6">
+            <label class="form-label" for="edit-user-confirm-password">{{ __('confirm_password') }}</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="password"
+                id="edit-user-confirm-password"
+                name="password_confirmation"
+                class="form-control"
+                placeholder="{{ __('············') }}"
+                minlength="4"
+              />
+              <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+            </div>
+          </div>
+
+          <!-- Reward System -->
+          <div class="col-12">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="edit-user-reward" name="reward_system_active" />
+              <label class="form-check-label" for="edit-user-reward">{{ __('enable_reward_system') }}</label>
+            </div>
+          </div>
+
+          <!-- Submit Buttons -->
           <div class="col-12 text-center">
-            <button type="submit" class="btn btn-primary me-3">{{ __('Kaydet') }}</button>
-            <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">{{ __('İptal') }}</button>
+            <button type="submit" class="btn btn-primary me-sm-3 me-1">{{ __('save') }}</button>
+            <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">{{ __('cancel') }}</button>
           </div>
         </form>
       </div>
