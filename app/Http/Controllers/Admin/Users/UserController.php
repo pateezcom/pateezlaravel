@@ -10,6 +10,8 @@ use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\URL;
 
 class UserController extends Controller
 {
@@ -46,12 +48,13 @@ class UserController extends Controller
           'full_name' => $user->name, // 'name' alanını 'full_name' olarak eşleştir
           'username' => $user->username,
           'email' => $user->email,
-          'avatar' => $user->profile_photo_path, // Profil fotoğrafı veya null
+          'avatar' => $user->profile_photo_url, // Profil fotoğrafı URL'si
           'role' => $roleName, // Spatie Permission'dan rol
           'role_id' => $user->roles->first() ? $user->roles->first()->id : null,
           'reward_system_active' => $user->reward_system_active,
           'status' => $user->status ?? 2, // Default to active if null
-          'date' => $user->created_at
+          'date' => $user->created_at,
+          'email_verified_at' => $user->email_verified_at
         ];
       });
       return response()->json(['data' => $users]);
@@ -66,6 +69,37 @@ class UserController extends Controller
       'pageConfigs' => $pageConfigs,
       'stats' => $userStats
     ]);
+  }
+  
+  /**
+   * Show the profile page for the specified user.
+   * Belirtilen kullanıcının profil sayfasını gösterir.
+   *
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function profile($id)
+  {
+    try {
+      // Find user
+      // Kullanıcıyı bul
+      $user = User::findOrFail($id);
+      
+      // Return view with user data
+      // Kullanıcı verileriyle görünümü döndür
+      return view('content.admin.users.user-profile', [
+        'user' => $user
+      ]);
+    } catch (\Exception $e) {
+      // Log error
+      // Hatayı logla
+      Log::error('User profile error: ' . $e->getMessage());
+      
+      // Redirect to users list with error message
+      // Hata mesajıyla kullanıcı listesine yönlendir
+      return redirect()->route('admin.users')
+        ->with('error', __('An error occurred while loading the user profile'));
+    }
   }
 
   /**
@@ -242,7 +276,11 @@ class UserController extends Controller
           : false;
       $user->status = $request->input('status', 0); // Default to 0 (Pending) if not provided
       $user->save();
-
+      
+      // Email doğrulama olayını tetikle
+      // Trigger email verification
+      event(new Registered($user));
+      
       // Assign role
       // Rol ata
       $role = Role::findById($validated['role_id']);
@@ -474,6 +512,61 @@ class UserController extends Controller
       return response()->json([
         'success' => false,
         'message' => __('An error occurred while deleting the user')
+      ], 500);
+    }
+  }
+  
+  /**
+   * Manually verify user's email
+   * Kullanıcının e-posta adresini manuel olarak doğrular
+   *
+   * @param  int  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function verifyEmail($id)
+  {
+    try {
+      // Find user
+      // Kullanıcıyı bul
+      $user = User::findOrFail($id);
+      
+      // If email is already verified, return success with message
+      // Eğer e-posta zaten doğrulanmışsa, başarı yanıtı döndür
+      if ($user->hasVerifiedEmail()) {
+        return response()->json([
+          'success' => true,
+          'message' => __('Email is already verified')
+        ]);
+      }
+      
+      // Verify email by updating email_verified_at column
+      // email_verified_at sütununu güncelleyerek e-postayı doğrula
+      $user->markEmailAsVerified();
+      
+      // Set user status to active (2) if it was pending (0)
+      // Eğer beklemedeyse (0) kullanıcı durumunu aktif (2) olarak ayarla
+      if ($user->status === 0) {
+        $user->status = 2; // Active
+        $user->save();
+      }
+      
+      // Return success response
+      // Başarı yanıtı döndür
+      return response()->json([
+        'success' => true,
+        'message' => __('Email verified successfully')
+      ]);
+    } catch (\Exception $e) {
+      // Log error
+      // Hatayı logla
+      Log::error('Email verification error: ' . $e->getMessage());
+      Log::error($e->getTraceAsString());
+
+      // Return error response
+      // Hata yanıtı döndür
+      return response()->json([
+        'success' => false,
+        'message' => __('An error occurred while verifying email')
       ], 500);
     }
   }

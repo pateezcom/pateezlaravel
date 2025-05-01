@@ -243,7 +243,7 @@ $(function () {
         sLengthMenu: '_MENU_',
         search: '',
         searchPlaceholder: __('placeholder_search_language'),
-        info: __('table_info'),
+        info: __('table_pagination_info'),
         paginate: {
           next: '<i class="ti ti-chevron-right ti-sm"></i>',
           previous: '<i class="ti ti-chevron-left ti-sm"></i>'

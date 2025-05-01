@@ -8,6 +8,34 @@
   },
   "translations": [
     {
+      "label": "verify_email",
+      "translation": "E-posta Doğrulama"
+    },
+    {
+      "label": "verify_email_confirmation",
+      "translation": "Kullanıcının e-posta adresini doğrulamak istediğinize emin misiniz?"
+    },
+    {
+      "label": "email_verification_failed",
+      "translation": "E-posta doğrulama işlemi sırasında bir hata oluştu!"
+    },
+    {
+      "label": "email_verified_successfully",
+      "translation": "E-posta adresi başarıyla doğrulandı!"
+    },
+    {
+      "label": "email_is_already_verified",
+      "translation": "E-posta adresi zaten doğrulanmış durumda!"
+    },
+    {
+      "label": "confirmed",
+      "translation": "Onaylı"
+    },
+    {
+      "label": "unconfirmed",
+      "translation": "Onaysız"
+    },
+    {
       "label": "about_me",
       "translation": "Hakkımda"
     },

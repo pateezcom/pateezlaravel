@@ -7,6 +7,12 @@
       "url": "admin/users"
     },
     {
+      "name": "roles_permissions",
+      "icon": "menu-icon tf-icons ti ti-key",
+      "slug": "admin.role.permissions",
+      "url": "admin/role-permissions"
+    },
+    {
       "menuHeader": "settings"
     },
     {

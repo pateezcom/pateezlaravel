@@ -55,3 +55,12 @@ php artisan translations:sync-js --generate-view
 php artisan cache:clear
 php artisan config:clear
 php artisan optimize:clear
+
+
+
+
+şimdi bildiğin gibi projemde - Laravel Jetstream: Temel kimlik doğrulama ve kullanıcı profil yönetimi - Livewire: Reaktif bileşenler için kullanıldı - Vuexy Bootstrap Entegrasyonu: Tailwind CSS yerine Bootstrap kullanımı için bunlar kullanıldı şimdi birlikte yapacağımız işlem Laravel Jetstream in mail onayını açmak nasıl açacağımızı bana söyle birde Aşağıdakileride incele ve Laravel Jetstream birlikte açalım benim yapmam gerekenleride bana söyle
+
+ÖNEMLİ GÖREV: NASIL YAPACAĞIMIZI BANA ANLAT YAPALIMMI DİYE ONAY AL ONAY ALMADAN BİŞEY YAPMA
+
+/Users/pateez/Desktop/pateezlaravel/app/Http/Controllers/Admin/Users/UserController.php /Users/pateez/Desktop/pateezlaravel/resources/js/admin/users/user-list.js /Users/pateez/Desktop/pateezlaravel/resources/js/admin/users/user-add-form-validation.js /Users/pateez/Desktop/pateezlaravel/resources/js/admin/users/user-edit-form-validation.js /Users/pateez/Desktop/pateezlaravel/resources/views/content/admin/users/user-list.blade.php /Users/pateez/Desktop/pateezlaravel/resources/views/content/admin/users/_partials/_modals/modal-add-user.blade.php /Users/pateez/Desktop/pateezlaravel/resources/views/content/admin/users/_partials/_modals/modal-edit-user.blade.php

@@ -2,14 +2,16 @@
 
 namespace App\Models\Admin\Users;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
     use HasProfilePhoto;
@@ -32,11 +34,26 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'username',
+        'slug',
         'email',
         'password',
         'status',
         'reward_system_active',
-        'profile_photo_path'
+        'profile_photo_path',
+        'about_me',
+        'facebook',
+        'twitter',
+        'instagram',
+        'tiktok',
+        'whatsapp',
+        'youtube',
+        'discord',
+        'telegram',
+        'pinterest',
+        'linkedin',
+        'twitch',
+        'vk',
+        'personal_website_url'
     ];
 
     /**
@@ -92,15 +109,76 @@ class User extends Authenticatable
     }
 
     /**
-     * Varsayılan profil fotoğrafı
-     * Default profile photo
+     * Profil fotoğrafı URL'si
+     * Get the URL to the user's profile photo.
      *
      * @return string
      */
     public function getProfilePhotoUrlAttribute()
     {
-        return $this->profile_photo_path 
-            ?? 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&color=7F9CF5&background=EBF4FF';
+        if ($this->profile_photo_path) {
+            return url('storage/'.$this->profile_photo_path);
+        }
+        
+        return $this->defaultProfilePhotoUrl();
+    }
+    
+    /**
+     * Varsayılan profil fotoğrafı URL'si
+     * Get the default profile photo URL if no profile photo has been uploaded.
+     *
+     * @return string
+     */
+    protected function defaultProfilePhotoUrl()
+    {
+        return 'https://ui-avatars.com/api/?name='.urlencode($this->name).'&color=7F9CF5&background=EBF4FF';
+    }
+    
+    /**
+     * Profil fotoğrafını güncelleme
+     * Update the user's profile photo.
+     *
+     * @param  \Illuminate\Http\UploadedFile  $photo
+     * @return void
+     */
+    public function updateProfilePhoto($photo)
+    {
+        $this->deleteProfilePhoto();
+
+        $this->forceFill([
+            'profile_photo_path' => $photo->store(
+                'profile-photos', ['disk' => $this->profilePhotoDisk()]
+            ),
+        ])->save();
+    }
+    
+    /**
+     * Profil fotoğrafını silme
+     * Delete the user's profile photo.
+     *
+     * @return void
+     */
+    public function deleteProfilePhoto()
+    {
+        if (! is_null($this->profile_photo_path) && 
+            Storage::disk($this->profilePhotoDisk())->exists($this->profile_photo_path)) {
+            Storage::disk($this->profilePhotoDisk())->delete($this->profile_photo_path);
+        }
+
+        $this->forceFill([
+            'profile_photo_path' => null,
+        ])->save();
+    }
+    
+    /**
+     * Profil fotoğrafı disk adı
+     * Get the disk that profile photos should be stored on.
+     *
+     * @return string
+     */
+    protected function profilePhotoDisk()
+    {
+        return config('jetstream.profile_photo_disk', 'public');
     }
     
     /**

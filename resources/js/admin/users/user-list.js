@@ -35,7 +35,7 @@ $(function () {
     return {
       0: { title: __('pending'), class: 'bg-label-warning' },
       1: { title: __('inactive'), class: 'bg-label-secondary' },
-      2: { title: __('active'), class: 'bg-label-success' }
+      2: { title: __('active'), class: 'text-bg-success' }
     };
   }
   var statusObj = refreshStatusObject();
@@ -103,22 +103,23 @@ $(function () {
             var $name = full['full_name'],
               $email = full['email'],
               $username = full['username'] || '',
-              $image = full['avatar'];
+              $image = full['avatar'],
+              $emailVerified = full['email_verified_at'] ? true : false;
             if ($image) {
               var $output =
-                '<img src="' + assetsPath + 'img/avatars/' + $image + '" alt="Avatar" class="rounded-circle">';
+                '<img src="' + $image + '" alt="Avatar" class="rounded-circle border border-primary" width="48" height="48" style="object-fit: cover;">';
             } else {
               var stateNum = Math.floor(Math.random() * 6);
               var states = ['success', 'danger', 'warning', 'info', 'primary', 'secondary'];
               var $state = states[stateNum],
                 $initials = $name.match(/\b\w/g) || [];
               $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
-              $output = '<span class="avatar-initial rounded-circle bg-label-' + $state + '">' + $initials + '</span>';
+              $output = '<span class="avatar-initial rounded-circle bg-label-' + $state + '" style="width: 48px; height: 48px; display: flex; justify-content: center; align-items: center; font-size: 1.2rem;">' + $initials + '</span>';
             }
             var $row_output =
               '<div class="d-flex justify-content-start align-items-center user-name">' +
               '<div class="avatar-wrapper">' +
-              '<div class="avatar avatar-sm me-4">' +
+              '<div class="avatar me-4">' +
               $output +
               '</div>' +
               '</div>' +
@@ -131,6 +132,10 @@ $(function () {
               '</small>' +
               '<small>' +
               $email +
+              ' ' +
+              ($emailVerified
+                ? '<span class="text-success fs-tiny">(' + __('confirmed') + ')</span>'
+                : '<span class="text-danger fs-tiny">(' + __('unconfirmed') + ')</span>') +
               '</small>' +
               '</div>' +
               '</div>';
@@ -177,8 +182,8 @@ $(function () {
 
             var badges = {
               0: { title: __('pending'), class: 'bg-label-warning' },
-              1: { title: __('inactive'), class: 'bg-label-secondary' },
-              2: { title: __('active'), class: 'bg-label-success' }
+              1: { title: __('inactive'), class: 'bg-label-dark' },
+              2: { title: __('active'), class: 'bg-label-info' }
             };
 
             // Varsayılan olarak aktif yap, diğer değerleri kontrol et
@@ -216,27 +221,27 @@ $(function () {
               full['id'] +
               '" data-bs-toggle="tooltip" data-bs-placement="top" title="' +
               __('edit') +
-              '"><i class="ti ti-edit ti-md"></i></a>' +
+              '"><i class="ti ti-edit ti-md text-primary"></i></a>' +
               '<a href="javascript:;" class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill delete-record me-1" data-id="' +
               full['id'] +
               '" data-bs-toggle="tooltip" data-bs-placement="top" title="' +
               __('delete') +
-              '"><i class="ti ti-trash ti-md"></i></a>' +
-              '<a href="javascript:;" class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="ti ti-dots-vertical ti-md"></i></a>' +
+              '"><i class="ti ti-trash ti-md text-danger"></i></a>' +
+              '<a href="javascript:;" class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="ti ti-dots-vertical ti-md text-secondary"></i></a>' +
               '<div class="dropdown-menu dropdown-menu-end m-0">' +
               '<a href="javascript:;" class="dropdown-item update-profile" data-id="' +
               full['id'] +
-              '"><i class="ti ti-user-circle me-1"></i>' +
+              '"><i class="ti ti-user-circle me-1 text-info"></i>' +
               __('update_profile') +
               '</a>' +
               '<a href="javascript:;" class="dropdown-item confirm-email" data-id="' +
               full['id'] +
-              '"><i class="ti ti-mail-check me-1"></i>' +
-              __('confirm_email') +
+              '"><i class="ti ti-mail-check me-1 text-success"></i>' +
+              __('confirm_user_email') +
               '</a>' +
               '<a href="javascript:;" class="dropdown-item ban-user" data-id="' +
               full['id'] +
-              '"><i class="ti ti-ban me-1"></i>' +
+              '"><i class="ti ti-ban me-1 text-danger"></i>' +
               __('ban_user') +
               '</a>' +
               '</div>' +
@@ -261,6 +266,7 @@ $(function () {
         class: 'form-control',
         search: '',
         searchPlaceholder: __('search'),
+        info: __('table_pagination_info'),
         paginate: {
           next: '<i class="ti ti-chevron-right ti-sm"></i>',
           previous: '<i class="ti ti-chevron-left ti-sm"></i>'
@@ -757,18 +763,90 @@ $(function () {
     });
   });
 
-  // Update Profile - Placeholder
+  // Update Profile - Redirect to profile page
   $(document).on('click', '.update-profile', function (e) {
     e.preventDefault();
-    // Şimdilik sadece bilgilendirme mesajı gösteriyoruz
-    toastr.info(__('profile_update_coming_soon'));
+    var userId = $(this).data('id');
+    window.location.href = baseUrl + 'admin/users/' + userId + '/profile';
   });
 
-  // Confirm Email - Placeholder
+  // Confirm Email
   $(document).on('click', '.confirm-email', function (e) {
     e.preventDefault();
-    // Şimdilik sadece bilgilendirme mesajı gösteriyoruz
-    toastr.info(__('email_confirm_coming_soon'));
+    var userId = $(this).data('id');
+
+    // Confirm email verification
+    Swal.fire({
+      title: __('verify_email'),
+      text: __('verify_email_confirmation'),
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: __('yes'),
+      cancelButtonText: __('cancel'),
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-outline-secondary ms-1'
+      },
+      buttonsStyling: false
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        // Disable buttons to prevent multiple clicks
+        Swal.showLoading();
+
+        // Get CSRF token
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        // Verify email
+        $.ajax({
+          url: baseUrl + 'admin/users/' + userId + '/verify-email',
+          method: 'POST',
+          data: {
+            _token: csrfToken
+          },
+          headers: {
+            'X-CSRF-TOKEN': csrfToken,
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          success: function (response) {
+            if (response.success) {
+              // Show success message
+              Swal.fire({
+                icon: 'success',
+                title: __('success'),
+                text: response.message,
+                customClass: {
+                  confirmButton: 'btn btn-success'
+                }
+              }).then(function () {
+                // Reload datatable
+                $('.datatables-users').DataTable().ajax.reload(null, false);
+              });
+            } else {
+              // Show error message
+              Swal.fire({
+                icon: 'error',
+                title: __('error'),
+                text: response.message || __('email_verification_failed'),
+                customClass: {
+                  confirmButton: 'btn btn-danger'
+                }
+              });
+            }
+          },
+          error: function (xhr) {
+            // Show error message
+            Swal.fire({
+              icon: 'error',
+              title: __('error'),
+              text: __('email_verification_failed'),
+              customClass: {
+                confirmButton: 'btn btn-danger'
+              }
+            });
+          }
+        });
+      }
+    });
   });
 
   // Ban User - Placeholder

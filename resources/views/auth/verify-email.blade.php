@@ -1,68 +1,69 @@
-@php
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-$configData = Helper::appClasses();
-$customizerHidden = 'customizer-hide';
-$configData = Helper::appClasses();
-@endphp
+@extends('layouts/layoutMaster')
 
-@extends('layouts/blankLayout')
+@section('title', 'E-posta Doğrulama')
 
-@section('title', 'Verify Email')
+@section('vendor-style')
+@vite([
+  'resources/assets/vendor/libs/sweetalert2/sweetalert2.scss'
+])
+@endsection
 
-@section('page-style')
-<!-- Page -->
-@vite('resources/assets/vendor/scss/pages/page-auth.scss')
+@section('vendor-script')
+@vite([
+  'resources/assets/vendor/libs/sweetalert2/sweetalert2.js'
+])
+@endsection
+
+@section('page-script')
+<script>
+  // Eğer mesaj varsa SweetAlert2 kullanarak göster
+  document.addEventListener('DOMContentLoaded', function() {
+    @if (session('message'))
+      Swal.fire({
+        icon: 'success',
+        title: 'Başarılı!',
+        text: '{{ session('message') }}',
+        customClass: {
+          confirmButton: 'btn btn-primary'
+        },
+        buttonsStyling: false
+      });
+    @endif
+
+    @if (session('verified'))
+      Swal.fire({
+        icon: 'success',
+        title: 'Doğrulama Başarılı!',
+        text: 'E-posta adresiniz başarıyla doğrulandı.',
+        customClass: {
+          confirmButton: 'btn btn-primary'
+        },
+        buttonsStyling: false
+      });
+    @endif
+  });
+</script>
 @endsection
 
 @section('content')
-<div class="authentication-wrapper authentication-cover">
-  <!-- Logo -->
-  <a href="{{url('/')}}" class="app-brand auth-cover-brand">
-    <span class="app-brand-logo demo">@include('_partials.macros',['height'=>20,'withbg' => "fill: #fff;"])</span>
-    <span class="app-brand-text demo text-heading fw-bold">{{ config('variables.templateName') }}</span>
-  </a>
-  <!-- /Logo -->
-  <div class="authentication-inner row m-0">
+<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="misc-wrapper">
+    <h2 class="mb-1 mt-4">E-posta Adresinizi Doğrulayın ✉️</h2>
+    <p class="mb-4 mx-2">
+      Hesabınızı kullanmaya başlamadan önce, lütfen size gönderdiğimiz doğrulama bağlantısını tıklayarak e-posta adresinizi doğrulayın.
+      <br>Eğer e-postayı almadıysanız, size yeni bir doğrulama e-postası göndermemiz için aşağıdaki butona tıklayabilirsiniz.
+    </p>
 
-    <!-- /Left Text -->
-    <div class="d-none d-lg-flex col-lg-8 p-0">
-      <div class="auth-cover-bg auth-cover-bg-color d-flex justify-content-center align-items-center">
-        <img src="{{ asset('assets/img/illustrations/auth-verify-email-illustration-'.$configData['style'].'.png') }}" alt="auth-verify-email-cover" class="my-5 auth-illustration" data-app-light-img="illustrations/auth-verify-email-illustration-light.png" data-app-dark-img="illustrations/auth-verify-email-illustration-dark.png">
-
-        <img src="{{ asset('assets/img/illustrations/bg-shape-image-'.$configData['style'].'.png') }}" alt="auth-verify-email-cover" class="platform-bg" data-app-light-img="illustrations/bg-shape-image-light.png" data-app-dark-img="illustrations/bg-shape-image-dark.png">
-      </div>
+    <div class="d-flex justify-content-center mt-5">
+      <form method="POST" action="{{ route('verification.send') }}">
+        @csrf
+        <button type="submit" class="btn btn-primary">Doğrulama E-postasını Tekrar Gönder</button>
+      </form>
     </div>
-    <!-- /Left Text -->
 
-    <!--  Verify email -->
-    <div class="d-flex col-12 col-lg-4 align-items-center authentication-bg p-6 p-sm-12">
-      <div class="w-px-400 mx-auto mt-12 mt-5">
-        <h4 class="mb-1">Verify your email ✉️</h4>
-        @if (session('status') == 'verification-link-sent')
-          <div class="alert alert-success" role="alert">
-            <div class="alert-body">
-              A new verification link has been sent to the email address you provided during registration.
-            </div>
-          </div>
-        @endif
-        <p class="text-start mb-0">
-          Account activation link sent to your email address: <span class="h6">{{Auth::user()->email}}</span> Please follow the link inside to continue.
-        </p>
-        <div class="mt-6 d-flex flex-column gap-2">
-          <form method="POST" action="{{ route('verification.send') }}">
-            @csrf
-            <button type="submit" class="w-100 btn btn-label-secondary">Click here to request another</button>
-          </form>
-
-          <form method="POST" action="{{route('logout')}}">
-            @csrf
-            <button type="submit" class="w-100 btn btn-danger">Log Out</button>
-          </form>
-        </div>
-      </div>
+    <div class="d-flex justify-content-center mt-4">
+      <a href="{{ route('frontend.home') }}" class="btn btn-label-secondary">Ana Sayfaya Dön</a>
     </div>
-    <!-- / Verify email -->
   </div>
 </div>
 @endsection

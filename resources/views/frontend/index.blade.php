@@ -36,9 +36,44 @@
     @vite('resources/js/frontend/app.js')
 </head>
 <body>
-    <div id="app"></div>
+    <div id="app"
+        @if(isset($verified))
+        data-verified="true"
+        @endif
+        @if(isset($error_message))
+        data-error-message="{{ $error_message }}"
+        @endif
+    ></div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const app = document.getElementById('app');
+            
+            // E-posta doğrulama başarılı mesajı
+            if (app.dataset.verified) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Başarılı!',
+                    text: 'E-posta adresiniz başarıyla doğrulandı.',
+                    confirmButtonText: 'Tamam'
+                });
+            }
+            
+            // E-posta doğrulama hata mesajı
+            if (app.dataset.errorMessage) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Hata!',
+                    text: app.dataset.errorMessage,
+                    confirmButtonText: 'Tamam'
+                });
+            }
+        });
+    </script>
 </body>
 </html>

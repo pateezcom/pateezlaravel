@@ -7,12 +7,12 @@
           <router-link class="navbar-brand" to="/">
             <span class="fw-bolder text-primary fs-4">Pateez Haber</span>
           </router-link>
-          
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                   aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <i class="ti ti-menu-2"></i>
           </button>
-          
+
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
               <li class="nav-item">
@@ -22,7 +22,7 @@
                 <router-link class="nav-link fw-semibold py-3 px-4" to="/about">Hakkımızda</router-link>
               </li>
               <li class="nav-item d-grid d-lg-block ms-lg-2">
-                <a class="btn btn-primary rounded-pill px-4" href="/admin/login">
+                <a class="btn btn-primary rounded-pill px-4" href="/login">
                   <i class="ti ti-user me-1"></i> Admin Panel
                 </a>
               </li>
