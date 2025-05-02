@@ -20,11 +20,14 @@ Route::get('admin/settings/user-list', [UserController::class, 'index'])->name('
 Route::get('/admin/settings/roles', [UserController::class, 'getRoles'])->name('admin.settings.roles');
 Route::get('/admin/users/check-username', [UserController::class, 'checkUsername'])->name('admin.users.check-username');
 Route::get('/admin/users/check-email', [UserController::class, 'checkEmail'])->name('admin.users.check-email');
+Route::get('/admin/users/check-slug', [UserController::class, 'checkSlug'])->name('admin.users.check-slug');
 Route::get('/admin/users/{id}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
 
 // User Profile Management
 Route::get('/admin/users/{id}/profile', [UserProfileController::class, 'index'])->name('admin.users.profile');
+Route::get('/admin/users/{id}/profile/security', [UserProfileController::class, 'security'])->name('admin.users.profile.security');
 Route::put('/admin/users/{id}/profile/account', [UserProfileController::class, 'updateAccount'])->name('admin.users.profile.update-account');
+Route::put('/admin/users/{id}/profile/password', [UserProfileController::class, 'updatePassword'])->name('admin.users.profile.update-password');
 Route::put('/admin/users/{id}/profile/photo', [UserProfileController::class, 'updateProfilePhoto'])->name('admin.users.profile.update-photo');
 Route::delete('/admin/users/{id}/profile/photo', [UserProfileController::class, 'deleteProfilePhoto'])->name('admin.users.profile.delete-photo');
 
@@ -37,6 +40,12 @@ Route::post('/admin/users/{id}/verify-email', [UserController::class, 'verifyEma
 
 // Role & Permissions
 Route::get('/admin/role-permissions', [RolePermissionsController::class, 'index'])->name('admin.role.permissions');
+Route::post('/admin/role-permissions/store', [RolePermissionsController::class, 'storeRole'])->name('admin.role.permissions.store');
+Route::put('/admin/role-permissions/{id}', [RolePermissionsController::class, 'updateRole'])->name('admin.role.permissions.update');
+Route::delete('/admin/role-permissions/{id}', [RolePermissionsController::class, 'deleteRole'])->name('admin.role.permissions.delete');
+Route::get('/admin/role-permissions/{id}/users', [RolePermissionsController::class, 'getRoleUsers'])->name('admin.role.permissions.users');
+Route::post('/admin/role-permissions/sync', [RolePermissionsController::class, 'syncPermissions'])->name('admin.role.permissions.sync');
+Route::get('/admin/role-permissions/permissions', [RolePermissionsController::class, 'getPermissions'])->name('admin.role.permissions.list');
 
 // Translation System Routes
 Route::get('/lang/{locale}', [LanguageSwitchController::class, 'switchLang'])->name('lang.switch');

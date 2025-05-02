@@ -178,3 +178,107 @@
   "label": "save_error",
   "translation": "An error occurred while saving"
 },
+{
+  "label": "upload_new_photo",
+  "translation": "Upload New Photo"
+},
+{
+  "label": "delete_photo",
+  "translation": "Delete Photo"
+},
+{
+  "label": "allowed_image_formats",
+  "translation": "Allowed formats: JPG, GIF, or PNG. Maximum size: 2MB"
+},
+{
+  "label": "account_details",
+  "translation": "Account Details"
+},
+{
+  "label": "slug_auto_generation",
+  "translation": "If left blank, it will be generated from the username"
+},
+{
+  "label": "delete_account_prompt",
+  "translation": "Delete Account"
+},
+{
+  "label": "confirm_delete_account",
+  "translation": "Are you sure you want to delete your account?"
+},
+{
+  "label": "delete_account_warning",
+  "translation": "Once your account is deleted, there is no going back. Please be certain."
+},
+{
+  "label": "confirm_deletion_checkbox",
+  "translation": "I confirm the deletion of my account"
+},
+{
+  "label": "password_requirements",
+  "translation": "Password Requirements:"
+},
+{
+  "label": "password_min_length_rule",
+  "translation": "Must be at least 4 characters long"
+},
+{
+  "label": "password_lower_case_rule",
+  "translation": "Must contain at least one lowercase letter"
+},
+{
+  "label": "password_special_char_rule",
+  "translation": "Must contain at least one number, symbol, or whitespace character"
+},
+{
+  "label": "reset_form",
+  "translation": "Reset"
+},
+{
+  "label": "enter_current_password",
+  "translation": "Please enter your current password"
+},
+{
+  "label": "form_validation_error",
+  "translation": "There was an error in form validation"
+},
+{
+  "label": "phone_format_validation",
+  "translation": "Please enter a valid phone number"
+},
+{
+  "label": "about_me_length_validation",
+  "translation": "About Me must be between 3 and 500 characters"
+},
+{
+  "label": "slug_format_validation",
+  "translation": "Slug can only contain letters, numbers, and hyphens"
+},
+{
+  "label": "slug_taken",
+  "translation": "This slug is already taken"
+},
+{
+  "label": "invalid_image_type",
+  "translation": "Invalid image type. Only JPG, GIF, or PNG are allowed"
+},
+{
+  "label": "image_too_large",
+  "translation": "Image size exceeds the maximum limit of 2MB"
+},
+{
+  "label": "confirm_delete_photo",
+  "translation": "Are you sure you want to delete this photo?"
+},
+{
+  "label": "confirm_delete_photo_text",
+  "translation": "This action cannot be undone. Do you want to proceed?"
+},
+{
+  "label": "deleting",
+  "translation": "Deleting..."
+},
+{
+  "label": "photo_deleted_successfully",
+  "translation": "Photo successfully deleted"
+}

@@ -208,6 +208,31 @@ class UserController extends Controller
   }
 
   /**
+   * Check if a slug is already taken.
+   * Slug'in daha önce alınıp alınmadığını kontrol eder.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function checkSlug(Request $request)
+  {
+    $slug = $request->input('slug');
+    $userId = $request->input('id'); // Edit işleminde mevcut kullanıcıyı hariç tutmak için
+
+    $query = User::where('slug', $slug);
+
+    if ($userId) {
+      $query->where('id', '!=', $userId);
+    }
+
+    $exists = $query->exists();
+
+    return response()->json([
+      'valid' => !$exists
+    ]);
+  }
+
+  /**
    * Get all roles for select box.
    * Seçim kutusu için tüm rolleri getirir.
    *

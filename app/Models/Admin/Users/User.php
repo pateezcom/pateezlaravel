@@ -36,6 +36,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'username',
         'slug',
         'email',
+        'phone',
         'password',
         'status',
         'reward_system_active',
@@ -146,7 +147,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->deleteProfilePhoto();
 
         $this->forceFill([
-            'profile_photo_path' => $photo->store(
+            'profile_photo_path' => $photo->storePublicly(
                 'profile-photos', ['disk' => $this->profilePhotoDisk()]
             ),
         ])->save();

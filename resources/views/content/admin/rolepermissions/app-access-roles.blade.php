@@ -1,10 +1,11 @@
 @php
 $configData = Helper::appClasses();
+$activeMenu = 'admin.role.permissions';
 @endphp
 
 @extends('layouts/layoutMaster')
 
-@section('title', 'Roles - Apps')
+@section('title', __('roles_permissions'))
 
 @section('vendor-style')
 @vite([
@@ -12,6 +13,9 @@ $configData = Helper::appClasses();
   'resources/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.scss',
   'resources/assets/vendor/libs/@form-validation/form-validation.scss',
   'resources/assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.scss',
+  'resources/assets/vendor/libs/animate-css/animate.scss',
+  'resources/assets/vendor/libs/sweetalert2/sweetalert2.scss',
+  'resources/assets/vendor/libs/toastr/toastr.scss'
   ])
 @endsection
 
@@ -21,172 +25,89 @@ $configData = Helper::appClasses();
   'resources/assets/vendor/libs/@form-validation/popular.js',
   'resources/assets/vendor/libs/@form-validation/bootstrap5.js',
   'resources/assets/vendor/libs/@form-validation/auto-focus.js',
+  'resources/assets/vendor/libs/sweetalert2/sweetalert2.js',
+  'resources/assets/vendor/libs/toastr/toastr.js'
   ])
 @endsection
 
 @section('page-script')
+<script>
+  // Backend URL'i tanımla
+  window.baseUrl = '{{ url("/") }}/';
+</script>
 @vite([
-  'resources/assets/js/app-access-roles.js',
-  'resources/assets/js/modal-add-role.js',
+  'resources/js/admin/role-permissions/role-permissions-form-validation.js',
   ])
 @endsection
 
 @section('content')
-<h4 class="mb-1">Roles List</h4>
+<h4 class="mb-1">{{ __('roles_list') }}</h4>
 
-<p class="mb-6">A role provided access to predefined menus and features so that depending on <br> assigned role an administrator can have access to what user needs.</p>
+<p class="mb-6">{{ __('roles_description') }}</p>
+
+<!-- Başarı ve Hata Mesajları -->
+@if(session('success'))
+<div class="alert alert-success alert-dismissible mb-4" role="alert">
+  <div class="alert-body">{{ session('success') }}</div>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ __('close') }}"></button>
+</div>
+@endif
+
+@if(session('error'))
+<div class="alert alert-danger alert-dismissible mb-4" role="alert">
+  <div class="alert-body">{{ session('error') }}</div>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ __('close') }}"></button>
+</div>
+@endif
+
 <!-- Role cards -->
-<div class="row g-6">
+<div class="row g-4">
+  @foreach($roles ?? [] as $role)
   <div class="col-xl-4 col-lg-6 col-md-6">
-    <div class="card">
+    <div class="card h-100">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-4">
-          <h6 class="fw-normal mb-0 text-body">Total 4 users</h6>
+          <h6 class="fw-normal mb-0 text-body">{{ __('total') }} {{ $roleUserCounts[$role->name] ?? 0 }} {{ __('users') }}</h6>
           <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
-            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Vinnie Mostowy" class="avatar pull-up">
-              <img class="rounded-circle" src="{{ asset('assets/img/avatars/5.png') }}" alt="Avatar">
-            </li>
-            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Allen Rieske" class="avatar pull-up">
-              <img class="rounded-circle" src="{{ asset('assets/img/avatars/12.png') }}" alt="Avatar">
-            </li>
-            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Julee Rossignol" class="avatar pull-up">
-              <img class="rounded-circle" src="{{ asset('assets/img/avatars/6.png') }}" alt="Avatar">
-            </li>
-            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Kaith D'souza" class="avatar pull-up">
-              <img class="rounded-circle" src="{{ asset('assets/img/avatars/3.png') }}" alt="Avatar">
-            </li>
-          </ul>
-        </div>
-        <div class="d-flex justify-content-between align-items-end">
-          <div class="role-heading">
-            <h5 class="mb-1">Administrator</h5>
-            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#addRoleModal" class="role-edit-modal"><span>Edit Role</span></a>
-          </div>
-          <a href="javascript:void(0);"><i class="ti ti-copy ti-md text-heading"></i></a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-4 col-lg-6 col-md-6">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h6 class="fw-normal mb-0 text-body">Total 7 users</h6>
-          <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
-            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Jimmy Ressula" class="avatar pull-up">
-              <img class="rounded-circle" src="{{ asset('assets/img/avatars/4.png') }}" alt="Avatar">
-            </li>
-            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="John Doe" class="avatar pull-up">
-              <img class="rounded-circle" src="{{ asset('assets/img/avatars/1.png') }}" alt="Avatar">
-            </li>
-            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Kristi Lawker" class="avatar pull-up">
-              <img class="rounded-circle" src="{{ asset('assets/img/avatars/2.png') }}" alt="Avatar">
-            </li>
+            @php $avatarCount = 0; @endphp
+            @foreach($users->filter(function($user) use ($role) { return $user->hasRole($role->name); })->take(3) as $user)
+              <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="{{ $user->name }}" class="avatar pull-up">
+                <img class="rounded-circle" src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}">
+              </li>
+              @php $avatarCount++; @endphp
+            @endforeach
+            
+            @php $moreUsers = ($roleUserCounts[$role->name] ?? 0) - $avatarCount; @endphp
+            @if($moreUsers > 0)
             <li class="avatar">
-              <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip" data-bs-placement="bottom" title="4 more">+4</span>
+              <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ $moreUsers }} {{ __('more') }}">+{{ $moreUsers }}</span>
             </li>
+            @endif
           </ul>
         </div>
         <div class="d-flex justify-content-between align-items-end">
           <div class="role-heading">
-            <h5 class="mb-1">Manager</h5>
-            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#addRoleModal" class="role-edit-modal"><span>Edit Role</span></a>
+            <h5 class="mb-1">{{ $role->name }}</h5>
+            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#addRoleModal" class="role-edit-modal" 
+              data-id="{{ $role->id }}" 
+              data-name="{{ $role->name }}" 
+              data-permissions="{{ json_encode($role->permissions->pluck('name')) }}">
+              <span>{{ __('edit_role') }}</span>
+            </a>
           </div>
-          <a href="javascript:void(0);"><i class="ti ti-copy ti-md text-heading"></i></a>
+          @if(!in_array(strtolower($role->name), ['admin', 'administrator', 'yönetici', 'super admin', 'superadmin']))
+          <a href="javascript:void(0);" class="delete-role" data-id="{{ $role->id }}" data-name="{{ $role->name }}">
+            <i class="ti ti-trash ti-md text-danger"></i>
+          </a>
+          @else
+          <span class="text-muted opacity-0"><i class="ti ti-lock ti-md"></i></span>
+          @endif
         </div>
       </div>
     </div>
   </div>
-  <div class="col-xl-4 col-lg-6 col-md-6">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h6 class="fw-normal mb-0 text-body">Total 5 users</h6>
-          <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
-            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Andrew Tye" class="avatar pull-up">
-              <img class="rounded-circle" src="{{ asset('assets/img/avatars/6.png') }}" alt="Avatar">
-            </li>
-            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Rishi Swaat" class="avatar pull-up">
-              <img class="rounded-circle" src="{{ asset('assets/img/avatars/9.png') }}" alt="Avatar">
-            </li>
-            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Rossie Kim" class="avatar pull-up">
-              <img class="rounded-circle" src="{{ asset('assets/img/avatars/12.png') }}" alt="Avatar">
-            </li>
-            <li class="avatar">
-              <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip" data-bs-placement="bottom" title="2 more">+2</span>
-            </li>
-          </ul>
-        </div>
-        <div class="d-flex justify-content-between align-items-end">
-          <div class="role-heading">
-            <h5 class="mb-1">Users</h5>
-            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#addRoleModal" class="role-edit-modal"><span>Edit Role</span></a>
-          </div>
-          <a href="javascript:void(0);"><i class="ti ti-copy ti-md text-heading"></i></a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-4 col-lg-6 col-md-6">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h6 class="fw-normal mb-0 text-body">Total 3 users</h6>
-          <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
-            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Kim Karlos" class="avatar pull-up">
-              <img class="rounded-circle" src="{{ asset('assets/img/avatars/3.png') }}" alt="Avatar">
-            </li>
-            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Katy Turner" class="avatar pull-up">
-              <img class="rounded-circle" src="{{ asset('assets/img/avatars/9.png') }}" alt="Avatar">
-            </li>
-            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Peter Adward" class="avatar pull-up">
-              <img class="rounded-circle" src="{{ asset('assets/img/avatars/4.png') }}" alt="Avatar">
-            </li>
-            <li class="avatar">
-              <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip" data-bs-placement="bottom" title="3 more">+3</span>
-            </li>
-          </ul>
-        </div>
-        <div class="d-flex justify-content-between align-items-end">
-          <div class="role-heading">
-            <h5 class="mb-1">Support</h5>
-            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#addRoleModal" class="role-edit-modal"><span>Edit Role</span></a>
-          </div>
-          <a href="javascript:void(0);"><i class="ti ti-copy ti-md text-heading"></i></a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-4 col-lg-6 col-md-6">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h6 class="fw-normal mb-0 text-body">Total 2 users</h6>
-          <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
-            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Kim Merchent" class="avatar pull-up">
-              <img class="rounded-circle" src="{{ asset('assets/img/avatars/10.png') }}" alt="Avatar">
-            </li>
-            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Sam D'souza" class="avatar pull-up">
-              <img class="rounded-circle" src="{{ asset('assets/img/avatars/13.png') }}" alt="Avatar">
-            </li>
-            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Nurvi Karlos" class="avatar pull-up">
-              <img class="rounded-circle" src="{{ asset('assets/img/avatars/5.png') }}" alt="Avatar">
-            </li>
-            <li class="avatar">
-              <span class="avatar-initial rounded-circle pull-up" data-bs-toggle="tooltip" data-bs-placement="bottom" title="7 more">+7</span>
-            </li>
-          </ul>
-        </div>
-        <div class="d-flex justify-content-between align-items-end">
-          <div class="role-heading">
-            <h5 class="mb-1">Restricted User</h5>
-            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#addRoleModal" class="role-edit-modal"><span>Edit Role</span></a>
-          </div>
-          <a href="javascript:void(0);"><i class="ti ti-copy ti-md text-heading"></i></a>
-        </div>
-      </div>
-    </div>
-  </div>
+  @endforeach
+  
   <div class="col-xl-4 col-lg-6 col-md-6">
     <div class="card h-100">
       <div class="row h-100">
@@ -197,44 +118,17 @@ $configData = Helper::appClasses();
         </div>
         <div class="col-sm-7">
           <div class="card-body text-sm-end text-center ps-sm-0">
-            <button data-bs-target="#addRoleModal" data-bs-toggle="modal" class="btn btn-sm btn-primary mb-4 text-nowrap add-new-role">Add New Role</button>
-            <p class="mb-0"> Add new role, <br> if it doesn't exist.</p>
+            <button data-bs-target="#addRoleModal" data-bs-toggle="modal" class="btn btn-sm btn-primary mb-4 text-nowrap add-new-role">{{ __('add_new_role') }}</button>
+            <p class="mb-0">{{ __('add_new_role_description') }}</p>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="col-12">
-    <h4 class="mt-6 mb-1">Total users with their roles</h4>
-    <p class="mb-0">Find all of your company’s administrator accounts and their associate roles.</p>
-  </div>
-  <div class="col-12">
-    <!-- Role Table -->
-    <div class="card">
-      <div class="card-datatable table-responsive">
-        <table class="datatables-users table border-top">
-          <thead>
-            <tr>
-              <th></th>
-              <th></th>
-              <th>User</th>
-              <th>Role</th>
-              <th>Plan</th>
-              <th>Billing</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-        </table>
-      </div>
-    </div>
-    <!--/ Role Table -->
-  </div>
 </div>
 <!--/ Role cards -->
 
 <!-- Add Role Modal -->
-
 @include('content.admin.rolepermissions._partials._modals.modal-add-role')
 <!-- / Add Role Modal -->
 @endsection

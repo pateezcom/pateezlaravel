@@ -64,6 +64,7 @@ export default defineConfig({
         ...vendorJsFiles,
         ...LibsJsFiles,
         'resources/js/laravel-user-management.js', // Processing Laravel User Management CRUD JS File
+        'resources/js/admin/role-permissions/role-permissions-form-validation.js', // Role Permissions Module
         ...CoreScssFiles,
         ...LibsScssFiles,
         ...LibsCssFiles,
