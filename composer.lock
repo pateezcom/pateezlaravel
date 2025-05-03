@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "97fde697248539d3f505089aedc50c9e",
+    "content-hash": "4b4b4b62a365c5705082f20e201ee849",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -6476,95 +6476,6 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
-        },
-        {
-            "name": "yajra/laravel-datatables-oracle",
-            "version": "v11.1.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/yajra/laravel-datatables.git",
-                "reference": "b48eb614d0474c23a9c8041563beef9dda39656d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/b48eb614d0474c23a9c8041563beef9dda39656d",
-                "reference": "b48eb614d0474c23a9c8041563beef9dda39656d",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/database": "^11",
-                "illuminate/filesystem": "^11",
-                "illuminate/http": "^11",
-                "illuminate/support": "^11",
-                "illuminate/view": "^11",
-                "php": "^8.2"
-            },
-            "require-dev": {
-                "algolia/algoliasearch-client-php": "^3.4.1",
-                "larastan/larastan": "^2.9.1",
-                "laravel/pint": "^1.14",
-                "laravel/scout": "^10.8.3",
-                "meilisearch/meilisearch-php": "^1.6.1",
-                "orchestra/testbench": "^9",
-                "rector/rector": "^1.0"
-            },
-            "suggest": {
-                "yajra/laravel-datatables-buttons": "Plugin for server-side exporting of dataTables.",
-                "yajra/laravel-datatables-editor": "Plugin to use DataTables Editor (requires a license).",
-                "yajra/laravel-datatables-export": "Plugin for server-side exporting using livewire and queue worker.",
-                "yajra/laravel-datatables-fractal": "Plugin for server-side response using Fractal.",
-                "yajra/laravel-datatables-html": "Plugin for server-side HTML builder of dataTables."
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "aliases": {
-                        "DataTables": "Yajra\\DataTables\\Facades\\DataTables"
-                    },
-                    "providers": [
-                        "Yajra\\DataTables\\DataTablesServiceProvider"
-                    ]
-                },
-                "branch-alias": {
-                    "dev-master": "11.x-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/helper.php"
-                ],
-                "psr-4": {
-                    "Yajra\\DataTables\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Arjay Angeles",
-                    "email": "aqangeles@gmail.com"
-                }
-            ],
-            "description": "jQuery DataTables API for Laravel",
-            "keywords": [
-                "datatables",
-                "jquery",
-                "laravel",
-                "yajra"
-            ],
-            "support": {
-                "issues": "https://github.com/yajra/laravel-datatables/issues",
-                "source": "https://github.com/yajra/laravel-datatables/tree/v11.1.6"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/yajra",
-                    "type": "github"
-                }
-            ],
-            "time": "2025-01-21T03:15:46+00:00"
         }
     ],
     "packages-dev": [
@@ -7661,66 +7572,6 @@
                 }
             ],
             "time": "2025-02-06T16:08:12+00:00"
-        },
-        {
-            "name": "pixinvent/vuexy-laravel-bootstrap-jetstream",
-            "version": "v2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pixinvent/vuexy-laravel-bootstrap-jetstream.git",
-                "reference": "f69dd436ddd58d5df85de3c1932799c0e184d075"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pixinvent/vuexy-laravel-bootstrap-jetstream/zipball/f69dd436ddd58d5df85de3c1932799c0e184d075",
-                "reference": "f69dd436ddd58d5df85de3c1932799c0e184d075",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.2"
-            },
-            "require-dev": {
-                "laravel/jetstream": "^4.0",
-                "orchestra/testbench": "^8.3.0",
-                "phpunit/phpunit": "^10.1"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "aliases": {
-                        "Jetstrap": "Pixinvent\\Jetstrap\\JetstrapFacade"
-                    },
-                    "providers": [
-                        "Pixinvent\\Jetstrap\\JetstrapServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Pixinvent\\Jetstrap\\": "src/Pixinvent/Jetstrap/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Pixinvent",
-                    "email": "hello@pixinvent.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A Laravel 11 package to easily switch TailwindCSS resources generated by Laravel Jetstream to Bootstrap 5.",
-            "keywords": [
-                "bootstrap",
-                "jetstream",
-                "laravel"
-            ],
-            "support": {
-                "source": "https://github.com/pixinvent/vuexy-laravel-bootstrap-jetstream/tree/v2.0.0"
-            },
-            "time": "2024-07-17T05:15:28+00:00"
         },
         {
             "name": "sebastian/cli-parser",

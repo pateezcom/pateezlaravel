@@ -1,16 +1,25 @@
 {
   "menu": [
     {
+      "name": "dashboard",
+      "icon": "menu-icon tf-icons ti ti-dashboard",
+      "slug": "admin.dashboard",
+      "url": "admin/dashboard",
+      "permission": "admin.dashboard.read|admin.dashboard.full"
+    },
+    {
       "name": "users",
       "icon": "menu-icon tf-icons ti ti-users",
       "slug": "admin.users",
-      "url": "admin/users"
+      "url": "admin/users",
+      "permission": "admin.users.read|admin.users.full"
     },
     {
       "name": "roles_permissions",
       "icon": "menu-icon tf-icons ti ti-key",
       "slug": "admin.role.permissions",
-      "url": "admin/role-permissions"
+      "url": "admin/role-permissions",
+      "permission": "admin.role.permissions.read|admin.role.permissions.full"
     },
     {
       "menuHeader": "settings"
@@ -19,11 +28,13 @@
       "name": "settings",
       "icon": "menu-icon tf-icons ti ti-settings",
       "slug": "admin.settings",
+      "permission": "admin.settings.read|admin.settings.full",
       "submenu": [
         {
           "url": "admin/settings/languages",
           "name": "language_settings",
-          "slug": "admin.settings.languages"
+          "slug": "admin.settings.languages",
+          "permission": "admin.settings.languages.read|admin.settings.languages.full"
         }
       ]
     }

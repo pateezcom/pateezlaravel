@@ -1,9 +1,6 @@
 /**
- * Page User List - Handles the display and management of users with roles and permissions
- * Uses Vuexy template with Bootstrap 5, DataTable and Spatie Permission integration
- *
- * Kullanıcılar Listesi Sayfası - Rol ve izinlerle kullanıcıların görüntülenmesi ve yönetimi
- * Vuexy şablonu, Bootstrap 5, DataTable ve Spatie Permission entegrasyonu kullanır
+ * Page User List - Kullanıcıların listelenmesi ve yönetimi
+ * Vuexy şablonu ile Bootstrap 5, DataTable ve Spatie Permission entegrasyonu
  */
 
 'use strict';
@@ -35,7 +32,7 @@ $(function () {
     return {
       0: { title: __('pending'), class: 'bg-label-warning' },
       1: { title: __('inactive'), class: 'bg-label-secondary' },
-      2: { title: __('active'), class: 'text-bg-success' }
+      2: { title: __('active'), class: 'bg-label-success' }
     };
   }
   var statusObj = refreshStatusObject();
@@ -58,10 +55,10 @@ $(function () {
       processing: true,
       serverSide: false,
       ajax: {
-        url: baseUrl + 'admin/settings/user-list',
+        url: baseUrl + 'admin/users',
         error: function (xhr, error, thrown) {
           console.error('AJAX Error:', xhr.status, xhr.responseText);
-          alert(__('data_load_error') + ': ' + xhr.status);
+          alert(__('data anticipation_error') + ': ' + xhr.status);
         }
       },
       columns: [
@@ -87,6 +84,7 @@ $(function () {
         },
         {
           targets: 1,
+          className: 'dt-checkboxes-cell',
           orderable: false,
           checkboxes: {
             selectAllRender: '<input type="checkbox" class="form-check-input">'
@@ -107,14 +105,21 @@ $(function () {
               $emailVerified = full['email_verified_at'] ? true : false;
             if ($image) {
               var $output =
-                '<img src="' + $image + '" alt="Avatar" class="rounded-circle border border-primary" width="48" height="48" style="object-fit: cover;">';
+                '<img src="' +
+                $image +
+                '" alt="Avatar" class="rounded-circle border border-primary" width="48" height="48" style="object-fit: cover;">';
             } else {
               var stateNum = Math.floor(Math.random() * 6);
               var states = ['success', 'danger', 'warning', 'info', 'primary', 'secondary'];
               var $state = states[stateNum],
                 $initials = $name.match(/\b\w/g) || [];
               $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
-              $output = '<span class="avatar-initial rounded-circle bg-label-' + $state + '" style="width: 48px; height: 48px; display: flex; justify-content: center; align-items: center; font-size: 1.2rem;">' + $initials + '</span>';
+              $output =
+                '<span class="avatar-initial rounded-circle bg-label-' +
+                $state +
+                '" style="width: 48px; height: 48px; display: flex; justify-content: center; align-items: center; font-size: 1.2rem;">' +
+                $initials +
+                '</span>';
             }
             var $row_output =
               '<div class="d-flex justify-content-start align-items-center user-name">' +
@@ -147,18 +152,23 @@ $(function () {
           render: function (data, type, full, meta) {
             var $role = full['role'] || 'Unknown';
             var roleBadgeObj = {
-              Admin: '<i class="ti ti-crown ti-md text-danger me-2"></i>',
-              Moderator: '<i class="ti ti-shield-check ti-md text-info me-2"></i>',
-              Author: '<i class="ti ti-edit ti-md text-warning me-2"></i>',
-              Member: '<i class="ti ti-user ti-md text-success me-2"></i>',
-              Unknown: '<i class="ti ti-question-mark ti-md text-secondary me-2"></i>'
+              admin: '<i class="ti ti-crown ti-md text-danger me-2"></i>',
+              administrator: '<i class="ti ti-crown ti-md text-danger me-2"></i>',
+              moderator: '<i class="ti ti-shield-check ti-md text-info me-2"></i>',
+              author: '<i class="ti ti-edit ti-md text-warning me-2"></i>',
+              editor: '<i class="ti ti-edit ti-md text-warning me-2"></i>',
+              publisher: '<i class="ti ti-edit ti-md text-success me-2"></i>',
+              member: '<i class="ti ti-user ti-md text-success me-2"></i>',
+              user: '<i class="ti ti-user ti-md text-success me-2"></i>',
+              guest: '<i class="ti ti-user ti-md text-secondary me-2"></i>',
+              unknown: '<i class="ti ti-question-mark ti-md text-secondary me-2"></i>'
             };
-            return (
-              "<span class='text-truncate d-flex align-items-center text-heading'>" +
-              roleBadgeObj[$role] +
-              $role +
-              '</span>'
-            );
+
+            // Convert role to lowercase for matching
+            var roleLower = $role.toLowerCase();
+            var icon = roleBadgeObj[roleLower] || roleBadgeObj['unknown'];
+
+            return "<span class='text-truncate d-flex align-items-center text-heading'>" + icon + $role + '</span>';
           }
         },
         {
@@ -241,8 +251,23 @@ $(function () {
               '</a>' +
               '<a href="javascript:;" class="dropdown-item ban-user" data-id="' +
               full['id'] +
-              '"><i class="ti ti-ban me-1 text-danger"></i>' +
-              __('ban_user') +
+              '" data-status="' +
+              full['status'] +
+              '">' +
+              '<i class="ti ti-' +
+              (parseInt(full['status']) === 2 ? 'user-off me-1 text-warning' : 'user-check me-1 text-success') +
+              '"></i>' +
+              (parseInt(full['status']) === 2 ? __('deactivate_user') : __('activate_user')) +
+              '</a>' +
+              '<a href="javascript:;" class="dropdown-item toggle-reward" data-id="' +
+              full['id'] +
+              '" data-reward="' +
+              full['reward_system_active'] +
+              '">' +
+              '<i class="ti ti-trophy' +
+              (full['reward_system_active'] ? '-off me-1 text-warning' : ' me-1 text-success') +
+              '"></i>' +
+              (full['reward_system_active'] ? __('disable_reward_system') : __('enable_reward_system')) +
               '</a>' +
               '</div>' +
               '</div>'
@@ -253,14 +278,13 @@ $(function () {
       order: [], // Varsayılan sıralama yok, backend sıralaması kullanılacak
       dom:
         '<"row"' +
-        '<"col-md-2"<"ms-n2"l>>' +
-        '<"col-md-10"<"dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-6 mb-md-0 mt-n6 mt-md-0"fB>>' +
+        '<"col-md-6 d-flex align-items-center"<"ms-n2 me-2"l><"bulk-actions">>' +
+        '<"col-md-6"<"dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-6 mb-md-0"fB>>' +
         '>t' +
         '<"row"' +
         '<"col-sm-12 col-md-6"i>' +
         '<"col-sm-12 col-md-6"p>' +
         '>',
-
       language: {
         sLengthMenu: '_MENU_',
         class: 'form-control',
@@ -270,6 +294,13 @@ $(function () {
         paginate: {
           next: '<i class="ti ti-chevron-right ti-sm"></i>',
           previous: '<i class="ti ti-chevron-left ti-sm"></i>'
+        },
+        select: {
+          rows: {
+            _: '%d satır seçildi',
+            0: '',
+            1: '1 satır seçildi'
+          }
         }
       },
       buttons: [
@@ -451,11 +482,21 @@ $(function () {
           }
         }
       },
+      // YENİ: Satır seçme özelliğini etkinleştir (checkbox ile çoklu seçim)
+      select: {
+        style: 'multi',
+        selector: 'td.dt-checkboxes-cell input.dt-checkboxes',
+        info: true
+      },
       initComplete: function () {
-        // Arama input'undaki 'form-control-sm' sınıfını kaldır
+        // Remove small classes
         $('.dataTables_filter input').removeClass('form-control-sm');
-        // Uzunluk seçicideki 'form-select-sm' sınıfını kaldır
         $('.dataTables_length select').removeClass('form-select-sm');
+
+        // Bulk actions alanına seçim bilgisini ekle
+        $('.bulk-actions').html(
+          '<div class="selected-status d-none ms-2"><span class="select-status-text"></span></div>'
+        );
 
         // Adding role filter
         this.api()
@@ -525,8 +566,81 @@ $(function () {
                 column.search(val ? '^' + val + '$' : '', true, false).draw();
               });
           });
+
+        // Add CSS for selected rows
+        $('<style>')
+          .prop('type', 'text/css')
+          .html(
+            `
+            .datatables-users tbody tr.row_selected {
+              background-color: rgba(var(--bs-primary-rgb), 0.1) !important;
+              color: var(--bs-primary) !important;
+              box-shadow: inset 0 0 0 1px rgba(var(--bs-primary-rgb), 0.3);
+            }
+            .selected-status {
+              background-color: rgba(var(--bs-primary-rgb), 0.08);
+              color: var(--bs-primary);
+              padding: 5px 12px;
+              border-radius: 0.375rem;
+              font-weight: 500;
+            }
+          `
+          )
+          .appendTo('head');
       }
     });
+
+    // YENİ: Satır seçildiğinde ve seçim kaldırıldığında row_selected sınıfını yönet
+    dt_user
+      .on('select', function (e, dt, type, indexes) {
+        if (type === 'row') {
+          indexes.forEach(function (index) {
+            $(dt_user.row(index).node()).addClass('row_selected');
+          });
+
+          // Seçilen satır sayısını güncelle
+          var selectedCount = dt_user.rows({ selected: true }).count();
+          var selectedRows = dt_user.rows({ selected: true }).nodes();
+          var selectedStatus = $('.selected-status');
+
+          if (selectedCount > 0) {
+            selectedStatus.removeClass('d-none');
+
+            // Tek satır seçildiyse "1 row selected", birden fazla seçildiyse "X rows selected" göster
+            if (selectedCount === 1) {
+              $('.select-status-text').html('1 satır seçildi');
+            } else {
+              $('.select-status-text').html(selectedCount + ' satır seçildi');
+            }
+          } else {
+            selectedStatus.addClass('d-none');
+          }
+        }
+      })
+      .on('deselect', function (e, dt, type, indexes) {
+        if (type === 'row') {
+          indexes.forEach(function (index) {
+            $(dt_user.row(index).node()).removeClass('row_selected');
+          });
+
+          // Seçilen satır sayısını güncelle
+          var selectedCount = dt_user.rows({ selected: true }).count();
+          var selectedStatus = $('.selected-status');
+
+          if (selectedCount > 0) {
+            selectedStatus.removeClass('d-none');
+
+            // Tek satır seçildiyse "1 row selected", birden fazla seçildiyse "X rows selected" göster
+            if (selectedCount === 1) {
+              $('.select-status-text').html('1 satır seçildi');
+            } else {
+              $('.select-status-text').html(selectedCount + ' satır seçildi');
+            }
+          } else {
+            selectedStatus.addClass('d-none');
+          }
+        }
+      });
   };
 
   // DataTable başlatma
@@ -576,7 +690,7 @@ $(function () {
   function loadRolesForAddModal() {
     // Rolleri AJAX ile getir ve select'e ekle
     $.ajax({
-      url: baseUrl + 'admin/settings/roles',
+      url: baseUrl + 'admin/roles',
       type: 'GET',
       success: function (response) {
         if (response.success) {
@@ -609,7 +723,7 @@ $(function () {
 
     // Get roles for select box
     $.ajax({
-      url: baseUrl + 'admin/settings/roles',
+      url: baseUrl + 'admin/roles',
       type: 'GET',
       success: function (roleResponse) {
         if (roleResponse.success) {
@@ -723,40 +837,28 @@ $(function () {
           },
           success: function (response) {
             if (response.success) {
-              // Show success message
-              Swal.fire({
-                icon: 'success',
-                title: __('success'),
-                text: __('user_deleted_successfully'),
-                customClass: {
-                  confirmButton: 'btn btn-success'
-                }
-              }).then(function () {
-                // Reload datatable
-                $('.datatables-users').DataTable().ajax.reload(null, false);
-              });
+              // Hide SweetAlert
+              Swal.close();
+
+              // Show success toast
+              toastr.success(__('user_deleted_successfully'), __('success'));
+
+              // Reload datatable
+              $('.datatables-users').DataTable().ajax.reload(null, false);
             } else {
-              // Show error message
-              Swal.fire({
-                icon: 'error',
-                title: __('error'),
-                text: response.message || __('user_deletion_failed'),
-                customClass: {
-                  confirmButton: 'btn btn-danger'
-                }
-              });
+              // Hide SweetAlert
+              Swal.close();
+
+              // Show error toast
+              toastr.error(response.message || __('user_deletion_failed'), __('error'));
             }
           },
           error: function (xhr) {
-            // Show error message
-            Swal.fire({
-              icon: 'error',
-              title: __('error'),
-              text: __('user_deletion_failed'),
-              customClass: {
-                confirmButton: 'btn btn-danger'
-              }
-            });
+            // Hide SweetAlert
+            Swal.close();
+
+            // Show error toast
+            toastr.error(__('user_deletion_failed'), __('error'));
           }
         });
       }
@@ -809,28 +911,94 @@ $(function () {
           },
           success: function (response) {
             if (response.success) {
-              // Show success message
-              Swal.fire({
-                icon: 'success',
-                title: __('success'),
-                text: response.message,
-                customClass: {
-                  confirmButton: 'btn btn-success'
-                }
-              }).then(function () {
-                // Reload datatable
-                $('.datatables-users').DataTable().ajax.reload(null, false);
-              });
+              // Hide SweetAlert
+              Swal.close();
+
+              // Show success toast
+              toastr.success(response.message, __('success'));
+
+              // Reload datatable
+              $('.datatables-users').DataTable().ajax.reload(null, false);
             } else {
-              // Show error message
-              Swal.fire({
-                icon: 'error',
-                title: __('error'),
-                text: response.message || __('email_verification_failed'),
-                customClass: {
-                  confirmButton: 'btn btn-danger'
-                }
-              });
+              // Hide SweetAlert
+              Swal.close();
+
+              // Show error toast
+              toastr.error(response.message || __('email_verification_failed'), __('error'));
+            }
+          },
+          error: function (xhr) {
+            // Hide SweetAlert
+            Swal.close();
+
+            // Show error toast
+            toastr.error(__('email_verification_failed'), __('error'));
+          }
+        });
+      }
+    });
+  });
+
+  // Toggle User Status (Activate/Deactivate)
+  $(document).on('click', '.ban-user', function (e) {
+    e.preventDefault();
+    var userId = $(this).data('id');
+    var currentStatus = parseInt($(this).data('status'));
+    var isActivate = currentStatus !== 2; // Eğer 2 (aktif) değilse, aktifleştiriyoruz
+
+    // Confirm status change
+    Swal.fire({
+      title: isActivate ? __('activate_user') : __('deactivate_user'),
+      text: isActivate ? __('activate_user_confirmation') : __('deactivate_user_confirmation'),
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: __('yes'),
+      cancelButtonText: __('cancel'),
+      customClass: {
+        confirmButton: isActivate ? 'btn btn-success' : 'btn btn-warning',
+        cancelButton: 'btn btn-outline-secondary ms-1'
+      },
+      buttonsStyling: false
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        // Disable buttons to prevent multiple clicks
+        Swal.showLoading();
+
+        // Get CSRF token
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        // Toggle user status
+        $.ajax({
+          url: baseUrl + 'admin/users/' + userId + '/toggle-status',
+          method: 'POST',
+          data: {
+            _token: csrfToken,
+            status: isActivate ? 2 : 1 // 2 for active, 1 for inactive
+          },
+          headers: {
+            'X-CSRF-TOKEN': csrfToken,
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          success: function (response) {
+            if (response.success) {
+              // Hide SweetAlert
+              Swal.close();
+
+              // Show success toast
+              toastr.success(
+                response.message ||
+                  (isActivate ? __('user_activated_successfully') : __('user_deactivated_successfully')),
+                __('success')
+              );
+
+              // Reload datatable
+              $('.datatables-users').DataTable().ajax.reload(null, false);
+            } else {
+              // Hide SweetAlert
+              Swal.close();
+
+              // Show error toast
+              toastr.error(response.message || __('status_change_failed'), __('error'));
             }
           },
           error: function (xhr) {
@@ -838,7 +1006,7 @@ $(function () {
             Swal.fire({
               icon: 'error',
               title: __('error'),
-              text: __('email_verification_failed'),
+              text: __('status_change_failed'),
               customClass: {
                 confirmButton: 'btn btn-danger'
               }
@@ -849,10 +1017,147 @@ $(function () {
     });
   });
 
-  // Ban User - Placeholder
-  $(document).on('click', '.ban-user', function (e) {
+  // Toggle User Status (Activate/Deactivate) - Artık kullanılmıyor, ban-user kullanıyoruz
+  $(document).on('click', '.toggle-status', function (e) {
     e.preventDefault();
-    // Şimdilik sadece bilgilendirme mesajı gösteriyoruz
-    toastr.info(__('ban_user_coming_soon'));
+    var userId = $(this).data('id');
+    var action = $(this).data('action');
+    var isActivate = action === 'activate';
+
+    // Confirm status change
+    Swal.fire({
+      title: isActivate ? __('activate_user') : __('deactivate_user'),
+      text: isActivate ? __('activate_user_confirmation') : __('deactivate_user_confirmation'),
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: __('yes'),
+      cancelButtonText: __('cancel'),
+      customClass: {
+        confirmButton: isActivate ? 'btn btn-success' : 'btn btn-warning',
+        cancelButton: 'btn btn-outline-secondary ms-1'
+      },
+      buttonsStyling: false
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        // Disable buttons to prevent multiple clicks
+        Swal.showLoading();
+
+        // Get CSRF token
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        // Toggle user status
+        $.ajax({
+          url: baseUrl + 'admin/users/' + userId + '/toggle-status',
+          method: 'POST',
+          data: {
+            _token: csrfToken,
+            status: isActivate ? 2 : 1 // 2 for active, 1 for inactive
+          },
+          headers: {
+            'X-CSRF-TOKEN': csrfToken,
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          success: function (response) {
+            if (response.success) {
+              // Hide SweetAlert
+              Swal.close();
+
+              // Show success toast
+              toastr.success(response.message, __('success'));
+
+              // Reload datatable
+              $('.datatables-users').DataTable().ajax.reload(null, false);
+            } else {
+              // Hide SweetAlert
+              Swal.close();
+
+              // Show error toast
+              toastr.error(response.message || __('status_change_failed'), __('error'));
+            }
+          },
+          error: function (xhr) {
+            // Show error message
+            Swal.fire({
+              icon: 'error',
+              title: __('error'),
+              text: __('status_change_failed'),
+              customClass: {
+                confirmButton: 'btn btn-danger'
+              }
+            });
+          }
+        });
+      }
+    });
+  });
+
+  // Toggle Reward System (Activate/Deactivate)
+  $(document).on('click', '.toggle-reward', function (e) {
+    e.preventDefault();
+    var userId = $(this).data('id');
+    var currentReward = $(this).data('reward');
+    var isActivate = !currentReward; // Boolean değeri tersini alıyoruz
+
+    // Confirm reward system change
+    Swal.fire({
+      title: isActivate ? __('enable_reward_system') : __('disable_reward_system'),
+      text: isActivate ? __('enable_reward_system_confirmation') : __('disable_reward_system_confirmation'),
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: __('yes'),
+      cancelButtonText: __('cancel'),
+      customClass: {
+        confirmButton: isActivate ? 'btn btn-success' : 'btn btn-warning',
+        cancelButton: 'btn btn-outline-secondary ms-1'
+      },
+      buttonsStyling: false
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        // Disable buttons to prevent multiple clicks
+        Swal.showLoading();
+
+        // Get CSRF token
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        // Toggle reward system
+        $.ajax({
+          url: baseUrl + 'admin/users/' + userId + '/toggle-reward',
+          method: 'POST',
+          data: {
+            _token: csrfToken,
+            reward_system_active: isActivate
+          },
+          headers: {
+            'X-CSRF-TOKEN': csrfToken,
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          success: function (response) {
+            if (response.success) {
+              // Hide SweetAlert
+              Swal.close();
+
+              // Show success toast
+              toastr.success(response.message, __('success'));
+
+              // Reload datatable
+              $('.datatables-users').DataTable().ajax.reload(null, false);
+            } else {
+              // Hide SweetAlert
+              Swal.close();
+
+              // Show error toast
+              toastr.error(response.message || __('reward_system_change_failed'), __('error'));
+            }
+          },
+          error: function (xhr) {
+            // Hide SweetAlert
+            Swal.close();
+
+            // Show error toast
+            toastr.error(__('reward_system_change_failed'), __('error'));
+          }
+        });
+      }
+    });
   });
 });

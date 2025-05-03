@@ -64,7 +64,6 @@ export default defineConfig({
         ...vendorJsFiles,
         ...LibsJsFiles,
         'resources/js/laravel-user-management.js', // Processing Laravel User Management CRUD JS File
-        'resources/js/admin/role-permissions/role-permissions-form-validation.js', // Role Permissions Module
         ...CoreScssFiles,
         ...LibsScssFiles,
         ...LibsCssFiles,
@@ -79,7 +78,7 @@ export default defineConfig({
         transformAssetUrls: {
           // Laravel Vite plugin için gerekli
           base: null,
-          includeAbsolute: false,
+          includeAbsolute: false
         }
       }
     }) // Vue eklentisini kullanıyoruz

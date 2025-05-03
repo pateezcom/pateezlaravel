@@ -70,7 +70,7 @@ class UserController extends Controller
       'stats' => $userStats
     ]);
   }
-  
+
   /**
    * Show the profile page for the specified user.
    * Belirtilen kullanıcının profil sayfasını gösterir.
@@ -84,7 +84,7 @@ class UserController extends Controller
       // Find user
       // Kullanıcıyı bul
       $user = User::findOrFail($id);
-      
+
       // Return view with user data
       // Kullanıcı verileriyle görünümü döndür
       return view('content.admin.users.user-profile', [
@@ -94,7 +94,7 @@ class UserController extends Controller
       // Log error
       // Hatayı logla
       Log::error('User profile error: ' . $e->getMessage());
-      
+
       // Redirect to users list with error message
       // Hata mesajıyla kullanıcı listesine yönlendir
       return redirect()->route('admin.users')
@@ -113,15 +113,15 @@ class UserController extends Controller
     // Get total user count
     // Toplam kullanıcı sayısı
     $totalUsers = User::count();
-    
+
     // Get reward system active user count
     // Ödül sistemi aktif olan kullanıcı sayısı
     $rewardUsers = User::where('reward_system_active', true)->count();
-    
+
     // Get active user count (status = 2)
     // Aktif kullanıcı sayısı
     $activeUsers = User::where('status', 2)->count();
-    
+
     // Get pending user count (status = 0)
     // Bekleyen kullanıcı sayısı
     $pendingUsers = User::where('status', 0)->count();
@@ -275,6 +275,9 @@ class UserController extends Controller
   public function store(Request $request)
   {
     try {
+      // Debug: Gelen veriyi logla
+      Log::info('User creation request:', $request->all());
+
       // Validate request
       // İstek doğrulama
       $validated = $request->validate([
@@ -286,6 +289,9 @@ class UserController extends Controller
         'reward_system_active' => 'nullable|in:0,1',
         'status' => 'sometimes|integer|in:0,1,2'
       ]);
+
+      // Debug: Doğrulanan veriyi logla
+      Log::info('Validated data:', $validated);
 
       // Create new user
       // Yeni kullanıcı oluştur
@@ -300,12 +306,16 @@ class UserController extends Controller
           ? filter_var($validated['reward_system_active'], FILTER_VALIDATE_BOOLEAN)
           : false;
       $user->status = $request->input('status', 0); // Default to 0 (Pending) if not provided
+
+      // Debug: Kullanıcı kaydedilmeden önce
+      Log::info('About to save user:', ['attributes' => $user->getAttributes()]);
+
       $user->save();
-      
-      // Email doğrulama olayını tetikle
+
+      // Email doğrulama olayını tetikle - Gelitirme ortamda hataya neden oluyor
       // Trigger email verification
-      event(new Registered($user));
-      
+      // event(new Registered($user));
+
       // Assign role
       // Rol ata
       $role = Role::findById($validated['role_id']);
@@ -336,7 +346,8 @@ class UserController extends Controller
       // Hata yanıtı döndür
       return response()->json([
         'success' => false,
-        'message' => __('An error occurred while creating the user')
+        'message' => __('An error occurred while creating the user'),
+        'error' => $e->getMessage() // Debug amaçlı
       ], 500);
     }
   }
@@ -540,7 +551,7 @@ class UserController extends Controller
       ], 500);
     }
   }
-  
+
   /**
    * Manually verify user's email
    * Kullanıcının e-posta adresini manuel olarak doğrular
@@ -554,7 +565,7 @@ class UserController extends Controller
       // Find user
       // Kullanıcıyı bul
       $user = User::findOrFail($id);
-      
+
       // If email is already verified, return success with message
       // Eğer e-posta zaten doğrulanmışsa, başarı yanıtı döndür
       if ($user->hasVerifiedEmail()) {
@@ -563,18 +574,18 @@ class UserController extends Controller
           'message' => __('Email is already verified')
         ]);
       }
-      
+
       // Verify email by updating email_verified_at column
       // email_verified_at sütununu güncelleyerek e-postayı doğrula
       $user->markEmailAsVerified();
-      
+
       // Set user status to active (2) if it was pending (0)
       // Eğer beklemedeyse (0) kullanıcı durumunu aktif (2) olarak ayarla
       if ($user->status === 0) {
         $user->status = 2; // Active
         $user->save();
       }
-      
+
       // Return success response
       // Başarı yanıtı döndür
       return response()->json([
@@ -592,6 +603,163 @@ class UserController extends Controller
       return response()->json([
         'success' => false,
         'message' => __('An error occurred while verifying email')
+      ], 500);
+    }
+  }
+
+  /**
+   * Toggle user status (activate/deactivate)
+   * Kullanıcı durumunu değiştirir (aktifleştir/devre dışı bırak)
+   *
+   * @param  int  $id
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function toggleStatus($id, Request $request)
+  {
+    try {
+      // Find user
+      // Kullanıcıyı bul
+      $user = User::findOrFail($id);
+
+      // Get status from request (2 for active, 1 for inactive)
+      // İstekten durumu al (2 aktif, 1 pasif)
+      $status = $request->input('status');
+
+      // Validate status
+      // Durumu doğrula
+      if (!in_array($status, [1, 2])) {
+        return response()->json([
+          'success' => false,
+          'message' => __('Invalid status value')
+        ], 422);
+      }
+
+      // Update user status
+      // Kullanıcı durumunu güncelle
+      $user->status = $status;
+      $user->save();
+
+      // Return success response
+      // Başarı yanıtı döndür
+      return response()->json([
+        'success' => true,
+        'message' => $status == 2
+          ? __('user_activated_successfully')
+          : __('user_deactivated_successfully')
+      ]);
+    } catch (\Exception $e) {
+      // Log error
+      // Hatayı logla
+      Log::error('Toggle user status error: ' . $e->getMessage());
+      Log::error($e->getTraceAsString());
+
+      // Return error response
+      // Hata yanıtı döndür
+      return response()->json([
+        'success' => false,
+        'message' => __('An error occurred while updating user status')
+      ], 500);
+    }
+  }
+
+  /**
+   * Toggle reward system status for user
+   * Kullanıcı için ödül sistemi durumunu değiştirir
+   *
+   * @param  int  $id
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function toggleReward($id, Request $request)
+  {
+    try {
+      // Find user
+      // Kullanıcıyı bul
+      $user = User::findOrFail($id);
+
+      // Get reward status from request (true/false)
+      // İstekten ödül durumunu al (true/false)
+      $rewardStatus = filter_var($request->input('reward_system_active'), FILTER_VALIDATE_BOOLEAN);
+
+      // Update user reward system status
+      // Kullanıcı ödül sistemi durumunu güncelle
+      $user->reward_system_active = $rewardStatus;
+      $user->save();
+
+      // Return success response
+      // Başarı yanıtı döndür
+      return response()->json([
+        'success' => true,
+        'message' => $rewardStatus
+          ? __('reward_system_enabled_successfully')
+          : __('reward_system_disabled_successfully')
+      ]);
+    } catch (\Exception $e) {
+      // Log error
+      // Hatayı logla
+      Log::error('Toggle user reward system error: ' . $e->getMessage());
+      Log::error($e->getTraceAsString());
+
+      // Return error response
+      // Hata yanıtı döndür
+      return response()->json([
+        'success' => false,
+        'message' => __('An error occurred while updating reward system status')
+      ], 500);
+    }
+  }
+
+  /**
+   * Delete multiple users at once
+   * Birden çok kullanıcıyı aynı anda siler
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function bulkDestroy(Request $request)
+  {
+    try {
+      // Validate request
+      // İsteği doğrula
+      $validated = $request->validate([
+        'ids' => 'required|array',
+        'ids.*' => 'integer|exists:users,id'
+      ]);
+
+      // Get the number of users to be deleted
+      // Silinecek kullanıcı sayısını al
+      $count = count($validated['ids']);
+
+      // Delete users
+      // Kullanıcıları sil
+      User::whereIn('id', $validated['ids'])->delete();
+
+      // Return success response
+      // Başarı yanıtı döndür
+      return response()->json([
+        'success' => true,
+        'message' => __('users_deleted_successfully', ['count' => $count])
+      ]);
+    } catch (\Illuminate\Validation\ValidationException $e) {
+      // Return validation errors
+      // Doğrulama hatalarını döndür
+      return response()->json([
+        'success' => false,
+        'message' => __('validation_error'),
+        'errors' => $e->errors()
+      ], 422);
+    } catch (\Exception $e) {
+      // Log error
+      // Hatayı logla
+      Log::error('Bulk user deletion error: ' . $e->getMessage());
+      Log::error($e->getTraceAsString());
+
+      // Return error response
+      // Hata yanıtı döndür
+      return response()->json([
+        'success' => false,
+        'message' => __('An error occurred while deleting users')
       ], 500);
     }
   }

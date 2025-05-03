@@ -204,20 +204,20 @@ document.addEventListener('DOMContentLoaded', function () {
               modal.hide();
 
               // Show success message
-              toastr.success(data.message || __('user_added_successfully'));
+              toastr.success(data.message || __('user_added_successfully'), __('success'));
 
               // Reload DataTable
               $('.datatables-users').DataTable().ajax.reload(null, false);
             } else {
               // Show error message
               if (data.message) {
-                toastr.error(data.message);
+                toastr.error(data.message, __('error'));
               }
             }
           })
           .catch(error => {
             console.error('Error:', error);
-            toastr.error(__('save_error'));
+            toastr.error(__('save_error'), __('error'));
           })
           .finally(() => {
             // Re-enable submit button

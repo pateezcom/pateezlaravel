@@ -2,58 +2,97 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Auth;
 
 class ViewServiceProvider extends ServiceProvider
 {
-    /**
-     * Register services.
-     * Servisleri kaydeder.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
-    }
-
-    /**
-     * Bootstrap services.
-     * Servisleri başlatır.
-     *
-     * @return void
-     */
     public function boot()
     {
-        // Share active languages with all views
-        // Tüm aktif dilleri tüm view'larla paylaş
-        $this->shareActiveLanguages();
+        $this->composeVerticalMenu();
     }
 
-    /**
-     * Share active languages with all views
-     * Tüm aktif dilleri tüm view'larla paylaş
-     *
-     * @return void
-     */
-    private function shareActiveLanguages()
+    protected function composeVerticalMenu()
     {
-        try {
-            // Check if languages table exists and has records
-            // Diller tablosunun var olup olmadığını ve kayıt içerip içermediğini kontrol et
-            $activeLanguages = DB::table('languages')
-                ->where('is_active', 1)
-                ->orderBy('is_default', 'desc')
-                ->orderBy('name')
-                ->get();
+        view()->composer('layouts.sections.menu.verticalMenu', function ($view) {
+            $user = Auth::user();
+            $menu = $this->getVerticalMenu();
 
-            View::share('activeLanguages', $activeLanguages);
-        } catch (\Exception $e) {
-            // If there's an error (e.g. table doesn't exist), share empty collection
-            // Bir hata varsa (örn. tablo yok), boş koleksiyon paylaş
-            View::share('activeLanguages', collect([]));
-        }
+            if ($user && $user->hasRole('admin')) {
+                Log::info('Admin role detected, bypassing permission checks', ['user_id' => $user->id]);
+            } else {
+                $menu['menu'] = array_filter($menu['menu'], function ($item) use ($user) {
+                    if (isset($item['menuHeader'])) {
+                        return true;
+                    }
+                    if (!isset($item['permission']) || ($user && $user->hasAnyPermission(explode('|', $item['permission'])))) {
+                        if (isset($item['submenu'])) {
+                            $item['submenu'] = array_filter($item['submenu'], function ($subItem) use ($user) {
+                                return !isset($subItem['permission']) || ($user && $user->hasAnyPermission(explode('|', $subItem['permission'])));
+                            });
+                        }
+                        return true;
+                    }
+                    return false;
+                });
+            }
+
+            Log::info('Filtered Vertical Menu', ['menu' => json_encode($menu)]);
+            $view->with('menu', $menu);
+        });
+    }
+
+    protected function getVerticalMenu()
+    {
+        $menu = [
+            'menu' => [
+                [
+                    'name' => 'dashboard',
+                    'icon' => 'menu-icon tf-icons ti ti-dashboard',
+                    'slug' => 'admin.dashboard',
+                    'url' => 'admin/dashboard',
+                    'permission' => null
+                ],
+                [
+                    'name' => 'users',
+                    'icon' => 'menu-icon tf-icons ti ti-users',
+                    'slug' => 'admin.users',
+                    'url' => 'admin/users',
+                    'permission' => 'admin.users.read|admin.users.full'
+                ],
+                [
+                    'name' => 'roles_permissions',
+                    'icon' => 'menu-icon tf-icons ti ti-key',
+                    'slug' => 'admin.role.permissions',
+                    'url' => 'admin/role-permissions',
+                    'permission' => 'admin.role.permissions.read|admin.role.permissions.full'
+                ],
+                ['menuHeader' => 'settings'],
+                [
+                    'name' => 'settings',
+                    'icon' => 'menu-icon tf-icons ti ti-settings',
+                    'slug' => 'admin.settings',
+                    'permission' => 'admin.settings.read|admin.settings.full',
+                    'submenu' => [
+                        [
+                            'url' => 'admin/settings/languages',
+                            'name' => 'language_settings',
+                            'slug' => 'admin.settings.languages',
+                            'permission' => 'admin.settings.languages.read|admin.settings.languages.full'
+                        ],
+                        [
+                            'url' => 'admin/settings/translations/1',
+                            'name' => 'translation_settings',
+                            'slug' => 'admin.settings.translations',
+                            'permission' => 'admin.settings.translations.read|admin.settings.translations.full'
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        Log::info('Vertical Menu JSON', ['menu' => json_encode($menu)]);
+        return $menu;
     }
 }
