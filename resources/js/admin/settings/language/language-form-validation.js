@@ -9,6 +9,13 @@
 let fvAddLanguage, fvEditLanguage;
 
 document.addEventListener('DOMContentLoaded', function () {
+  // Sayfa yenileme fonksiyonu
+  function pencereYenile() {
+    setTimeout(function () {
+      window.location.reload();
+    }, 1500);
+  }
+
   // Modal olayları için basit temizleme işlemleri
   $('#importLanguageModal').on('show.bs.modal', function () {
     const importLanguageForm = document.getElementById('importLanguageForm');
@@ -335,17 +342,22 @@ document.addEventListener('DOMContentLoaded', function () {
               $('#addLanguageModal').modal('hide');
 
               // Başarı mesajı göster
-              Swal.fire({
-                icon: 'success',
-                title: __('success'),
-                text: __('msg_language_added'),
-                customClass: {
-                  confirmButton: 'btn btn-success'
-                }
-              }).then(function () {
-                // Sayfa yenilemesi yap
-                window.location.reload();
-              });
+              if (typeof AppHelpers !== 'undefined') {
+                AppHelpers.Messages.showSuccess(__('msg_language_added'), __('success'));
+                pencereYenile();
+              } else {
+                Swal.fire({
+                  icon: 'success',
+                  title: __('success'),
+                  text: __('msg_language_added'),
+                  customClass: {
+                    confirmButton: 'btn btn-success'
+                  }
+                }).then(function () {
+                  // Sayfa yenilemesi yap
+                  window.location.reload();
+                });
+              }
             } else if (response.errors) {
               // Sunucudan gelen doğrulama hataları
               for (const [field, messages] of Object.entries(response.errors)) {
@@ -393,14 +405,18 @@ document.addEventListener('DOMContentLoaded', function () {
               }
             } else {
               // Genel hata
-              Swal.fire({
-                icon: 'error',
-                title: __('error'),
-                text: errorMessage,
-                customClass: {
-                  confirmButton: 'btn btn-danger'
-                }
-              });
+              if (typeof AppHelpers !== 'undefined') {
+                AppHelpers.Messages.showError(errorMessage, __('error'));
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: __('error'),
+                  text: errorMessage,
+                  customClass: {
+                    confirmButton: 'btn btn-danger'
+                  }
+                });
+              }
             }
           }
         });
@@ -615,17 +631,22 @@ document.addEventListener('DOMContentLoaded', function () {
               $('#editLanguageModal').modal('hide');
 
               // Başarı mesajı göster
-              Swal.fire({
-                icon: 'success',
-                title: __('success'),
-                text: __('msg_language_updated'),
-                customClass: {
-                  confirmButton: 'btn btn-success'
-                }
-              }).then(function () {
-                // Sayfa yenilemesi yap
-                window.location.reload();
-              });
+              if (typeof AppHelpers !== 'undefined') {
+                AppHelpers.Messages.showSuccess(__('msg_language_updated'), __('success'));
+                pencereYenile();
+              } else {
+                Swal.fire({
+                  icon: 'success',
+                  title: __('success'),
+                  text: __('msg_language_updated'),
+                  customClass: {
+                    confirmButton: 'btn btn-success'
+                  }
+                }).then(function () {
+                  // Sayfa yenilemesi yap
+                  window.location.reload();
+                });
+              }
             } else if (response.errors) {
               // Sunucudan gelen doğrulama hataları
               for (const [field, messages] of Object.entries(response.errors)) {
@@ -673,14 +694,18 @@ document.addEventListener('DOMContentLoaded', function () {
               }
             } else {
               // Genel hata
-              Swal.fire({
-                icon: 'error',
-                title: __('error'),
-                text: errorMessage,
-                customClass: {
-                  confirmButton: 'btn btn-danger'
-                }
-              });
+              if (typeof AppHelpers !== 'undefined') {
+                AppHelpers.Messages.showError(errorMessage, __('error'));
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: __('error'),
+                  text: errorMessage,
+                  customClass: {
+                    confirmButton: 'btn btn-danger'
+                  }
+                });
+              }
             }
           }
         });

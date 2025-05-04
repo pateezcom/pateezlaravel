@@ -75,6 +75,13 @@ $(function () {
     }
   });
 
+  // Sayfayı yenileme fonksiyonu
+  function pencereYenile() {
+    setTimeout(function () {
+      window.location.reload();
+    }, 1500);
+  }
+
   // Tabloyu yenileme fonksiyonu
   window.refreshLanguageTable = function () {
     // Eğer tablo zaten yüklenmişse sadece reload et, destroy/recreate yapma
@@ -176,7 +183,7 @@ $(function () {
             return (
               '<div class="d-inline-block">' +
               '<a href="' +
-              baseUrl +
+              (baseUrl.endsWith('/') ? baseUrl : baseUrl + '/') +
               'admin/settings/translations/' +
               full.id +
               '" class="btn btn-sm btn-outline-info me-1">' +
@@ -184,7 +191,7 @@ $(function () {
               __('edit_translations') +
               '</a>' +
               '<a href="' +
-              baseUrl +
+              (baseUrl.endsWith('/') ? baseUrl : baseUrl + '/') +
               'admin/settings/languages/' +
               full.id +
               '/export" class="btn btn-sm btn-outline-secondary">' +
@@ -406,64 +413,40 @@ $(function () {
     });
   });
 
-  // Dil Sil
-  $(document).on('click', '.delete-record', function () {
-    var id = $(this).data('id');
-
-    // Silmeden önce onay iste
-    Swal.fire({
-      title: __('confirm_language'),
-      text: __('msg_language_delete_warning'),
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: __('delete'),
-      cancelButtonText: __('cancel'),
-      customClass: {
-        confirmButton: 'btn btn-danger',
-        cancelButton: 'btn btn-outline-secondary ms-1'
-      },
-      buttonsStyling: false
-    }).then(function (result) {
-      if (result.isConfirmed) {
-        // AJAX isteği
-        $.ajax({
-          url: baseUrl + 'admin/settings/languages/' + id,
-          method: 'DELETE',
-          success: function (response) {
-            if (response.success) {
-              // Başarı mesajı
-              Swal.fire({
-                icon: 'success',
-                title: __('success'),
-                text: __('msg_deleted'),
-                customClass: {
-                  confirmButton: 'btn btn-success'
-                }
-              }).then(function () {
-                // Sayfa yenilemesi yap
-                window.location.reload();
-              });
-            } else {
-              // Hata mesajı
-              Swal.fire({
-                icon: 'error',
-                title: __('error'),
-                text: response.error || __('msg_error'),
-                customClass: {
-                  confirmButton: 'btn btn-danger'
-                }
-              }).then(function () {
-                // Sayfa yenilemesi yap
-                window.location.reload();
-              });
-            }
-          },
-          error: function (xhr) {
-            // Hata mesajı
+  function deleteLanguage(id) {
+    // AJAX isteği
+    $.ajax({
+      url: baseUrl + 'admin/settings/languages/' + id,
+      method: 'DELETE',
+      success: function (response) {
+        if (response.success) {
+          // Başarı mesajı
+          if (typeof AppHelpers !== 'undefined') {
+            AppHelpers.Messages.showSuccess(__('msg_deleted'), __('success'));
+            pencereYenile();
+          } else {
+            Swal.fire({
+              icon: 'success',
+              title: __('success'),
+              text: __('msg_deleted'),
+              customClass: {
+                confirmButton: 'btn btn-success'
+              }
+            }).then(function () {
+              // Sayfa yenilemesi yap
+              window.location.reload();
+            });
+          }
+        } else {
+          // Hata mesajı
+          if (typeof AppHelpers !== 'undefined') {
+            AppHelpers.Messages.showError(response.error || __('msg_error'), __('error'));
+            pencereYenile();
+          } else {
             Swal.fire({
               icon: 'error',
               title: __('error'),
-              text: __('msg_error'),
+              text: response.error || __('msg_error'),
               customClass: {
                 confirmButton: 'btn btn-danger'
               }
@@ -472,9 +455,66 @@ $(function () {
               window.location.reload();
             });
           }
-        });
+        }
+      },
+      error: function (xhr) {
+        // Hata mesajı
+        if (typeof AppHelpers !== 'undefined') {
+          AppHelpers.Messages.showError(__('msg_error'), __('error'));
+          pencereYenile();
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: __('error'),
+            text: __('msg_error'),
+            customClass: {
+              confirmButton: 'btn btn-danger'
+            }
+          }).then(function () {
+            // Sayfa yenilemesi yap
+            window.location.reload();
+          });
+        }
       }
     });
+  }
+
+  // Dil Sil
+  $(document).on('click', '.delete-record', function () {
+    var id = $(this).data('id');
+
+    // Silmeden önce onay iste
+    if (typeof AppHelpers !== 'undefined') {
+      AppHelpers.Messages.showConfirm({
+        title: __('confirm_language'),
+        text: __('msg_language_delete_warning'),
+        icon: 'warning',
+        confirmButtonText: __('delete'),
+        cancelButtonText: __('cancel')
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          deleteLanguage(id);
+        }
+      });
+    } else {
+      Swal.fire({
+        title: __('confirm_language'),
+        text: __('msg_language_delete_warning'),
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: __('delete'),
+        cancelButtonText: __('cancel'),
+        customClass: {
+          confirmButton: 'btn btn-danger',
+          cancelButton: 'btn btn-outline-secondary ms-1'
+        },
+        buttonsStyling: false
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          deleteLanguage(id);
+        }
+      });
+    }
   });
 
   // Varsayılan Olarak Ayarla
@@ -488,43 +528,61 @@ $(function () {
       success: function (response) {
         if (response.success) {
           // Başarı mesajı
-          Swal.fire({
-            icon: 'success',
-            title: __('success'),
-            text: __('msg_default_language_updated'),
-            customClass: {
-              confirmButton: 'btn btn-success'
-            }
-          });
-
-          // Sayfa yenilemesi yap
-          window.location.reload();
+          if (typeof AppHelpers !== 'undefined') {
+            AppHelpers.Messages.showSuccess(__('msg_default_language_updated'), __('success'));
+            pencereYenile();
+          } else {
+            Swal.fire({
+              icon: 'success',
+              title: __('success'),
+              text: __('msg_default_language_updated'),
+              customClass: {
+                confirmButton: 'btn btn-success'
+              }
+            }).then(function () {
+              // Sayfa yenilemesi yap
+              window.location.reload();
+            });
+          }
         } else {
           // Hata mesajı
-          Swal.fire({
-            icon: 'error',
-            title: __('error'),
-            text: response.error || __('msg_error'),
-            customClass: {
-              confirmButton: 'btn btn-danger'
-            }
-          });
-          // Sayfa yenilemesi yap
-          window.location.reload();
+          if (typeof AppHelpers !== 'undefined') {
+            AppHelpers.Messages.showError(response.error || __('msg_error'), __('error'));
+            pencereYenile();
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: __('error'),
+              text: response.error || __('msg_error'),
+              customClass: {
+                confirmButton: 'btn btn-danger'
+              }
+            }).then(function () {
+              // Sayfa yenilemesi yap
+              window.location.reload();
+            });
+          }
         }
       },
       error: function (xhr) {
         // Hata mesajı
-        Swal.fire({
-          icon: 'error',
-          title: __('error'),
-          text: __('msg_error'),
-          customClass: {
-            confirmButton: 'btn btn-danger'
-          }
-        });
-        // Tabloyu yine de yenile
-        window.refreshLanguageTable();
+        if (typeof AppHelpers !== 'undefined') {
+          AppHelpers.Messages.showError(__('msg_error'), __('error'));
+          // Tabloyu yine de yenile
+          window.refreshLanguageTable();
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: __('error'),
+            text: __('msg_error'),
+            customClass: {
+              confirmButton: 'btn btn-danger'
+            }
+          }).then(function () {
+            // Tabloyu yine de yenile
+            window.refreshLanguageTable();
+          });
+        }
       }
     });
   });
@@ -581,40 +639,55 @@ $(function () {
         if (response.success) {
           // Modal kapat ve sayfayı yenile
           $('#importLanguageModal').modal('hide');
-          window.location.reload();
 
           // Başarı mesajı göster
-          Swal.fire({
-            icon: 'success',
-            title: __('success'),
-            text: response.message || __('msg_import_language_success'),
-            customClass: {
-              confirmButton: 'btn btn-success'
-            }
-          });
+          if (typeof AppHelpers !== 'undefined') {
+            AppHelpers.Messages.showSuccess(response.message || __('msg_import_language_success'), __('success'));
+            pencereYenile();
+          } else {
+            Swal.fire({
+              icon: 'success',
+              title: __('success'),
+              text: response.message || __('msg_import_language_success'),
+              customClass: {
+                confirmButton: 'btn btn-success'
+              }
+            }).then(function () {
+              // Sayfa yenilemesi yap
+              window.location.reload();
+            });
+          }
         } else {
           // Hata mesajını göster
           submitButton.prop('disabled', false);
           submitButton.html(originalButtonText);
 
           if (response.error) {
-            Swal.fire({
-              icon: 'error',
-              title: __('error'),
-              text: response.error,
-              customClass: {
-                confirmButton: 'btn btn-danger'
-              }
-            });
+            if (typeof AppHelpers !== 'undefined') {
+              AppHelpers.Messages.showError(response.error, __('error'));
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: __('error'),
+                text: response.error,
+                customClass: {
+                  confirmButton: 'btn btn-danger'
+                }
+              });
+            }
           } else if (response.message) {
-            Swal.fire({
-              icon: 'warning',
-              title: __('warning'),
-              text: response.message,
-              customClass: {
-                confirmButton: 'btn btn-warning'
-              }
-            });
+            if (typeof AppHelpers !== 'undefined') {
+              AppHelpers.Messages.showWarning(response.message, __('warning'));
+            } else {
+              Swal.fire({
+                icon: 'warning',
+                title: __('warning'),
+                text: response.message,
+                customClass: {
+                  confirmButton: 'btn btn-warning'
+                }
+              });
+            }
           }
         }
       },
@@ -633,14 +706,18 @@ $(function () {
           errorMessage = xhr.responseJSON.message;
         }
 
-        Swal.fire({
-          icon: 'error',
-          title: __('error'),
-          text: errorMessage,
-          customClass: {
-            confirmButton: 'btn btn-danger'
-          }
-        });
+        if (typeof AppHelpers !== 'undefined') {
+          AppHelpers.Messages.showError(errorMessage, __('error'));
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: __('error'),
+            text: errorMessage,
+            customClass: {
+              confirmButton: 'btn btn-danger'
+            }
+          });
+        }
       }
     });
 

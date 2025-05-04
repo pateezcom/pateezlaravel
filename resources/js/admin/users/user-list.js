@@ -493,61 +493,116 @@ $(function () {
         var selectedIds = selectedRows.map(row => row.id);
 
         if (selectedIds.length === 0) {
-          toastr.warning(__('no_rows_selected'), __('warning'));
+          if (typeof AppHelpers !== 'undefined' && typeof AppHelpers.Messages !== 'undefined') {
+            AppHelpers.Messages.showWarning(__('no_rows_selected'));
+          } else {
+            toastr.warning(__('no_rows_selected'), __('warning'));
+          }
           return;
         }
 
-        Swal.fire({
-          title: __('are_you_sure'),
-          text: selectedIds.length + ' ' + __('selected_rows_will_be_deleted'),
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: __('yes'),
-          cancelButtonText: __('cancel'),
-          customClass: {
-            confirmButton: 'btn btn-danger',
-            cancelButton: 'btn btn-outline-secondary ms-1'
+        // Kullanıcı arayüzünde seçili satır sayısını göster
+        var confirmMessage = selectedIds.length + ' ' + __('selected_rows_will_be_deleted');
+
+        // AppHelpers.Messages.showConfirm varsa onu kullan, yoksa SweetAlert2 kullan
+        if (
+          typeof AppHelpers !== 'undefined' &&
+          typeof AppHelpers.Messages !== 'undefined' &&
+          typeof AppHelpers.Messages.showConfirm === 'function'
+        ) {
+          AppHelpers.Messages.showConfirm({
+            title: __('are_you_sure'),
+            text: confirmMessage,
+            icon: 'warning',
+            confirmButtonText: __('yes'),
+            cancelButtonText: __('cancel')
+          }).then(function (result) {
+            if (result.isConfirmed) {
+              deleteSelectedUsers(selectedIds);
+            }
+          });
+        } else {
+          // AppHelpers yoksa SweetAlert2 kullan
+          Swal.fire({
+            title: __('are_you_sure'),
+            text: confirmMessage,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: __('yes'),
+            cancelButtonText: __('cancel'),
+            customClass: {
+              confirmButton: 'btn btn-danger me-3',
+              cancelButton: 'btn btn-label-secondary'
+            },
+            buttonsStyling: false
+          }).then(function (result) {
+            if (result.isConfirmed) {
+              deleteSelectedUsers(selectedIds);
+            }
+          });
+        }
+      });
+
+      // Seçili kullanıcıları silen yardımcı fonksiyon
+      function deleteSelectedUsers(selectedIds) {
+        Swal.showLoading();
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        if (!csrfToken) {
+          if (typeof AppHelpers !== 'undefined' && typeof AppHelpers.Messages !== 'undefined') {
+            AppHelpers.Messages.showError(__('csrf_token_missing'));
+          } else {
+            toastr.error(__('csrf_token_missing'), __('error'));
+          }
+          Swal.close();
+          return;
+        }
+
+        $.ajax({
+          url: baseUrl + 'admin/users/bulk-delete',
+          method: 'POST',
+          data: {
+            _token: csrfToken,
+            ids: selectedIds
           },
-          buttonsStyling: false
-        }).then(function (result) {
-          if (result.isConfirmed) {
-            Swal.showLoading();
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            $.ajax({
-              url: baseUrl + 'admin/users/bulk-delete',
-              method: 'POST',
-              data: {
-                _token: csrfToken,
-                ids: selectedIds
-              },
-              headers: {
-                'X-CSRF-TOKEN': csrfToken
-              },
-              success: function (response) {
-                if (response.success) {
-                  Swal.close();
-                  toastr.success(__('selected_users_deleted_successfully'), __('success'));
-                  dt_user.ajax.reload(null, false);
-                  $('.selected-status').addClass('d-none');
-                  $('.delete-selected').hide();
-                } else {
-                  Swal.close();
-                  toastr.error(response.message || __('bulk_deletion_failed'), __('error'));
-                }
-              },
-              error: function (xhr) {
-                Swal.close();
-                console.log('Hata detayı:', xhr.responseText);
-                toastr.error(__('bulk_deletion_failed'), __('error'));
+          headers: {
+            'X-CSRF-TOKEN': csrfToken
+          },
+          success: function (response) {
+            if (response.success) {
+              Swal.close();
+              if (typeof AppHelpers !== 'undefined' && typeof AppHelpers.Messages !== 'undefined') {
+                AppHelpers.Messages.showSuccess(__('selected_users_deleted_successfully'));
+              } else {
+                toastr.success(__('selected_users_deleted_successfully'), __('success'));
               }
-            });
+              dt_user.ajax.reload(null, false);
+              $('.selected-status').addClass('d-none');
+              $('.delete-selected').hide();
+            } else {
+              Swal.close();
+              if (typeof AppHelpers !== 'undefined' && typeof AppHelpers.Messages !== 'undefined') {
+                AppHelpers.Messages.showError(response.message || __('bulk_deletion_failed'));
+              } else {
+                toastr.error(response.message || __('bulk_deletion_failed'), __('error'));
+              }
+            }
+          },
+          error: function (xhr) {
+            Swal.close();
+            if (typeof AppHelpers !== 'undefined' && typeof AppHelpers.Messages !== 'undefined') {
+              AppHelpers.Messages.showError(__('bulk_deletion_failed'));
+            } else {
+              toastr.error(__('bulk_deletion_failed'), __('error'));
+            }
           }
         });
-      });
+      }
     });
   }
 
-  // Toastr Options
+  // Toastr Options - Bu konfigürasyonu kaldırabiliriz, artık AppHelpers.Messages sınıfı kullanıyoruz
+  // Geriye dönük uyumluluk için bırakıyoruz ama projede AppHelpers.Messages kullanmalıyız
   toastr.options = {
     closeButton: true,
     debug: false,
@@ -585,11 +640,19 @@ $(function () {
             roleSelect.append(`<option value="${role.id}">${role.name}</option>`);
           });
         } else {
-          toastr.error(__('failed_to_load_roles'));
+          if (typeof AppHelpers !== 'undefined') {
+            AppHelpers.Messages.showError(__('failed_to_load_roles'));
+          } else {
+            toastr.error(__('failed_to_load_roles'));
+          }
         }
       },
       error: function () {
-        toastr.error(__('failed_to_load_roles'));
+        if (typeof AppHelpers !== 'undefined') {
+          AppHelpers.Messages.showError(__('failed_to_load_roles'));
+        } else {
+          toastr.error(__('failed_to_load_roles'));
+        }
       }
     });
   }
@@ -638,19 +701,35 @@ $(function () {
                 $('#edit-user-confirm-password').val('');
                 $('#editUserModal').modal('show');
               } else {
-                toastr.error(__('failed_to_load_user_data'));
+                if (typeof AppHelpers !== 'undefined') {
+                  AppHelpers.Messages.showError(__('failed_to_load_user_data'));
+                } else {
+                  toastr.error(__('failed_to_load_user_data'));
+                }
               }
             },
             error: function () {
-              toastr.error(__('failed_to_load_user_data'));
+              if (typeof AppHelpers !== 'undefined') {
+                AppHelpers.Messages.showError(__('failed_to_load_user_data'));
+              } else {
+                toastr.error(__('failed_to_load_user_data'));
+              }
             }
           });
         } else {
-          toastr.error(__('failed_to_load_roles'));
+          if (typeof AppHelpers !== 'undefined') {
+            AppHelpers.Messages.showError(__('failed_to_load_roles'));
+          } else {
+            toastr.error(__('failed_to_load_roles'));
+          }
         }
       },
       error: function () {
-        toastr.error(__('failed_to_load_roles'));
+        if (typeof AppHelpers !== 'undefined') {
+          AppHelpers.Messages.showError(__('failed_to_load_roles'));
+        } else {
+          toastr.error(__('failed_to_load_roles'));
+        }
       }
     });
   });
@@ -659,51 +738,102 @@ $(function () {
   $(document).on('click', '.delete-record', function (e) {
     e.preventDefault();
     var userId = $(this).data('id');
-    Swal.fire({
-      title: __('are_you_sure'),
-      text: __('action_cannot_be_undone'),
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: __('yes'),
-      cancelButtonText: __('cancel'),
-      customClass: {
-        confirmButton: 'btn btn-danger',
-        cancelButton: 'btn btn-outline-secondary ms-1'
+
+    // AppHelpers yoksa doğrudan SweetAlert2 kullan
+    if (
+      typeof AppHelpers !== 'undefined' &&
+      typeof AppHelpers.Messages !== 'undefined' &&
+      typeof AppHelpers.Messages.showConfirm === 'function'
+    ) {
+      AppHelpers.Messages.showConfirm({
+        title: __('are_you_sure'),
+        text: __('action_cannot_be_undone'),
+        icon: 'warning',
+        confirmButtonText: __('yes'),
+        cancelButtonText: __('cancel')
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          deleteUserRecord(userId);
+        }
+      });
+    } else {
+      // AppHelpers yoksa SweetAlert2 kullan
+      Swal.fire({
+        title: __('are_you_sure'),
+        text: __('action_cannot_be_undone'),
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: __('yes'),
+        cancelButtonText: __('cancel'),
+        customClass: {
+          confirmButton: 'btn btn-primary me-3',
+          cancelButton: 'btn btn-label-secondary'
+        },
+        buttonsStyling: false
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          deleteUserRecord(userId);
+        }
+      });
+    }
+  });
+
+  // Kullanıcı silme işlemini gerçekleştiren yardımcı fonksiyon
+  function deleteUserRecord(userId) {
+    Swal.showLoading();
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    if (!csrfToken) {
+      console.error('CSRF token bulunamadı!');
+      if (typeof AppHelpers !== 'undefined') {
+        AppHelpers.Messages.showError(__('csrf_token_missing'));
+      } else {
+        toastr.error(__('csrf_token_missing'), __('error'));
+      }
+      Swal.close();
+      return;
+    }
+
+    $.ajax({
+      url: baseUrl + 'admin/users/' + userId,
+      method: 'POST',
+      data: {
+        _token: csrfToken,
+        _method: 'DELETE'
       },
-      buttonsStyling: false
-    }).then(function (result) {
-      if (result.isConfirmed) {
-        Swal.showLoading();
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        $.ajax({
-          url: baseUrl + 'admin/users/' + userId,
-          method: 'POST',
-          data: {
-            _token: csrfToken,
-            _method: 'DELETE'
-          },
-          headers: {
-            'X-CSRF-TOKEN': csrfToken,
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          success: function (response) {
-            if (response.success) {
-              Swal.close();
-              toastr.success(__('user_deleted_successfully'), __('success'));
-              dt_user.ajax.reload(null, false);
-            } else {
-              Swal.close();
-              toastr.error(response.message || __('user_deletion_failed'), __('error'));
-            }
-          },
-          error: function (xhr) {
-            Swal.close();
-            toastr.error(__('user_deletion_failed'), __('error'));
+      headers: {
+        'X-CSRF-TOKEN': csrfToken,
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: function (response) {
+        if (response.success) {
+          Swal.close();
+          if (typeof AppHelpers !== 'undefined') {
+            AppHelpers.Messages.showSuccess(__('user_deleted_successfully'));
+          } else {
+            toastr.success(__('user_deleted_successfully'), __('success'));
           }
-        });
+          dt_user.ajax.reload(null, false);
+        } else {
+          Swal.close();
+          if (typeof AppHelpers !== 'undefined') {
+            AppHelpers.Messages.showError(response.message || __('user_deletion_failed'));
+          } else {
+            toastr.error(response.message || __('user_deletion_failed'), __('error'));
+          }
+        }
+      },
+      error: function (xhr) {
+        console.error('Silme hatası:', xhr.responseText);
+        Swal.close();
+        if (typeof AppHelpers !== 'undefined') {
+          AppHelpers.Messages.showError(__('user_deletion_failed'));
+        } else {
+          toastr.error(__('user_deletion_failed'), __('error'));
+        }
       }
     });
-  });
+  }
 
   // Update Profile
   $(document).on('click', '.update-profile', function (e) {
@@ -716,49 +846,54 @@ $(function () {
   $(document).on('click', '.confirm-email', function (e) {
     e.preventDefault();
     var userId = $(this).data('id');
-    Swal.fire({
-      title: __('verify_email'),
-      text: __('verify_email_confirmation'),
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: __('yes'),
-      cancelButtonText: __('cancel'),
-      customClass: {
-        confirmButton: 'btn btn-primary',
-        cancelButton: 'btn btn-outline-secondary ms-1'
-      },
-      buttonsStyling: false
-    }).then(function (result) {
-      if (result.isConfirmed) {
-        Swal.showLoading();
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        $.ajax({
-          url: baseUrl + 'admin/users/' + userId + '/verify-email',
-          method: 'POST',
-          data: {
-            _token: csrfToken
-          },
-          headers: {
-            'X-CSRF-TOKEN': csrfToken,
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          success: function (response) {
-            if (response.success) {
-              Swal.close();
-              toastr.success(response.message, __('success'));
-              dt_user.ajax.reload(null, false);
-            } else {
-              Swal.close();
-              toastr.error(response.message || __('email_verification_failed'), __('error'));
+    if (typeof AppHelpers !== 'undefined') {
+      AppHelpers.Messages.showConfirm({
+        title: __('verify_email'),
+        text: __('verify_email_confirmation'),
+        icon: 'warning',
+        confirmButtonText: __('yes'),
+        cancelButtonText: __('cancel')
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          Swal.showLoading();
+          const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+          $.ajax({
+            url: baseUrl + 'admin/users/' + userId + '/resend-verification',
+            method: 'POST',
+            data: {
+              _token: csrfToken
+            },
+            headers: {
+              'X-CSRF-TOKEN': csrfToken
+            },
+            success: function (response) {
+              if (response.success) {
+                Swal.close();
+                if (typeof AppHelpers !== 'undefined') {
+                  AppHelpers.Messages.showSuccess(response.message);
+                } else {
+                  toastr.success(response.message, __('success'));
+                }
+                dt_user.ajax.reload(null, false);
+              } else {
+                if (typeof AppHelpers !== 'undefined') {
+                  AppHelpers.Messages.showError(response.message || __('email_verification_failed'));
+                } else {
+                  toastr.error(response.message || __('email_verification_failed'), __('error'));
+                }
+              }
+            },
+            error: function () {
+              if (typeof AppHelpers !== 'undefined') {
+                AppHelpers.Messages.showError(__('email_verification_failed'));
+              } else {
+                toastr.error(__('email_verification_failed'), __('error'));
+              }
             }
-          },
-          error: function (xhr) {
-            Swal.close();
-            toastr.error(__('email_verification_failed'), __('error'));
-          }
-        });
-      }
-    });
+          });
+        }
+      });
+    }
   });
 
   // Toggle User Status
@@ -766,62 +901,114 @@ $(function () {
     e.preventDefault();
     var userId = $(this).data('id');
     var currentStatus = parseInt($(this).data('status'));
-    var isActivate = currentStatus !== 2;
-    Swal.fire({
-      title: isActivate ? __('activate_user') : __('deactivate_user'),
-      text: isActivate ? __('activate_user_confirmation') : __('deactivate_user_confirmation'),
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: __('yes'),
-      cancelButtonText: __('cancel'),
-      customClass: {
-        confirmButton: isActivate ? 'btn btn-success' : 'btn btn-warning',
-        cancelButton: 'btn btn-outline-secondary ms-1'
+
+    // Status değerine göre aktif/pasif durumunu belirle
+    var isCurrentlyActive = currentStatus === 2; // 2 = active
+    var newStatus = isCurrentlyActive ? 1 : 2; // Tersine çevir
+
+    // AppHelpers kontrolü ve alternatif yöntem
+    if (
+      typeof AppHelpers !== 'undefined' &&
+      typeof AppHelpers.Messages !== 'undefined' &&
+      typeof AppHelpers.Messages.showConfirm === 'function'
+    ) {
+      AppHelpers.Messages.showConfirm({
+        title: isCurrentlyActive ? __('deactivate_user') : __('activate_user'),
+        text: isCurrentlyActive ? __('deactivate_user_confirmation') : __('activate_user_confirmation'),
+        icon: 'warning',
+        confirmButtonText: __('yes'),
+        cancelButtonText: __('cancel')
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          toggleUserStatusFixed(userId, newStatus);
+        }
+      });
+    } else {
+      // AppHelpers yoksa SweetAlert2 kullan
+      Swal.fire({
+        title: isCurrentlyActive ? __('deactivate_user') : __('activate_user'),
+        text: isCurrentlyActive ? __('deactivate_user_confirmation') : __('activate_user_confirmation'),
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: __('yes'),
+        cancelButtonText: __('cancel'),
+        customClass: {
+          confirmButton: 'btn btn-primary me-3',
+          cancelButton: 'btn btn-label-secondary'
+        },
+        buttonsStyling: false
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          toggleUserStatusFixed(userId, newStatus);
+        }
+      });
+    }
+  });
+
+  // Kullanıcı durumunu değiştiren düzeltilmiş yardımcı fonksiyon
+  function toggleUserStatusFixed(userId, newStatus) {
+    Swal.showLoading();
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    // URL'i düzeltiyoruz - Rota "toggle-status" olmalı "update-status" değil
+    const requestUrl = baseUrl + 'admin/users/' + userId + '/toggle-status';
+
+    if (!csrfToken) {
+      if (typeof AppHelpers !== 'undefined') {
+        AppHelpers.Messages.showError(__('csrf_token_missing'));
+      } else {
+        toastr.error(__('csrf_token_missing'), __('error'));
+      }
+      Swal.close();
+      return;
+    }
+
+    $.ajax({
+      url: requestUrl,
+      method: 'POST',
+      data: {
+        _token: csrfToken,
+        status: newStatus
       },
-      buttonsStyling: false
-    }).then(function (result) {
-      if (result.isConfirmed) {
-        Swal.showLoading();
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        $.ajax({
-          url: baseUrl + 'admin/users/' + userId + '/toggle-status',
-          method: 'POST',
-          data: {
-            _token: csrfToken,
-            status: isActivate ? 2 : 1
-          },
-          headers: {
-            'X-CSRF-TOKEN': csrfToken,
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          success: function (response) {
-            if (response.success) {
-              Swal.close();
-              toastr.success(
-                response.message ||
-                  (isActivate ? __('user_activated_successfully') : __('user_deactivated_successfully')),
-                __('success')
-              );
-              dt_user.ajax.reload(null, false);
-            } else {
-              Swal.close();
-              toastr.error(response.message || __('status_change_failed'), __('error'));
-            }
-          },
-          error: function (xhr) {
-            Swal.fire({
-              icon: 'error',
-              title: __('error'),
-              text: __('status_change_failed'),
-              customClass: {
-                confirmButton: 'btn btn-danger'
-              }
-            });
+      headers: {
+        'X-CSRF-TOKEN': csrfToken
+      },
+      success: function (response) {
+        if (response.success) {
+          Swal.close();
+          if (typeof AppHelpers !== 'undefined') {
+            AppHelpers.Messages.showSuccess(
+              response.message ||
+                (newStatus === 2 ? __('user_activated_successfully') : __('user_deactivated_successfully')),
+              __('success')
+            );
+          } else {
+            toastr.success(
+              response.message ||
+                (newStatus === 2 ? __('user_activated_successfully') : __('user_deactivated_successfully')),
+              __('success')
+            );
           }
-        });
+          dt_user.ajax.reload(null, false);
+        } else {
+          Swal.close();
+          if (typeof AppHelpers !== 'undefined') {
+            AppHelpers.Messages.showError(response.message || __('status_change_failed'));
+          } else {
+            toastr.error(response.message || __('status_change_failed'), __('error'));
+          }
+        }
+      },
+      error: function (xhr) {
+        Swal.close();
+        if (typeof AppHelpers !== 'undefined') {
+          AppHelpers.Messages.showError(__('status_change_failed'));
+        } else {
+          toastr.error(__('status_change_failed'), __('error'));
+        }
       }
     });
-  });
+  }
 
   // Toggle Reward System
   $(document).on('click', '.toggle-reward', function (e) {
@@ -829,49 +1016,99 @@ $(function () {
     var userId = $(this).data('id');
     var currentReward = $(this).data('reward');
     var isActivate = !currentReward;
-    Swal.fire({
-      title: isActivate ? __('enable_reward_system') : __('disable_reward_system'),
-      text: isActivate ? __('enable_reward_system_confirmation') : __('disable_reward_system_confirmation'),
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: __('yes'),
-      cancelButtonText: __('cancel'),
-      customClass: {
-        confirmButton: isActivate ? 'btn btn-success' : 'btn btn-warning',
-        cancelButton: 'btn btn-outline-secondary ms-1'
+
+    // AppHelpers kontrolü ve alternatif yöntem
+    if (
+      typeof AppHelpers !== 'undefined' &&
+      typeof AppHelpers.Messages !== 'undefined' &&
+      typeof AppHelpers.Messages.showConfirm === 'function'
+    ) {
+      AppHelpers.Messages.showConfirm({
+        title: isActivate ? __('enable_reward_system') : __('disable_reward_system'),
+        text: isActivate ? __('enable_reward_system_confirmation') : __('disable_reward_system_confirmation'),
+        icon: 'warning',
+        confirmButtonText: __('yes'),
+        cancelButtonText: __('cancel')
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          toggleRewardSystem(userId, isActivate);
+        }
+      });
+    } else {
+      // AppHelpers yoksa SweetAlert2 kullan
+      Swal.fire({
+        title: isActivate ? __('enable_reward_system') : __('disable_reward_system'),
+        text: isActivate ? __('enable_reward_system_confirmation') : __('disable_reward_system_confirmation'),
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: __('yes'),
+        cancelButtonText: __('cancel'),
+        customClass: {
+          confirmButton: 'btn btn-primary me-3',
+          cancelButton: 'btn btn-label-secondary'
+        },
+        buttonsStyling: false
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          toggleRewardSystem(userId, isActivate);
+        }
+      });
+    }
+  });
+
+  // Ödül sistemini değiştiren yardımcı fonksiyon
+  function toggleRewardSystem(userId, isActivate) {
+    Swal.showLoading();
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    const requestUrl = baseUrl + 'admin/users/' + userId + '/toggle-reward';
+
+    if (!csrfToken) {
+      if (typeof AppHelpers !== 'undefined') {
+        AppHelpers.Messages.showError(__('csrf_token_missing'));
+      } else {
+        toastr.error(__('csrf_token_missing'), __('error'));
+      }
+      Swal.close();
+      return;
+    }
+
+    $.ajax({
+      url: requestUrl,
+      method: 'POST',
+      data: {
+        _token: csrfToken,
+        reward_system_active: isActivate ? 1 : 0 // Parametre adını 'reward_system_active' olarak değiştirdik
       },
-      buttonsStyling: false
-    }).then(function (result) {
-      if (result.isConfirmed) {
-        Swal.showLoading();
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        $.ajax({
-          url: baseUrl + 'admin/users/' + userId + '/toggle-reward',
-          method: 'POST',
-          data: {
-            _token: csrfToken,
-            reward_system_active: isActivate
-          },
-          headers: {
-            'X-CSRF-TOKEN': csrfToken,
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          success: function (response) {
-            if (response.success) {
-              Swal.close();
-              toastr.success(response.message, __('success'));
-              dt_user.ajax.reload(null, false);
-            } else {
-              Swal.close();
-              toastr.error(response.message || __('reward_system_change_failed'), __('error'));
-            }
-          },
-          error: function (xhr) {
-            Swal.close();
-            toastr.error(__('reward_system_change_failed'), __('error'));
+      headers: {
+        'X-CSRF-TOKEN': csrfToken
+      },
+      success: function (response) {
+        if (response.success) {
+          Swal.close();
+          if (typeof AppHelpers !== 'undefined') {
+            AppHelpers.Messages.showSuccess(response.message);
+          } else {
+            toastr.success(response.message, __('success'));
           }
-        });
+          dt_user.ajax.reload(null, false);
+        } else {
+          Swal.close();
+          if (typeof AppHelpers !== 'undefined') {
+            AppHelpers.Messages.showError(response.message || __('reward_system_change_failed'));
+          } else {
+            toastr.error(response.message || __('reward_system_change_failed'), __('error'));
+          }
+        }
+      },
+      error: function (xhr) {
+        Swal.close();
+        if (typeof AppHelpers !== 'undefined') {
+          AppHelpers.Messages.showError(__('reward_system_change_failed'));
+        } else {
+          toastr.error(__('reward_system_change_failed'), __('error'));
+        }
       }
     });
-  });
+  }
 });

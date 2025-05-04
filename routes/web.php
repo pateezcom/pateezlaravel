@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\frontend\FrontendController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
 
+// Admin Auth Controllers
+use App\Http\Controllers\Admin\Auth\LoginController;
+
 // Admin Settings Controllers
 use App\Http\Controllers\Admin\Settings\Language\LanguageController;
 use App\Http\Controllers\Admin\Settings\Language\LanguageSwitchController;
@@ -19,6 +22,11 @@ Route::get('/translations/refresh-cache', [JsTranslationController::class, 'refr
 Route::get('/translations/js', [JsTranslationController::class, 'getTranslationsForJs'])->name('translations.js');
 
 /* ========== PATEEZ NEWS ROTALAR BAŞLANGIÇ ========== */
+// Admin Auth Routes - Giriş yapmadan erişilebilen rotalar
+Route::get('/admin/login', [LoginController::class, 'index'])->name('admin.login');
+Route::post('/admin/login', [LoginController::class, 'login'])->name('admin.login.submit');
+Route::post('/admin/logout', [LoginController::class, 'logout'])->name('admin.logout');
+
 // Admin Routes Group - Giriş yapmak zorunlu
 Route::middleware(['auth'])->group(function () {
   // Admin Dashboard - Herkes için erişilebilir
@@ -78,6 +86,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/settings/languages/{id}/set-default', [LanguageController::class, 'setDefault'])->name('admin.settings.languages.set-default');
     Route::post('/admin/settings/languages/import', [LanguageController::class, 'import'])->name('admin.settings.languages.import');
     Route::get('/admin/settings/languages/{id}/export', [LanguageController::class, 'export'])->name('admin.settings.languages.export');
+
+    // Translations Routes - Çeviri yönetimi için route'lar
+    Route::get('/admin/settings/translations/{id}', [TranslationController::class, 'edit'])->name('admin.settings.translations.edit');
+    Route::put('/admin/settings/translations/{id}', [TranslationController::class, 'update'])->name('admin.settings.translations.update');
+    Route::get('/admin/settings/translations/{id}/search', [TranslationController::class, 'search'])->name('admin.settings.translations.search');
+    Route::post('/admin/settings/translations/{id}/add', [TranslationController::class, 'addTranslation'])->name('admin.settings.translations.add');
+    Route::delete('/admin/settings/translations/{id}/delete/{translationId}', [TranslationController::class, 'deleteTranslation'])->name('admin.settings.translations.delete');
   });
 
 
@@ -88,4 +103,6 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/home', [FrontendController::class, 'index'])->name('frontend.home');
 
 // Main Page Route - Redirect to frontend
-Route::get('/', [FrontendController::class, 'index'])->name('frontend.home');
+Route::get('/', function() {
+  return redirect()->route('frontend.home');
+});

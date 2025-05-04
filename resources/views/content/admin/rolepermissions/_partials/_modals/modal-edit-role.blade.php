@@ -345,16 +345,20 @@ document.addEventListener('DOMContentLoaded', function() {
           if (modalInstance) modalInstance.hide();
 
           // Toast'u göster ve kapandığında sayfayı yenile
-          toastr.options = {
-            positionClass: 'toast-bottom-center',
-            closeButton: true,
-            progressBar: true,
-            timeOut: 3000,
-            onHidden: function() {
-              window.location.reload();
-            }
-          };
-          toastr.success(data.message || editRoleMessages.updatedSuccess);
+          if (typeof AppHelpers !== 'undefined') {
+            AppHelpers.Messages.showWithReload('success', data.message || editRoleMessages.updatedSuccess);
+          } else {
+            toastr.options = {
+              positionClass: 'toast-bottom-center',
+              closeButton: true,
+              progressBar: true,
+              timeOut: 3000,
+              onHidden: function() {
+                window.location.reload();
+              }
+            };
+            toastr.success(data.message || editRoleMessages.updatedSuccess);
+          }
         } else {
           // Validasyon hatalarını göster
           if (data.errors) {
@@ -366,12 +370,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Diğer hatalar varsa konsola yaz (debug amaçlı)
           } else {
-            toastr.options = {
-              positionClass: 'toast-bottom-center',
-              closeButton: true,
-              progressBar: true
-            };
-            toastr.error(data.message || editRoleMessages.updateError);
+            if (typeof AppHelpers !== 'undefined') {
+              AppHelpers.Messages.showError(data.message || editRoleMessages.updateError);
+            } else {
+              toastr.options = {
+                positionClass: 'toast-bottom-center',
+                closeButton: true,
+                progressBar: true
+              };
+              toastr.error(data.message || editRoleMessages.updateError);
+            }
           }
         }
       })
@@ -380,12 +388,16 @@ document.addEventListener('DOMContentLoaded', function() {
         if (loadingIndicator) loadingIndicator.classList.add('d-none');
         if (submitButton) submitButton.disabled = false;
 
-        toastr.options = {
-          positionClass: 'toast-bottom-center',
-          closeButton: true,
-          progressBar: true
-        };
-        toastr.error(editRoleMessages.actionError);
+        if (typeof AppHelpers !== 'undefined') {
+          AppHelpers.Messages.showError(editRoleMessages.actionError);
+        } else {
+          toastr.options = {
+            positionClass: 'toast-bottom-center',
+            closeButton: true,
+            progressBar: true
+          };
+          toastr.error(editRoleMessages.actionError);
+        }
 
         // FormData başarısız olursa JSON göndermeyi dene
         fetch(`${window.baseUrl || ''}admin/role-permissions/${roleId}`, {
@@ -403,24 +415,36 @@ document.addEventListener('DOMContentLoaded', function() {
           window.lastEditResponse = data;
 
           if (data.success) {
-            toastr.options = {
-              positionClass: 'toast-bottom-center',
-              closeButton: true,
-              progressBar: true,
-              timeOut: 3000,
-              onHidden: function() {
-                window.location.reload();
-              }
-            };
-            toastr.success(data.message || editRoleMessages.updatedSuccess);
+            if (typeof AppHelpers !== 'undefined') {
+              AppHelpers.Messages.showWithReload('success', data.message || editRoleMessages.updatedSuccess);
+            } else {
+              toastr.options = {
+                positionClass: 'toast-bottom-center',
+                closeButton: true,
+                progressBar: true,
+                timeOut: 3000,
+                onHidden: function() {
+                  window.location.reload();
+                }
+              };
+              toastr.success(data.message || editRoleMessages.updatedSuccess);
+            }
           } else {
-            toastr.options = { positionClass: 'toast-bottom-center', closeButton: true, progressBar: true };
-            toastr.error(data.message || editRoleMessages.updateError);
+            if (typeof AppHelpers !== 'undefined') {
+              AppHelpers.Messages.showError(data.message || editRoleMessages.updateError);
+            } else {
+              toastr.options = { positionClass: 'toast-bottom-center', closeButton: true, progressBar: true };
+              toastr.error(data.message || editRoleMessages.updateError);
+            }
           }
         })
         .catch(jsonError => {
-          toastr.options = { positionClass: 'toast-bottom-center', closeButton: true, progressBar: true };
-          toastr.error(editRoleMessages.actionError);
+          if (typeof AppHelpers !== 'undefined') {
+            AppHelpers.Messages.showError(editRoleMessages.actionError);
+          } else {
+            toastr.options = { positionClass: 'toast-bottom-center', closeButton: true, progressBar: true };
+            toastr.error(editRoleMessages.actionError);
+          }
         });
       });
     });

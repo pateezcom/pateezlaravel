@@ -204,20 +204,32 @@ document.addEventListener('DOMContentLoaded', function () {
               modal.hide();
 
               // Show success message
-              toastr.success(data.message || __('user_added_successfully'), __('success'));
+              if (typeof AppHelpers !== 'undefined') {
+                AppHelpers.Messages.showSuccess(data.message || __('user_added_successfully'));
+              } else {
+                toastr.success(data.message || __('user_added_successfully'), __('success'));
+              }
 
               // Reload DataTable
               $('.datatables-users').DataTable().ajax.reload(null, false);
             } else {
               // Show error message
               if (data.message) {
-                toastr.error(data.message, __('error'));
+                if (typeof AppHelpers !== 'undefined') {
+                  AppHelpers.Messages.showError(data.message);
+                } else {
+                  toastr.error(data.message, __('error'));
+                }
               }
             }
           })
           .catch(error => {
             console.error('Error:', error);
-            toastr.error(__('save_error'), __('error'));
+            if (typeof AppHelpers !== 'undefined') {
+              AppHelpers.Messages.showError(__('save_error'));
+            } else {
+              toastr.error(__('save_error'), __('error'));
+            }
           })
           .finally(() => {
             // Re-enable submit button

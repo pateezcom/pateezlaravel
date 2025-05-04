@@ -36,4 +36,7 @@ return [
     ],
 
     'password_timeout' => 10800,
+
+    // Admin login sayfasına yönlendirme
+    'login_route' => 'admin.login',
 ];

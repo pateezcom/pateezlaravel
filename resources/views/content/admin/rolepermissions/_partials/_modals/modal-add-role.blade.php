@@ -186,14 +186,19 @@ document.addEventListener('DOMContentLoaded', function() {
         if (data.success) {
           const bsModal = bootstrap.Modal.getInstance(modal);
           if (bsModal) bsModal.hide();
-          toastr.options = {
-            positionClass: 'toast-bottom-center',
-            closeButton: true,
-            progressBar: true,
-            timeOut: 3000,
-            onHidden: function() { window.location.reload(); }
-          };
-          toastr.success(data.message || addRoleMessages.createdSuccess);
+
+          if (typeof AppHelpers !== 'undefined') {
+            AppHelpers.Messages.showWithReload('success', data.message || addRoleMessages.createdSuccess);
+          } else {
+            toastr.options = {
+              positionClass: 'toast-bottom-center',
+              closeButton: true,
+              progressBar: true,
+              timeOut: 3000,
+              onHidden: function() { window.location.reload(); }
+            };
+            toastr.success(data.message || addRoleMessages.createdSuccess);
+          }
         } else {
           if (data.errors) {
             if (data.errors.name) {
@@ -201,20 +206,33 @@ document.addEventListener('DOMContentLoaded', function() {
               document.getElementById('modalRoleName').classList.add('is-invalid');
             }
             if (data.errors.permissions) {
-              toastr.error(data.errors.permissions[0] || addRoleMessages.permissionNotFound);
+              if (typeof AppHelpers !== 'undefined') {
+                AppHelpers.Messages.showError(data.errors.permissions[0] || addRoleMessages.permissionNotFound);
+              } else {
+                toastr.error(data.errors.permissions[0] || addRoleMessages.permissionNotFound);
+              }
             }
           } else {
-            toastr.error(data.message || addRoleMessages.creationError);
+            if (typeof AppHelpers !== 'undefined') {
+              AppHelpers.Messages.showError(data.message || addRoleMessages.creationError);
+            } else {
+              toastr.error(data.message || addRoleMessages.creationError);
+            }
           }
         }
       })
       .catch(err => {
         if (loadingIndicator) loadingIndicator.classList.add('d-none');
         if (submitButton) submitButton.disabled = false;
-        toastr.options.positionClass = 'toast-bottom-center';
-        toastr.options.closeButton = true;
-        toastr.options.progressBar = true;
-        toastr.error(addRoleMessages.actionError + ': ' + err.message);
+
+        if (typeof AppHelpers !== 'undefined') {
+          AppHelpers.Messages.showError(addRoleMessages.actionError + ': ' + err.message);
+        } else {
+          toastr.options.positionClass = 'toast-bottom-center';
+          toastr.options.closeButton = true;
+          toastr.options.progressBar = true;
+          toastr.error(addRoleMessages.actionError + ': ' + err.message);
+        }
       });
     });
   }

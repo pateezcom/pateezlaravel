@@ -7,14 +7,14 @@
 
 'use strict';
 
-// Toastr'ın tanımlı olmadığı durumlar için kontrol ve alternatif çözüm
-if (typeof toastr === 'undefined') {
+// Toastr'ın tanımlı olmadığı durumlar için kontrol ve alternatif çözüm - artık AppHelpers.Messages kullanıyoruz
+if (typeof AppHelpers === 'undefined' && typeof toastr === 'undefined') {
   // SweetAlert2 ile bildirimleri göster
   window.toastr = {
-    success: function (message) {
+    success: function (message, title) {
       Swal.fire({
         icon: 'success',
-        title: __('success'), // Dil dosyasından "Success"
+        title: title || __('success'), // Dil dosyasından "Success"
         text: message,
         toast: true,
         position: 'bottom',
@@ -22,10 +22,10 @@ if (typeof toastr === 'undefined') {
         timer: 3000
       });
     },
-    error: function (message) {
+    error: function (message, title) {
       Swal.fire({
         icon: 'error',
-        title: __('error'), // Dil dosyasından "Error"
+        title: title || __('error'), // Dil dosyasından "Error"
         text: message,
         toast: true,
         position: 'bottom',
@@ -37,6 +37,12 @@ if (typeof toastr === 'undefined') {
       positionClass: 'toast-bottom-center'
     }
   };
+}
+
+// toastr varsa pozisyonunu ayarla
+if (typeof toastr !== 'undefined') {
+  toastr.options = toastr.options || {};
+  toastr.options.positionClass = 'toast-bottom-center';
 }
 
 // Initialize form validation on document ready
@@ -274,13 +280,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
           instance.on('core.form.invalid', function () {
             // Form geçersiz ise hata mesajı göster
-            if (typeof toastr !== 'undefined') {
-              toastr.error(__('form_validation_error')); // Dil dosyasından "Please correct the errors in the form"
+            if (typeof AppHelpers !== 'undefined') {
+              AppHelpers.Messages.showError(__('form_validation_error'));
+            } else if (typeof toastr !== 'undefined') {
+              toastr.error(__('form_validation_error'));
             } else {
               Swal.fire({
                 icon: 'error',
-                title: __('error'), // Dil dosyasından "Error"
-                text: __('form_validation_error'), // Dil dosyasından "Please correct the errors in the form"
+                title: __('error'),
+                text: __('form_validation_error'),
                 toast: true,
                 position: 'bottom',
                 showConfirmButton: false,
@@ -317,15 +325,15 @@ document.addEventListener('DOMContentLoaded', function () {
           .then(data => {
             if (data.success) {
               // Başarı mesajı göster
-              if (typeof toastr !== 'undefined') {
-                toastr.options.positionClass = 'toast-bottom-center';
-                toastr.success(data.message || __('profile_updated_successfully')); // Dil dosyasından "Profile updated successfully"
+              if (typeof AppHelpers !== 'undefined') {
+                AppHelpers.Messages.showSuccess(data.message || __('profile_updated_successfully'));
+              } else if (typeof toastr !== 'undefined') {
+                toastr.success(data.message || __('profile_updated_successfully'), __('success'));
               } else {
-                // Alternatif olarak SweetAlert2 kullan
                 Swal.fire({
                   icon: 'success',
-                  title: __('success'), // Dil dosyasından "Success"
-                  text: data.message || __('profile_updated_successfully'), // Dil dosyasından "Profile updated successfully"
+                  title: __('success'),
+                  text: data.message || __('profile_updated_successfully'),
                   toast: true,
                   position: 'bottom',
                   showConfirmButton: false,
@@ -334,14 +342,15 @@ document.addEventListener('DOMContentLoaded', function () {
               }
             } else {
               // Hata mesajı göster
-              if (typeof toastr !== 'undefined') {
-                toastr.error(data.message || __('update_error')); // Dil dosyasından "An error occurred while updating"
+              if (typeof AppHelpers !== 'undefined') {
+                AppHelpers.Messages.showError(data.message || __('update_error'));
+              } else if (typeof toastr !== 'undefined') {
+                toastr.error(data.message || __('update_error'), __('error'));
               } else {
-                // Alternatif olarak SweetAlert2 kullan
                 Swal.fire({
                   icon: 'error',
-                  title: __('error'), // Dil dosyasından "Error"
-                  text: data.message || __('update_error'), // Dil dosyasından "An error occurred while updating"
+                  title: __('error'),
+                  text: data.message || __('update_error'),
                   toast: true,
                   position: 'bottom',
                   showConfirmButton: false,
@@ -352,15 +361,15 @@ document.addEventListener('DOMContentLoaded', function () {
           })
           .catch(error => {
             console.error('Error:', error);
-            // Hata mesajı göster
-            if (typeof toastr !== 'undefined') {
-              toastr.error(__('update_error')); // Dil dosyasından "An error occurred while updating"
+            if (typeof AppHelpers !== 'undefined') {
+              AppHelpers.Messages.showError(__('update_error'));
+            } else if (typeof toastr !== 'undefined') {
+              toastr.error(__('update_error'), __('error'));
             } else {
-              // Alternatif olarak SweetAlert2 kullan
               Swal.fire({
                 icon: 'error',
-                title: __('error'), // Dil dosyasından "Error"
-                text: __('update_error'), // Dil dosyasından "An error occurred while updating"
+                title: __('error'),
+                text: __('update_error'),
                 toast: true,
                 position: 'bottom',
                 showConfirmButton: false,
@@ -395,13 +404,15 @@ document.addEventListener('DOMContentLoaded', function () {
             // Dosya tipi kontrolü
             const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
             if (!validTypes.includes(file.type)) {
-              if (typeof toastr !== 'undefined') {
-                toastr.error(__('invalid_image_type')); // Dil dosyasından "Invalid image type. Please upload JPG, PNG, or GIF"
+              if (typeof AppHelpers !== 'undefined') {
+                AppHelpers.Messages.showError(__('invalid_image_type'));
+              } else if (typeof toastr !== 'undefined') {
+                toastr.error(__('invalid_image_type'), __('error'));
               } else {
                 Swal.fire({
                   icon: 'error',
-                  title: __('error'), // Dil dosyasından "Error"
-                  text: __('invalid_image_type'), // Dil dosyasından "Invalid image type. Please upload JPG, PNG, or GIF"
+                  title: __('error'),
+                  text: __('invalid_image_type'),
                   toast: true,
                   position: 'bottom',
                   showConfirmButton: false,
@@ -414,13 +425,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Dosya boyutu kontrolü (2MB)
             if (file.size > 2 * 1024 * 1024) {
-              if (typeof toastr !== 'undefined') {
-                toastr.error(__('image_too_large')); // Dil dosyasından "Image size must not exceed 2MB"
+              if (typeof AppHelpers !== 'undefined') {
+                AppHelpers.Messages.showError(__('image_too_large'));
+              } else if (typeof toastr !== 'undefined') {
+                toastr.error(__('image_too_large'), __('error'));
               } else {
                 Swal.fire({
                   icon: 'error',
-                  title: __('error'), // Dil dosyasından "Error"
-                  text: __('image_too_large'), // Dil dosyasından "Image size must not exceed 2MB"
+                  title: __('error'),
+                  text: __('image_too_large'),
                   toast: true,
                   position: 'bottom',
                   showConfirmButton: false,
@@ -476,13 +489,15 @@ document.addEventListener('DOMContentLoaded', function () {
               }
 
               // Başarı mesajı göster
-              if (typeof toastr !== 'undefined') {
-                toastr.success(data.message || __('photo_updated_successfully')); // Dil dosyasından "Profile photo updated successfully"
+              if (typeof AppHelpers !== 'undefined') {
+                AppHelpers.Messages.showSuccess(data.message || __('photo_updated_successfully'));
+              } else if (typeof toastr !== 'undefined') {
+                toastr.success(data.message || __('photo_updated_successfully'), __('success'));
               } else {
                 Swal.fire({
                   icon: 'success',
-                  title: __('success'), // Dil dosyasından "Success"
-                  text: data.message || __('photo_updated_successfully'), // Dil dosyasından "Profile photo updated successfully"
+                  title: __('success'),
+                  text: data.message || __('photo_updated_successfully'),
                   toast: true,
                   position: 'bottom',
                   showConfirmButton: false,
@@ -491,13 +506,15 @@ document.addEventListener('DOMContentLoaded', function () {
               }
             } else {
               // Hata mesajı göster
-              if (typeof toastr !== 'undefined') {
-                toastr.error(data.message || __('update_error')); // Dil dosyasından "An error occurred while updating"
+              if (typeof AppHelpers !== 'undefined') {
+                AppHelpers.Messages.showError(data.message || __('update_error'));
+              } else if (typeof toastr !== 'undefined') {
+                toastr.error(data.message || __('update_error'), __('error'));
               } else {
                 Swal.fire({
                   icon: 'error',
-                  title: __('error'), // Dil dosyasından "Error"
-                  text: data.message || __('update_error'), // Dil dosyasından "An error occurred while updating"
+                  title: __('error'),
+                  text: data.message || __('update_error'),
                   toast: true,
                   position: 'bottom',
                   showConfirmButton: false,
@@ -508,13 +525,15 @@ document.addEventListener('DOMContentLoaded', function () {
           })
           .catch(error => {
             console.error('Error:', error);
-            if (typeof toastr !== 'undefined') {
-              toastr.error(__('update_error')); // Dil dosyasından "An error occurred while updating"
+            if (typeof AppHelpers !== 'undefined') {
+              AppHelpers.Messages.showError(__('update_error'));
+            } else if (typeof toastr !== 'undefined') {
+              toastr.error(__('update_error'), __('error'));
             } else {
               Swal.fire({
                 icon: 'error',
-                title: __('error'), // Dil dosyasından "Error"
-                text: __('update_error'), // Dil dosyasından "An error occurred while updating"
+                title: __('error'),
+                text: __('update_error'),
                 toast: true,
                 position: 'bottom',
                 showConfirmButton: false,
@@ -538,116 +557,148 @@ document.addEventListener('DOMContentLoaded', function () {
       formDeletePhoto.addEventListener('submit', function (e) {
         e.preventDefault();
 
-        Swal.fire({
-          title: __('confirm_delete_photo'), // Dil dosyasından "Are you sure you want to delete your profile photo?"
-          text: __('confirm_delete_photo_text'), // Dil dosyasından "This action cannot be undone."
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: __('yes'), // Dil dosyasından "Yes"
-          cancelButtonText: __('cancel'), // Dil dosyasından "Cancel"
-          customClass: {
-            confirmButton: 'btn btn-primary me-3',
-            cancelButton: 'btn btn-label-secondary'
-          },
-          buttonsStyling: false
-        }).then(function (result) {
-          if (result.isConfirmed) {
-            // Submit butonunu devre dışı bırak
-            const submitBtn = formDeletePhoto.querySelector('button[type="submit"]');
-            const originalHtml = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="ti ti-loader ti-spin me-2"></i>' + __('deleting'); // Dil dosyasından "Deleting..."
-            submitBtn.disabled = true;
+        if (typeof AppHelpers !== 'undefined') {
+          AppHelpers.Messages.showConfirm({
+            title: __('confirm_delete_photo'),
+            text: __('confirm_delete_photo_text'),
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: __('yes'),
+            cancelButtonText: __('cancel'),
+            customClass: {
+              confirmButton: 'btn btn-primary me-3',
+              cancelButton: 'btn btn-label-secondary'
+            },
+            buttonsStyling: false
+          }).then(function (result) {
+            if (result.isConfirmed) {
+              deleteProfilePhoto();
+            }
+          });
+        } else {
+          Swal.fire({
+            title: __('confirm_delete_photo'),
+            text: __('confirm_delete_photo_text'),
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: __('yes'),
+            cancelButtonText: __('cancel'),
+            customClass: {
+              confirmButton: 'btn btn-primary me-3',
+              cancelButton: 'btn btn-label-secondary'
+            },
+            buttonsStyling: false
+          }).then(function (result) {
+            if (result.isConfirmed) {
+              deleteProfilePhoto();
+            }
+          });
+        }
 
-            // Form verilerini al
-            const formData = new FormData(formDeletePhoto);
+        function deleteProfilePhoto() {
+          // Submit butonunu devre dışı bırak
+          const submitBtn = formDeletePhoto.querySelector('button[type="submit"]');
+          const originalHtml = submitBtn.innerHTML;
+          submitBtn.innerHTML = '<i class="ti ti-loader ti-spin me-2"></i>' + __('deleting');
+          submitBtn.disabled = true;
 
-            // AJAX isteği gönder
-            fetch(formDeletePhoto.action, {
-              method: 'POST',
-              headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                Accept: 'application/json',
-                'X-CSRF-TOKEN': formData.get('_token')
-              },
-              body: formData
+          // Form verilerini al
+          const formData = new FormData(formDeletePhoto);
+
+          // AJAX isteği gönder
+          fetch(formDeletePhoto.action, {
+            method: 'POST',
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest',
+              Accept: 'application/json',
+              'X-CSRF-TOKEN': formData.get('_token')
+            },
+            body: formData
+          })
+            .then(response => {
+              if (!response.ok) {
+                return response.json().then(errorData => Promise.reject(errorData));
+              }
+              return response.json();
             })
-              .then(response => {
-                if (!response.ok) {
-                  return response.json().then(errorData => Promise.reject(errorData));
+            .then(data => {
+              if (data.success) {
+                // Profil fotoğrafını varsayılana güncelle
+                const profileImage = document.getElementById('uploadedAvatar');
+                if (profileImage && data.photo_url) {
+                  profileImage.src = data.photo_url + '?t=' + new Date().getTime();
                 }
-                return response.json();
-              })
-              .then(data => {
-                if (data.success) {
-                  // Başarı mesajı göster
-                  if (typeof toastr !== 'undefined') {
-                    toastr.success(data.message || __('photo_deleted_successfully')); // Dil dosyasından "Profile photo deleted successfully"
-                  } else {
-                    // Alternatif olarak SweetAlert2 kullan
-                    Swal.fire({
-                      icon: 'success',
-                      title: __('success'), // Dil dosyasından "Success"
-                      text: data.message || __('photo_deleted_successfully'), // Dil dosyasından "Profile photo deleted successfully"
-                      toast: true,
-                      position: 'bottom',
-                      showConfirmButton: false,
-                      timer: 3000
-                    });
-                  }
 
-                  // Profil fotoğrafını varsayılana güncelle
-                  const profileImage = document.getElementById('uploadedAvatar');
-                  if (profileImage && data.photo_url) {
-                    profileImage.src = data.photo_url + '?t=' + new Date().getTime();
-                  }
-
-                  // 1 saniye bekle ve sayfayı yenile
-                  setTimeout(() => {
+                // Başarı mesajı göster ve 1.5 saniye sonra sayfayı yenile
+                if (typeof AppHelpers !== 'undefined') {
+                  AppHelpers.Messages.showWithReload(
+                    'success',
+                    data.message || __('photo_deleted_successfully'),
+                    __('success'),
+                    1500
+                  );
+                } else if (typeof toastr !== 'undefined') {
+                  toastr.options.onHidden = function () {
                     window.location.reload();
-                  }, 1000);
+                  };
+                  toastr.success(data.message || __('photo_deleted_successfully'), __('success'));
                 } else {
-                  // Hata mesajı göster
-                  if (typeof toastr !== 'undefined') {
-                    toastr.error(data.message || __('delete_error')); // Dil dosyasından "An error occurred while deleting"
-                  } else {
-                    // Alternatif olarak SweetAlert2 kullan
-                    Swal.fire({
-                      icon: 'error',
-                      title: __('error'), // Dil dosyasından "Error"
-                      text: data.message || __('delete_error'), // Dil dosyasından "An error occurred while deleting"
-                      toast: true,
-                      position: 'bottom',
-                      showConfirmButton: false,
-                      timer: 3000
-                    });
-                  }
+                  Swal.fire({
+                    icon: 'success',
+                    title: __('success'),
+                    text: data.message || __('photo_deleted_successfully'),
+                    toast: true,
+                    position: 'bottom',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    didClose: function () {
+                      window.location.reload();
+                    }
+                  });
                 }
-              })
-              .catch(error => {
-                console.error('Error:', error);
+              } else {
                 // Hata mesajı göster
-                if (typeof toastr !== 'undefined') {
-                  toastr.error(__('delete_error')); // Dil dosyasından "An error occurred while deleting"
+                if (typeof AppHelpers !== 'undefined') {
+                  AppHelpers.Messages.showError(data.message || __('delete_error'));
+                } else if (typeof toastr !== 'undefined') {
+                  toastr.error(data.message || __('delete_error'), __('error'));
                 } else {
-                  // Alternatif olarak SweetAlert2 kullan
                   Swal.fire({
                     icon: 'error',
-                    title: __('error'), // Dil dosyasından "Error"
-                    text: __('delete_error'), // Dil dosyasından "An error occurred while deleting"
+                    title: __('error'),
+                    text: data.message || __('delete_error'),
                     toast: true,
                     position: 'bottom',
                     showConfirmButton: false,
                     timer: 3000
                   });
                 }
-              })
-              .finally(() => {
-                // Submit butonunu tekrar etkinleştir
-                submitBtn.innerHTML = originalHtml;
-                submitBtn.disabled = false;
-              });
-          }
-        });
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              if (typeof AppHelpers !== 'undefined') {
+                AppHelpers.Messages.showError(error.message || __('delete_error'));
+              } else if (typeof toastr !== 'undefined') {
+                toastr.error(error.message || __('delete_error'), __('error'));
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: __('error'),
+                  text: error.message || __('delete_error'),
+                  toast: true,
+                  position: 'bottom',
+                  showConfirmButton: false,
+                  timer: 3000
+                });
+              }
+            })
+            .finally(() => {
+              // Submit butonunu tekrar etkinleştir
+              submitBtn.innerHTML = originalHtml;
+              submitBtn.disabled = false;
+            });
+        }
       });
     }
 
@@ -657,122 +708,148 @@ document.addEventListener('DOMContentLoaded', function () {
       formAccountDeactivation.addEventListener('submit', function (e) {
         e.preventDefault();
 
-        // Onay checkbox kontrolü
-        const confirmCheckbox = formAccountDeactivation.querySelector('#confirm_delete');
-        if (!confirmCheckbox.checked) {
-          if (typeof toastr !== 'undefined') {
-            toastr.error(__('confirm_deletion_checkbox')); // Dil dosyasından "Please confirm deletion by checking the box"
+        // Onay kutusunu kontrol et
+        if (!document.getElementById('confirmAccountDeleteCheckbox').checked) {
+          if (typeof AppHelpers !== 'undefined') {
+            AppHelpers.Messages.showError(__('confirm_deletion_checkbox'));
           } else {
-            // Alternatif olarak SweetAlert2 kullan
-            Swal.fire({
-              icon: 'error',
-              title: __('error'), // Dil dosyasından "Error"
-              text: __('confirm_deletion_checkbox'), // Dil dosyasından "Please confirm deletion by checking the box"
-              toast: true,
-              position: 'bottom',
-              showConfirmButton: false,
-              timer: 3000
-            });
+            toastr.error(__('confirm_deletion_checkbox'), __('error'));
           }
           return;
         }
 
-        // SweetAlert2 onay penceresi
-        Swal.fire({
-          title: __('delete_account'), // Dil dosyasından "Delete Account"
-          text: __('delete_account_confirm'), // Dil dosyasından "Are you sure? This action cannot be undone."
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: __('yes'), // Dil dosyasından "Yes"
-          cancelButtonText: __('cancel'), // Dil dosyasından "Cancel"
-          customClass: {
-            confirmButton: 'btn btn-danger me-3',
-            cancelButton: 'btn btn-label-secondary'
-          },
-          buttonsStyling: false
-        }).then(function (result) {
-          if (result.isConfirmed) {
-            // Submit butonunu devre dışı bırak
-            const submitBtn = formAccountDeactivation.querySelector('button[type="submit"]');
-            const originalHtml = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="ti ti-loader ti-spin me-2"></i>' + __('deleting'); // Dil dosyasından "Deleting..."
-            submitBtn.disabled = true;
+        // Onay penceresi göster
+        if (typeof AppHelpers !== 'undefined') {
+          AppHelpers.Messages.showConfirm({
+            title: __('are_you_sure'),
+            text: __('action_cannot_be_undone'),
+            icon: 'warning',
+            confirmButtonText: __('yes_delete'),
+            cancelButtonText: __('cancel'),
+            customClass: {
+              confirmButton: 'btn btn-danger me-3',
+              cancelButton: 'btn btn-secondary'
+            }
+          }).then(function (result) {
+            if (result.isConfirmed) {
+              // AJAX isteği gönder
+              deleteAccount();
+            }
+          });
+        } else {
+          Swal.fire({
+            title: __('are_you_sure'),
+            text: __('action_cannot_be_undone'),
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: __('yes_delete'),
+            cancelButtonText: __('cancel'),
+            customClass: {
+              confirmButton: 'btn btn-danger me-3',
+              cancelButton: 'btn btn-secondary'
+            },
+            buttonsStyling: false
+          }).then(function (result) {
+            if (result.isConfirmed) {
+              // AJAX isteği gönder
+              deleteAccount();
+            }
+          });
+        }
 
-            // Form verilerini al
-            const formData = new FormData(formAccountDeactivation);
+        function deleteAccount() {
+          // Submit butonunu devre dışı bırak
+          const submitBtn = formAccountDeactivation.querySelector('button[type="submit"]');
+          const originalHtml = submitBtn.innerHTML;
+          submitBtn.innerHTML = '<i class="ti ti-loader ti-spin me-2"></i>' + __('deleting');
+          submitBtn.disabled = true;
 
-            // AJAX isteği gönder
-            fetch(formAccountDeactivation.action, {
-              method: 'POST',
-              headers: {
-                'X-CSRF-TOKEN': formData.get('_token')
-              },
-              body: formData
-            })
-              .then(response => response.json())
-              .then(data => {
-                if (data.success) {
-                  // Başarı mesajı göster
-                  if (typeof toastr !== 'undefined') {
-                    toastr.success(data.message || __('account_deleted_successfully')); // Dil dosyasından "Account deleted successfully"
-                  } else {
-                    // Alternatif olarak SweetAlert2 kullan
-                    Swal.fire({
-                      icon: 'success',
-                      title: __('success'), // Dil dosyasından "Success"
-                      text: data.message || __('account_deleted_successfully'), // Dil dosyasından "Account deleted successfully"
-                      toast: true,
-                      position: 'bottom',
-                      showConfirmButton: false,
-                      timer: 3000
-                    });
-                  }
+          // Form verilerini al
+          const formData = new FormData(formAccountDeactivation);
 
-                  // Kullanıcı listesine yönlendir
-                  window.location.href = baseUrl + 'admin/users';
+          // AJAX isteği gönder
+          fetch(formAccountDeactivation.action, {
+            method: 'POST',
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest',
+              Accept: 'application/json',
+              'X-CSRF-TOKEN': formData.get('_token')
+            },
+            body: formData
+          })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                // Başarı mesajı göster ve kullanıcı listesine yönlendir
+                if (typeof AppHelpers !== 'undefined') {
+                  AppHelpers.Messages.showWithRedirect(
+                    'success',
+                    data.message || __('account_deleted_successfully'),
+                    __('success'),
+                    baseUrl + 'admin/users'
+                  );
+                } else if (typeof toastr !== 'undefined') {
+                  toastr.options.onHidden = function () {
+                    window.location.href = baseUrl + 'admin/users';
+                  };
+                  toastr.success(data.message || __('account_deleted_successfully'), __('success'));
                 } else {
-                  // Hata mesajı göster
-                  if (typeof toastr !== 'undefined') {
-                    toastr.error(data.message || __('delete_error')); // Dil dosyasından "An error occurred while deleting"
-                  } else {
-                    // Alternatif olarak SweetAlert2 kullan
-                    Swal.fire({
-                      icon: 'error',
-                      title: __('error'), // Dil dosyasından "Error"
-                      text: data.message || __('delete_error'), // Dil dosyasından "An error occurred while deleting"
-                      toast: true,
-                      position: 'bottom',
-                      showConfirmButton: false,
-                      timer: 3000
-                    });
-                  }
+                  Swal.fire({
+                    icon: 'success',
+                    title: __('success'),
+                    text: data.message || __('account_deleted_successfully'),
+                    toast: true,
+                    position: 'bottom',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    didClose: function () {
+                      window.location.href = baseUrl + 'admin/users';
+                    }
+                  });
                 }
-              })
-              .catch(error => {
-                console.error('Error:', error);
+              } else {
                 // Hata mesajı göster
-                if (typeof toastr !== 'undefined') {
-                  toastr.error(__('delete_error')); // Dil dosyasından "An error occurred while deleting"
+                if (typeof AppHelpers !== 'undefined') {
+                  AppHelpers.Messages.showError(data.message || __('delete_error'));
+                } else if (typeof toastr !== 'undefined') {
+                  toastr.error(data.message || __('delete_error'), __('error'));
                 } else {
-                  // Alternatif olarak SweetAlert2 kullan
                   Swal.fire({
                     icon: 'error',
-                    title: __('error'), // Dil dosyasından "Error"
-                    text: __('delete_error'), // Dil dosyasından "An error occurred while deleting"
+                    title: __('error'),
+                    text: data.message || __('delete_error'),
                     toast: true,
                     position: 'bottom',
                     showConfirmButton: false,
                     timer: 3000
                   });
                 }
-              })
-              .finally(() => {
-                // Submit butonunu tekrar etkinleştir
-                submitBtn.innerHTML = originalHtml;
-                submitBtn.disabled = false;
-              });
-          }
-        });
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              if (typeof AppHelpers !== 'undefined') {
+                AppHelpers.Messages.showError(__('delete_error'));
+              } else if (typeof toastr !== 'undefined') {
+                toastr.error(__('delete_error'), __('error'));
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: __('error'),
+                  text: __('delete_error'),
+                  toast: true,
+                  position: 'bottom',
+                  showConfirmButton: false,
+                  timer: 3000
+                });
+              }
+            })
+            .finally(() => {
+              // Submit butonunu tekrar etkinleştir
+              submitBtn.innerHTML = originalHtml;
+              submitBtn.disabled = false;
+            });
+        }
       });
     }
   });
@@ -851,24 +928,3 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 });
-
-// Toastr Yapılandırması - Toastr tanımlı ise
-if (typeof toastr !== 'undefined') {
-  // Toast mesajları için ayarlar
-  toastr.options = {
-    closeButton: true,
-    newestOnTop: false,
-    progressBar: true,
-    positionClass: 'toast-bottom-center',
-    preventDuplicates: false,
-    onclick: null,
-    showDuration: '300',
-    hideDuration: '1000',
-    timeOut: '5000',
-    extendedTimeOut: '1000',
-    showEasing: 'swing',
-    hideEasing: 'linear',
-    showMethod: 'fadeIn',
-    hideMethod: 'fadeOut'
-  };
-}

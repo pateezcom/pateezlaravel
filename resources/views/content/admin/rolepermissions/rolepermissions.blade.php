@@ -40,14 +40,6 @@ document.addEventListener('DOMContentLoaded', function() {
   if (typeof window.toastr === 'undefined') {
     // Hata kontrolü
   } else {
-    // Toastr ayarlarını yapılandır
-    toastr.options = {
-      closeButton: true,
-      timeOut: 5000,
-      progressBar: true,
-      positionClass: 'toast-bottom-center'
-    };
-
     // Flash mesajlarını kontrol et ve toastr ile göster
     const messages = {
       'success': "{{ session('success') }}",
@@ -56,9 +48,39 @@ document.addEventListener('DOMContentLoaded', function() {
       'info': "{{ session('info') }}"
     };
 
-    for (const [type, message] of Object.entries(messages)) {
-      if (message) {
-        toastr[type](message);
+    // AppHelpers.Messages sınıfının varlığını kontrol et
+    if (typeof AppHelpers !== 'undefined') {
+      for (const [type, message] of Object.entries(messages)) {
+        if (message) {
+          switch(type) {
+            case 'success':
+              AppHelpers.Messages.showSuccess(message);
+              break;
+            case 'error':
+              AppHelpers.Messages.showError(message);
+              break;
+            case 'warning':
+              AppHelpers.Messages.showWarning(message);
+              break;
+            case 'info':
+              AppHelpers.Messages.showInfo(message);
+              break;
+          }
+        }
+      }
+    } else {
+      // Geriye dönük uyumluluk için toastr kullan
+      toastr.options = {
+        closeButton: true,
+        timeOut: 5000,
+        progressBar: true,
+        positionClass: 'toast-bottom-center'
+      };
+
+      for (const [type, message] of Object.entries(messages)) {
+        if (message) {
+          toastr[type](message);
+        }
       }
     }
   }
@@ -99,28 +121,36 @@ document.addEventListener('DOMContentLoaded', function() {
           .then(data => {
             if (data.success) {
               // Toast mesajı göster ve kapanınca sayfayı yenile
-              toastr.options = {
-                positionClass: 'toast-bottom-center',
-                closeButton: true,
-                progressBar: true,
-                timeOut: 3000,
-                onHidden: function() {
-                  window.location.reload();
-                }
-              };
-              toastr.success(data.message || '{{ __("the_operation_completed") }}');
+              if (typeof AppHelpers !== 'undefined') {
+                AppHelpers.Messages.showWithReload('success', data.message || '{{ __("the_operation_completed") }}');
+              } else {
+                toastr.options = {
+                  positionClass: 'toast-bottom-center',
+                  closeButton: true,
+                  progressBar: true,
+                  timeOut: 3000,
+                  onHidden: function() {
+                    window.location.reload();
+                  }
+                };
+                toastr.success(data.message || '{{ __("the_operation_completed") }}');
+              }
 
               // SweetAlert'ı kapat
               Swal.close();
             } else {
               // Hata durumunda toast mesajı göster
-              toastr.options = {
-                positionClass: 'toast-bottom-center',
-                closeButton: true,
-                progressBar: true,
-                timeOut: 5000
-              };
-              toastr.error(data.message || '{{ __("msg_error") }}');
+              if (typeof AppHelpers !== 'undefined') {
+                AppHelpers.Messages.showError(data.message || '{{ __("msg_error") }}');
+              } else {
+                toastr.options = {
+                  positionClass: 'toast-bottom-center',
+                  closeButton: true,
+                  progressBar: true,
+                  timeOut: 5000
+                };
+                toastr.error(data.message || '{{ __("msg_error") }}');
+              }
 
               // SweetAlert'ı kapat
               Swal.close();
@@ -128,13 +158,17 @@ document.addEventListener('DOMContentLoaded', function() {
           })
           .catch(error => {
             // Ağ hatası durumunda toast mesajı göster
-            toastr.options = {
-              positionClass: 'toast-bottom-center',
-              closeButton: true,
-              progressBar: true,
-              timeOut: 5000
-            };
-            toastr.error('{{ __("msg_error") }}');
+            if (typeof AppHelpers !== 'undefined') {
+              AppHelpers.Messages.showError('{{ __("msg_error") }}');
+            } else {
+              toastr.options = {
+                positionClass: 'toast-bottom-center',
+                closeButton: true,
+                progressBar: true,
+                timeOut: 5000
+              };
+              toastr.error('{{ __("msg_error") }}');
+            }
 
             // SweetAlert'ı kapat
             Swal.close();

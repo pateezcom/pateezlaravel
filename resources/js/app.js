@@ -2,6 +2,7 @@
 
 import './bootstrap';
 import './helpers/translations';
+import './app-helpers'; // Standardize edilmiş mesaj fonksiyonları
 
 // DataTable için gerekli çevirileri tanımla
 window.translations = window.translations || {};
