@@ -449,6 +449,12 @@ document.addEventListener('DOMContentLoaded', function () {
         // FormData oluştur
         const formData = new FormData(formProfilePhoto);
 
+        // Add the file with the 'photo' name to make it compatible with Laravel Jetstream
+        const fileInput = photoInput.files[0];
+        if (fileInput) {
+          formData.append('photo', fileInput);
+        }
+
         // AJAX isteği gönder
         fetch(formProfilePhoto.action, {
           method: 'POST',
@@ -559,11 +565,18 @@ document.addEventListener('DOMContentLoaded', function () {
             fetch(formDeletePhoto.action, {
               method: 'POST',
               headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                Accept: 'application/json',
                 'X-CSRF-TOKEN': formData.get('_token')
               },
               body: formData
             })
-              .then(response => response.json())
+              .then(response => {
+                if (!response.ok) {
+                  return response.json().then(errorData => Promise.reject(errorData));
+                }
+                return response.json();
+              })
               .then(data => {
                 if (data.success) {
                   // Başarı mesajı göster
@@ -582,8 +595,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                   }
 
-                  // Sayfayı yenile
-                  window.location.reload();
+                  // Profil fotoğrafını varsayılana güncelle
+                  const profileImage = document.getElementById('uploadedAvatar');
+                  if (profileImage && data.photo_url) {
+                    profileImage.src = data.photo_url + '?t=' + new Date().getTime();
+                  }
+
+                  // 1 saniye bekle ve sayfayı yenile
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 1000);
                 } else {
                   // Hata mesajı göster
                   if (typeof toastr !== 'undefined') {

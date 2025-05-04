@@ -26,7 +26,7 @@ class UserProfileController extends Controller
         try {
             // Kullanıcıyı bul
             $user = User::findOrFail($id);
-            
+
             return view('content.admin.users.user-profile', [
                 'user' => $user
             ]);
@@ -36,7 +36,7 @@ class UserProfileController extends Controller
                 ->with('error', __('Kullanıcı profili yüklenirken bir hata oluştu.'));
         }
     }
-    
+
     /**
      * Kullanıcı hesap bilgilerini güncelleme
      * Update user account information
@@ -50,7 +50,7 @@ class UserProfileController extends Controller
         try {
             // Kullanıcıyı bul
             $user = User::findOrFail($id);
-            
+
             // Yalnızca form verileri validasyonu
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
@@ -90,7 +90,7 @@ class UserProfileController extends Controller
                 'vk' => 'nullable|string|max:1000|url',
                 'personal_website_url' => 'nullable|string|max:1000|url',
             ]);
-            
+
             if ($validator->fails()) {
                 if ($request->ajax() || $request->wantsJson() || $request->expectsJson()) {
                     return response()->json([
@@ -99,12 +99,12 @@ class UserProfileController extends Controller
                         'errors' => $validator->errors()
                     ], 422);
                 }
-                
+
                 return redirect()->back()
                     ->withErrors($validator)
                     ->withInput();
             }
-            
+
             // Slug yoksa username'den oluştur
             if (empty($request->input('slug'))) {
                 // Kullanıcı adını al ve slug oluştur
@@ -132,12 +132,12 @@ class UserProfileController extends Controller
                 $slug = trim($slug, '-');
                 // Küçük harfe çevir
                 $slug = strtolower($slug);
-                
+
                 // Eğer slug boşsa (sadece özel karakterler içeriyorsa)
                 if (empty($slug)) {
                     $slug = 'user-' . time(); // Varsayılan slug oluştur
                 }
-                
+
                 // Eğer slug zaten başka bir kullanıcı tarafından kullanılıyorsa, değiştir
                 $i = 1;
                 $originalSlug = $slug;
@@ -147,7 +147,7 @@ class UserProfileController extends Controller
             } else {
                 $slug = $request->input('slug');
             }
-            
+
             // Kullanıcı bilgilerini güncelle
             $user->name = $request->input('name');
             $user->username = $request->input('username');
@@ -155,7 +155,7 @@ class UserProfileController extends Controller
             $user->email = $request->input('email');
             $user->phone = $request->input('phone');
             $user->about_me = $request->input('about_me');
-            
+
             // Sosyal medya hesaplarını güncelle
             $user->facebook = $request->input('facebook');
             $user->twitter = $request->input('twitter');
@@ -170,10 +170,10 @@ class UserProfileController extends Controller
             $user->twitch = $request->input('twitch');
             $user->vk = $request->input('vk');
             $user->personal_website_url = $request->input('personal_website_url');
-            
+
             // Değişiklikleri kaydet
             $user->save();
-            
+
             // AJAX isteği veya JSON yanıtı isteniyorsa
             if ($request->ajax() || $request->wantsJson() || $request->expectsJson()) {
                 return response()->json([
@@ -181,14 +181,14 @@ class UserProfileController extends Controller
                     'message' => __('Hesap bilgileri başarıyla güncellendi.')
                 ]);
             }
-            
+
             // Normal istek ise sayfaya yönlendir
             return redirect()->route('admin.users.profile', $user->id)
                 ->with('success', __('Hesap bilgileri başarıyla güncellendi.'));
-                
+
         } catch (\Exception $e) {
             Log::error('User account update error: ' . $e->getMessage());
-            
+
             // AJAX isteği veya JSON yanıtı isteniyorsa
             if ($request->ajax() || $request->wantsJson() || $request->expectsJson()) {
                 return response()->json([
@@ -196,13 +196,13 @@ class UserProfileController extends Controller
                     'message' => __('Hesap bilgileri güncellenirken bir hata oluştu.')
                 ], 500);
             }
-            
+
             return redirect()->back()
                 ->with('error', __('Hesap bilgileri güncellenirken bir hata oluştu.'))
                 ->withInput();
         }
     }
-    
+
     /**
      * Kullanıcı profil fotoğrafını güncelleme
      * Update user profile photo
@@ -216,19 +216,13 @@ class UserProfileController extends Controller
         try {
             // Kullanıcıyı bul
             $user = User::findOrFail($id);
-            
+
             // Yalnızca form verileri validasyonu
             $validator = Validator::make($request->all(), [
-                'profile_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'profile_photo' => 'required_without:photo|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'photo' => 'required_without:profile_photo|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
-            
-            // Debug bilgilerini loglama
-            Log::info('Profile photo update request:', [
-                'has_file' => $request->hasFile('profile_photo'),
-                'file_valid' => $request->file('profile_photo') ? $request->file('profile_photo')->isValid() : false,
-                'all_inputs' => $request->all()
-            ]);
-            
+
             if ($validator->fails()) {
                 if ($request->ajax() || $request->wantsJson() || $request->expectsJson()) {
                     return response()->json([
@@ -237,56 +231,56 @@ class UserProfileController extends Controller
                         'errors' => $validator->errors()
                     ], 422);
                 }
-                
+
                 return redirect()->back()
                     ->withErrors($validator)
                     ->withInput();
             }
-            
+
             // Profil fotoğrafını güncelle (HasProfilePhoto trait'i kullanarak)
             if ($request->hasFile('profile_photo') && $request->file('profile_photo')->isValid()) {
                 try {
                     $user->updateProfilePhoto($request->file('profile_photo'));
-                    // Başarılı olursa loglama
-                    Log::info('Profile photo updated successfully for user ID: ' . $user->id);
                 } catch (\Exception $e) {
-                    // Hata durumunda loglama
-                    Log::error('Error updating profile photo: ' . $e->getMessage());
                     throw $e;
                 }
-            } else {
-                Log::warning('No valid profile photo found in request for user ID: ' . $user->id);
+            } elseif ($request->hasFile('photo') && $request->file('photo')->isValid()) {
+                try {
+                    $user->updateProfilePhoto($request->file('photo'));
+                } catch (\Exception $e) {
+                    throw $e;
+                }
             }
-            
+
             // AJAX isteği veya JSON yanıtı isteniyorsa
             if ($request->ajax() || $request->wantsJson() || $request->expectsJson()) {
                 return response()->json([
-                    'success' => true, 
+                    'success' => true,
                     'message' => __('Profil fotoğrafı başarıyla güncellendi.'),
                     'photo_url' => $user->profile_photo_url
                 ]);
             }
-            
+
             // Profil sayfasına başarı mesajıyla dön
             return redirect()->route('admin.users.profile', $user->id)
                 ->with('success', __('Profil fotoğrafı başarıyla güncellendi.'));
-                
+
         } catch (\Exception $e) {
             Log::error('User profile photo update error: ' . $e->getMessage());
-            
+
             if ($request->ajax() || $request->wantsJson() || $request->expectsJson()) {
                 return response()->json([
                     'success' => false,
                     'message' => __('Profil fotoğrafı güncellenirken bir hata oluştu.')
                 ], 500);
             }
-            
+
             return redirect()->back()
                 ->with('error', __('Profil fotoğrafı güncellenirken bir hata oluştu.'))
                 ->withInput();
         }
     }
-    
+
     /**
      * Kullanıcı profil fotoğrafını silme
      * Remove user profile photo
@@ -299,38 +293,44 @@ class UserProfileController extends Controller
         try {
             // Kullanıcıyı bul
             $user = User::findOrFail($id);
-            
+
             // Profil fotoğrafını sil (HasProfilePhoto trait'i kullanarak)
             $user->deleteProfilePhoto();
-            
+
+            // Başarılı yanıt hazırla
+            $responseData = [
+                'success' => true,
+                'message' => __('Profil fotoğrafı başarıyla silindi.'),
+                'photo_url' => $user->profile_photo_url
+            ];
+
             // AJAX isteği veya JSON yanıtı isteniyorsa
-            if (request()->ajax() || request()->wantsJson() || request()->expectsJson()) {
-                return response()->json([
-                    'success' => true, 
-                    'message' => __('Profil fotoğrafı başarıyla silindi.'),
-                    'photo_url' => $user->profile_photo_url
-                ]);
+            if (request()->ajax() || request()->wantsJson() || request()->expectsJson() || request()->header('X-Requested-With') == 'XMLHttpRequest') {
+                return response()->json($responseData);
             }
-            
+
             // Profil sayfasına başarı mesajıyla dön
             return redirect()->route('admin.users.profile', $user->id)
                 ->with('success', __('Profil fotoğrafı başarıyla silindi.'));
-                
+
         } catch (\Exception $e) {
-            Log::error('User profile photo delete error: ' . $e->getMessage());
-            
-            if (request()->ajax() || request()->wantsJson() || request()->expectsJson()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => __('Profil fotoğrafı silinirken bir hata oluştu.')
-                ], 500);
+            Log::error('User profile photo delete error: ' . $e->getMessage() . "\n" . $e->getTraceAsString());
+
+            // Hata yanıtı hazırla
+            $errorData = [
+                'success' => false,
+                'message' => __('Profil fotoğrafı silinirken bir hata oluştu: ') . $e->getMessage()
+            ];
+
+            if (request()->ajax() || request()->wantsJson() || request()->expectsJson() || request()->header('X-Requested-With') == 'XMLHttpRequest') {
+                return response()->json($errorData, 500);
             }
-            
+
             return redirect()->back()
                 ->with('error', __('Profil fotoğrafı silinirken bir hata oluştu.'));
         }
     }
-    
+
     /**
      * Kullanıcı güvenlik sayfasını gösterme
      * Display user security page
@@ -343,7 +343,7 @@ class UserProfileController extends Controller
         try {
             // Kullanıcıyı bul
             $user = User::findOrFail($id);
-            
+
             return view('content.admin.users.user-profile-security-update', [
                 'user' => $user
             ]);
@@ -353,7 +353,7 @@ class UserProfileController extends Controller
                 ->with('error', __('Güvenlik sayfası yüklenirken bir hata oluştu.'));
         }
     }
-    
+
     /**
      * Kullanıcı şifresini güncelleme
      * Update user password
@@ -367,7 +367,7 @@ class UserProfileController extends Controller
         try {
             // Kullanıcıyı bul
             $user = User::findOrFail($id);
-            
+
             // Yalnızca form verileri validasyonu
             $validator = Validator::make($request->all(), [
                 'current_password' => ['required', 'string', function ($attribute, $value, $fail) use ($user) {
@@ -384,7 +384,7 @@ class UserProfileController extends Controller
                 'password.confirmed' => __('Şifre onayı eşleşmiyor.'),
                 'password_confirmation.required' => __('Şifre onayı alanı gereklidir.')
             ]);
-            
+
             if ($validator->fails()) {
                 if ($request->ajax() || $request->wantsJson() || $request->expectsJson()) {
                     return response()->json([
@@ -393,16 +393,16 @@ class UserProfileController extends Controller
                         'errors' => $validator->errors()
                     ], 422);
                 }
-                
+
                 return redirect()->back()
                     ->withErrors($validator)
                     ->withInput($request->except(['current_password', 'password', 'password_confirmation']));
             }
-            
+
             // Şifre güncelleme
             $user->password = Hash::make($request->input('password'));
             $user->save();
-            
+
             // AJAX isteği veya JSON yanıtı isteniyorsa
             if ($request->ajax() || $request->wantsJson() || $request->expectsJson()) {
                 return response()->json([
@@ -410,14 +410,14 @@ class UserProfileController extends Controller
                     'message' => __('Şifre başarıyla güncellendi.')
                 ]);
             }
-            
+
             // Normal istek ise sayfaya yönlendir
             return redirect()->route('admin.users.profile.security', $user->id)
                 ->with('success', __('Şifre başarıyla güncellendi.'));
-                
+
         } catch (\Exception $e) {
             Log::error('User password update error: ' . $e->getMessage());
-            
+
             // AJAX isteği veya JSON yanıtı isteniyorsa
             if ($request->ajax() || $request->wantsJson() || $request->expectsJson()) {
                 return response()->json([
@@ -425,7 +425,7 @@ class UserProfileController extends Controller
                     'message' => __('Şifre güncellenirken bir hata oluştu.')
                 ], 500);
             }
-            
+
             return redirect()->back()
                 ->with('error', __('Şifre güncellenirken bir hata oluştu.'))
                 ->withInput($request->except(['current_password', 'password', 'password_confirmation']));

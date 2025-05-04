@@ -20,7 +20,7 @@ class ViewServiceProvider extends ServiceProvider
             $menu = $this->getVerticalMenu();
 
             if ($user && $user->hasRole('admin')) {
-                Log::info('Admin role detected, bypassing permission checks', ['user_id' => $user->id]);
+                // Log çağrısını kaldırdık
             } else {
                 $menu['menu'] = array_filter($menu['menu'], function ($item) use ($user) {
                     if (isset($item['menuHeader'])) {
@@ -38,13 +38,15 @@ class ViewServiceProvider extends ServiceProvider
                 });
             }
 
-            Log::info('Filtered Vertical Menu', ['menu' => json_encode($menu)]);
+            // Log çağrısını kaldırdık
             $view->with('menu', $menu);
         });
     }
 
     protected function getVerticalMenu()
     {
+        // Menu items array
+        // Menü öğeleri dizisi
         $menu = [
             'menu' => [
                 [
@@ -68,7 +70,9 @@ class ViewServiceProvider extends ServiceProvider
                     'url' => 'admin/role-permissions',
                     'permission' => 'admin.role.permissions.read|admin.role.permissions.full'
                 ],
-                ['menuHeader' => 'settings'],
+                [
+                    'menuHeader' => 'settings'
+                ],
                 [
                     'name' => 'settings',
                     'icon' => 'menu-icon tf-icons ti ti-settings',
@@ -92,7 +96,7 @@ class ViewServiceProvider extends ServiceProvider
             ]
         ];
 
-        Log::info('Vertical Menu JSON', ['menu' => json_encode($menu)]);
+        // Log çağrısını kaldırdık
         return $menu;
     }
 }

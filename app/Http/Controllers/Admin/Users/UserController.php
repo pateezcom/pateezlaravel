@@ -12,6 +12,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -275,9 +276,6 @@ class UserController extends Controller
   public function store(Request $request)
   {
     try {
-      // Debug: Gelen veriyi logla
-      Log::info('User creation request:', $request->all());
-
       // Validate request
       // İstek doğrulama
       $validated = $request->validate([
@@ -289,9 +287,6 @@ class UserController extends Controller
         'reward_system_active' => 'nullable|in:0,1',
         'status' => 'sometimes|integer|in:0,1,2'
       ]);
-
-      // Debug: Doğrulanan veriyi logla
-      Log::info('Validated data:', $validated);
 
       // Create new user
       // Yeni kullanıcı oluştur
@@ -306,9 +301,6 @@ class UserController extends Controller
           ? filter_var($validated['reward_system_active'], FILTER_VALIDATE_BOOLEAN)
           : false;
       $user->status = $request->input('status', 0); // Default to 0 (Pending) if not provided
-
-      // Debug: Kullanıcı kaydedilmeden önce
-      Log::info('About to save user:', ['attributes' => $user->getAttributes()]);
 
       $user->save();
 
@@ -328,26 +320,19 @@ class UserController extends Controller
         'message' => __('user_created_successfully'),
         'data' => $user
       ]);
-    } catch (\Illuminate\Validation\ValidationException $e) {
-      // Return validation errors
-      // Doğrulama hatalarını döndür
+    }
+    catch (ValidationException $e) {
       return response()->json([
         'success' => false,
-        'message' => __('Validation error'),
-        'errors' => $e->errors()
+        'errors' => $e->validator->errors(),
+        'message' => __('validation_failed')
       ], 422);
-    } catch (\Exception $e) {
-      // Log error
-      // Hatayı logla
-      Log::error('User creation error: ' . $e->getMessage());
-      Log::error($e->getTraceAsString());
-
-      // Return error response
-      // Hata yanıtı döndür
+    }
+    catch (\Exception $e) {
       return response()->json([
         'success' => false,
-        'message' => __('An error occurred while creating the user'),
-        'error' => $e->getMessage() // Debug amaçlı
+        'message' => __('user_creation_failed'),
+        'error' => $e->getMessage()
       ], 500);
     }
   }
@@ -759,7 +744,7 @@ class UserController extends Controller
       // Hata yanıtı döndür
       return response()->json([
         'success' => false,
-        'message' => __('An error occurred while deleting users')
+        'message' => __('An error occurred while deleting users') . ': ' . $e->getMessage()
       ], 500);
     }
   }

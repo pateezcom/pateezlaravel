@@ -51,8 +51,6 @@ class RolePermissionsController extends Controller
 
     public function storeRole(Request $request)
     {
-        Log::info('Role creation request', ['data' => $request->all()]);
-
         // İzinleri önceden oluştur
         $this->syncPermissions();
 
@@ -69,13 +67,10 @@ class RolePermissionsController extends Controller
 
         $role = Role::create(['name' => $data['name'], 'guard_name' => 'web']);
         $permissions = $request->input('permissions', []);
-        Log::info('Permissions to sync', ['permissions' => $permissions]);
 
         if (!empty($permissions)) {
             $role->syncPermissions($permissions);
         }
-
-        Log::info('Role created', ['role' => $role->name, 'permissions' => $role->permissions->pluck('name')]);
 
         if ($request->ajax()) {
             return response()->json([
@@ -90,8 +85,6 @@ class RolePermissionsController extends Controller
 
     public function updateRole(Request $request, $id)
     {
-        Log::info('Role update request', ['id' => $id, 'data' => $request->all()]);
-
         $role = Role::findOrFail($id);
         $data = $request->validate([
             'name' => 'required|string|min:3|max:255|unique:roles,name,' . $id,
@@ -108,8 +101,6 @@ class RolePermissionsController extends Controller
         $permissions = $request->input('permissions', []);
         $role->syncPermissions($permissions);
 
-        Log::info('Role updated', ['role' => $role->name, 'permissions' => $role->permissions->pluck('name')]);
-
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
@@ -124,11 +115,9 @@ class RolePermissionsController extends Controller
     public function deleteRole($id)
     {
         try {
-            Log::info('Role deletion requested', ['id' => $id]);
             $role = Role::findOrFail($id);
             $protectedRoles = ['admin', 'administrator', 'yönetici', 'super admin', 'superadmin'];
             if (in_array(strtolower($role->name), $protectedRoles)) {
-                Log::warning('Attempt to delete protected role', ['role' => $role->name]);
                 return response()->json([
                     'success' => false,
                     'message' => __('cannot_delete_admin_role')
@@ -139,13 +128,11 @@ class RolePermissionsController extends Controller
             DB::table('model_has_roles')->where('role_id', $role->id)->delete();
             $role->delete();
 
-            Log::info('Role deleted', ['id' => $id]);
             return response()->json([
                 'success' => true,
                 'message' => __('role_deleted_successfully')
             ]);
         } catch (\Exception $e) {
-            Log::error('Role deletion error', ['error' => $e->getMessage()]);
             return response()->json([
                 'success' => false,
                 'message' => __('role_deletion_error') . ': ' . $e->getMessage()
@@ -163,7 +150,6 @@ class RolePermissionsController extends Controller
                 'users' => $users
             ]);
         } catch (\Exception $e) {
-            Log::error('Get role users error', ['error' => $e->getMessage()]);
             return response()->json([
                 'success' => false,
                 'message' => __('get_role_users_error')
@@ -180,7 +166,6 @@ class RolePermissionsController extends Controller
                 'permissions' => $permissions
             ]);
         } catch (\Exception $e) {
-            Log::error('Get permissions error', ['error' => $e->getMessage()]);
             return response()->json([
                 'success' => false,
                 'message' => __('get_permissions_error')
@@ -288,10 +273,8 @@ class RolePermissionsController extends Controller
             $admin = User::find(1);
             if ($admin && $admin->hasRole('admin')) {
                 $admin->syncPermissions($permissionsToKeep);
-                Log::info('Admin permissions synced', ['user_id' => 1, 'permissions' => $permissionsToKeep]);
             }
 
-            Log::info('Permissions synced', ['created' => $createdCount, 'total' => count($permissionsToKeep)]);
             return response()->json([
                 'success' => true,
                 'message' => __('permissions_synced_successfully'),
@@ -299,7 +282,6 @@ class RolePermissionsController extends Controller
                 'total' => count($permissionsToKeep)
             ]);
         } catch (\Exception $e) {
-            Log::error('Sync permissions error', ['error' => $e->getMessage()]);
             return response()->json([
                 'success' => false,
                 'message' => __('sync_permissions_error')
